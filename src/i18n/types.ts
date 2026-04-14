@@ -20,6 +20,7 @@ export interface Translations {
     emptyHint: string;
     showAll: string;
     hideCompleted: string;
+    allCompletedToday: string;
   };
   settings: {
     title: string;
