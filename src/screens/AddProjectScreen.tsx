@@ -62,17 +62,6 @@ export const AddProjectScreen: React.FC = () => {
     }
   }, [isEditMode, existingProject]);
 
-  // Quick time options
-  const quickTimes = useMemo(() => [
-    { label: t('addProject.morning'), time: '08:00' },
-    { label: t('addProject.midMorning'), time: '10:00' },
-    { label: t('addProject.noon'), time: '12:00' },
-    { label: t('addProject.afternoon'), time: '14:00' },
-    { label: t('addProject.evening'), time: '18:00' },
-    { label: t('addProject.night'), time: '20:00' },
-    { label: t('addProject.beforeBed'), time: '22:00' },
-  ], [t]);
-
   // Template definitions for dropdown
   const templates = useMemo(() => [
     {
@@ -146,14 +135,6 @@ export const AddProjectScreen: React.FC = () => {
     // Sort and update
     setReminderTimes(merged.sort());
   };
-
-  // 添加快捷时间
-  const handleAddQuickTime = (time: string) => {
-    if (!reminderTimes.includes(time)) {
-      setReminderTimes([...reminderTimes, time].sort());
-    }
-  };
-
 
   // 自定义时间
   const handleAddCustomTime = (event: any, selectedDate?: Date) => {
@@ -374,43 +355,6 @@ export const AddProjectScreen: React.FC = () => {
               </View>
             </View>
           )}
-
-          {/* 快捷时间 */}
-          <View style={styles.quickTimesGrid}>
-            {quickTimes.map((item) => (
-              <TouchableOpacity
-                key={item.time}
-                style={[
-                  styles.quickTimeChip,
-                  reminderTimes.includes(item.time) && styles.quickTimeChipSelected,
-                ]}
-                onPress={() => handleAddQuickTime(item.time)}
-              >
-                <Text
-                  style={[
-                    styles.quickTimeChipText,
-                    reminderTimes.includes(item.time) && styles.quickTimeChipTextSelected,
-                  ]}
-                >
-                  {item.time}
-                </Text>
-              </TouchableOpacity>
-            ))}
-            {/* 自定义时间按钮 */}
-            <TouchableOpacity
-              style={styles.customTimeChip}
-              onPress={() => {
-                if (Platform.OS === 'ios') {
-                  setShowTimeModal(true);
-                } else {
-                  setShowTimePicker(true);
-                }
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.customTimeChipText}>+ {t('addProject.customTimeShort')}</Text>
-            </TouchableOpacity>
-          </View>
 
           {/* 时间模板 */}
           <Text style={styles.sectionLabel}>{t('addProject.templates')}</Text>
