@@ -73,14 +73,38 @@ export const AddProjectScreen: React.FC = () => {
     { label: t('addProject.beforeBed'), time: '22:00' },
   ], [t]);
 
-  // Time templates
-  const timeTemplates = useMemo(() => [
-    { label: t('addProject.threeDailyMorningNoonEvening'), times: ['08:00', '12:00', '18:00'] },
-    { label: t('addProject.threeDailyBeforeMeals'), times: ['07:30', '11:30', '17:30'] },
-    { label: t('addProject.threeDailyAfterMeals'), times: ['08:30', '12:30', '18:30'] },
-    { label: t('addProject.twiceDailyMorningEvening'), times: ['08:00', '20:00'] },
-    { label: t('addProject.onceDailyMorning'), times: ['08:00'] },
-    { label: t('addProject.onceDailyEvening'), times: ['20:00'] },
+  // Template definitions for dropdown
+  const templates = useMemo(() => [
+    {
+      value: 'three-daily-morning-noon-evening',
+      label: t('addProject.threeDailyMorningNoonEvening'),
+      times: ['08:00', '12:00', '18:00'],
+    },
+    {
+      value: 'three-daily-before-meals',
+      label: t('addProject.threeDailyBeforeMeals'),
+      times: ['07:30', '11:30', '17:30'],
+    },
+    {
+      value: 'three-daily-after-meals',
+      label: t('addProject.threeDailyAfterMeals'),
+      times: ['08:30', '12:30', '18:30'],
+    },
+    {
+      value: 'twice-daily-morning-evening',
+      label: t('addProject.twiceDailyMorningEvening'),
+      times: ['08:00', '20:00'],
+    },
+    {
+      value: 'once-daily-morning',
+      label: t('addProject.onceDailyMorning'),
+      times: ['08:00'],
+    },
+    {
+      value: 'once-daily-evening',
+      label: t('addProject.onceDailyEvening'),
+      times: ['20:00'],
+    },
   ], [t]);
 
   const handleSelectPreset = (preset: typeof presetProjects[0]) => {
