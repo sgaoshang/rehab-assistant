@@ -91,16 +91,16 @@ export const LocaleProvider: React.FC<LocaleProviderProps> = ({ children }) => {
     return value;
   }, [locale]);
 
-  // Don't render children until locale is initialized
-  if (!isInitialized) {
-    return <ActivityIndicator />;
-  }
-
   const contextValue: LocaleContextType = useMemo(() => ({
     locale,
     t,
     setLocale,
   }), [locale, t, setLocale]);
+
+  // Don't render children until locale is initialized
+  if (!isInitialized) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <LocaleContext.Provider value={contextValue}>
