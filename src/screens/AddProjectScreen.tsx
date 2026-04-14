@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -17,35 +17,16 @@ import { useApp } from '../context/AppContext';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
-import { PRESET_PROJECTS } from '../constants/presetProjects';
+import { getPresetProjects, PresetProjectId } from '../constants/presetProjects';
 import { formatTime } from '../utils/dateHelper';
+import { useTranslation } from '../i18n';
 
 type Mode = 'select' | 'preset' | 'custom';
-
-// 快捷时间选项
-const QUICK_TIMES = [
-  { label: '早上', time: '08:00' },
-  { label: '上午', time: '10:00' },
-  { label: '中午', time: '12:00' },
-  { label: '下午', time: '14:00' },
-  { label: '傍晚', time: '18:00' },
-  { label: '晚上', time: '20:00' },
-  { label: '睡前', time: '22:00' },
-];
-
-// 时间模板
-const TIME_TEMPLATES = [
-  { label: '每日三次(早中晚)', times: ['08:00', '12:00', '18:00'] },
-  { label: '每日三次(餐前)', times: ['07:30', '11:30', '17:30'] },
-  { label: '每日三次(餐后)', times: ['08:30', '12:30', '18:30'] },
-  { label: '早晚各一次', times: ['08:00', '20:00'] },
-  { label: '一日一次(早)', times: ['08:00'] },
-  { label: '一日一次(晚)', times: ['20:00'] },
-];
 
 export const AddProjectScreen: React.FC = () => {
   const navigation = useNavigation();
   const { addProject } = useApp();
+  const { t } = useTranslation();
 
   const [mode, setMode] = useState<Mode>('select');
   const [name, setName] = useState('');
@@ -55,11 +36,52 @@ export const AddProjectScreen: React.FC = () => {
   const [showTimeModal, setShowTimeModal] = useState(false);
   const [tempTime, setTempTime] = useState(new Date());
   const [submitting, setSubmitting] = useState(false);
+  const [presetId, setPresetId] = useState<PresetProjectId | undefined>();
 
-  const handleSelectPreset = (preset: typeof PRESET_PROJECTS[0]) => {
+  // Get preset projects with translations
+  const presetProjects = useMemo(() => getPresetProjects(t), [t]);
+
+  // Quick time options
+  const quickTimes = useMemo(() => [
+    { label: t('addProject.morning'), time: '08:00' },
+    { label: t('addProject.midMorning'), time: '10:00' },
+    { label: t('addProject.noon'), time: '12:00' },
+    { label: t('addProject.afternoon'), time: '14:00' },
+    { label: t('addProject.evening'), time: '18:00' },
+    { label: t('addProject.night'), time: '20:00' },
+    { label: t('addProject.beforeBed'), time: '22:00' },
+  ], [t]);
+
+  // Time templates
+  const timeTemplates = useMemo(() => [
+    { label: t('addProject.threeDailyMorningNoonEvening'), times: ['08:00', '12:00', '18:00'] },
+    { label: t('addProject.threeDailyBeforeMeals'), times: ['07:30', '11:30', '17:30'] },
+    { label: t('addProject.threeDailyAfterMeals'), times: ['08:30', '12:30', '18:30'] },
+    { label: t('addProject.twiceDailyMorningEvening'), times: ['08:00', '20:00'] },
+    { label: t('addProject.onceDailyMorning'), times: ['08:00'] },
+    { label: t('addProject.onceDailyEvening'), times: ['20:00'] },
+  ], [t]);
+
+  const handleSelectPreset = (preset: typeof presetProjects[0]) => {
     setName(preset.name);
     setDescription(preset.description);
+    setPresetId(preset.presetId);
     setMode('custom');
+  };
+
+  // Clear presetId if user manually edits name or description
+  const handleNameChange = (text: string) => {
+    setName(text);
+    if (presetId) {
+      setPresetId(undefined);
+    }
+  };
+
+  const handleDescriptionChange = (text: string) => {
+    setDescription(text);
+    if (presetId) {
+      setPresetId(undefined);
+    }
   };
 
   // 添加快捷时间
@@ -108,22 +130,22 @@ export const AddProjectScreen: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      Alert.alert('提示', '请输入项目名称');
+      Alert.alert(t('addProject.error'), t('addProject.nameRequired'));
       return;
     }
 
     if (name.length > 20) {
-      Alert.alert('提示', '项目名称不能超过20个字');
+      Alert.alert(t('addProject.error'), t('addProject.nameTooLong'));
       return;
     }
 
     if (description.length > 100) {
-      Alert.alert('提示', '项目说明不能超过100个字');
+      Alert.alert(t('addProject.error'), t('addProject.descriptionTooLong'));
       return;
     }
 
     if (reminderTimes.length === 0) {
-      Alert.alert('提示', '请至少添加一个提醒时间');
+      Alert.alert(t('addProject.error'), t('addProject.timeRequired'));
       return;
     }
 
@@ -135,16 +157,17 @@ export const AddProjectScreen: React.FC = () => {
         isPreset: false,
         isEnabled: true,
         reminderTimes,
+        presetId,
       });
 
-      Alert.alert('成功', '项目已添加', [
+      Alert.alert(t('addProject.success'), t('addProject.projectAdded'), [
         {
-          text: '确定',
+          text: t('common.confirm'),
           onPress: () => navigation.goBack(),
         },
       ]);
     } catch (error) {
-      Alert.alert('错误', '添加失败，请重试');
+      Alert.alert(t('addProject.error'), t('addProject.addFailed'));
       setSubmitting(false);
     }
   };
@@ -154,13 +177,13 @@ export const AddProjectScreen: React.FC = () => {
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
           <LargeButton
-            title="选择预设项目"
+            title={t('addProject.selectPreset')}
             onPress={() => setMode('preset')}
             variant="primary"
             style={styles.modeButton}
           />
           <LargeButton
-            title="自定义项目"
+            title={t('addProject.customProject')}
             onPress={() => setMode('custom')}
             variant="secondary"
             style={styles.modeButton}
@@ -174,9 +197,9 @@ export const AddProjectScreen: React.FC = () => {
     return (
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-          <Text style={CommonStyles.title}>选择预设项目</Text>
+          <Text style={CommonStyles.title}>{t('addProject.choosePreset')}</Text>
 
-          {PRESET_PROJECTS.map((preset, index) => (
+          {presetProjects.map((preset, index) => (
             <TouchableOpacity
               key={index}
               style={styles.presetCard}
@@ -189,7 +212,7 @@ export const AddProjectScreen: React.FC = () => {
           ))}
 
           <LargeButton
-            title="返回"
+            title={t('common.back')}
             onPress={() => setMode('select')}
             variant="secondary"
             style={styles.backButton}
@@ -209,45 +232,45 @@ export const AddProjectScreen: React.FC = () => {
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={CommonStyles.title}>项目信息</Text>
+        <Text style={CommonStyles.title}>{t('addProject.projectInfo')}</Text>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>项目名称 *</Text>
+          <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
           <TextInput
             style={styles.input}
-            placeholder="例如：降压药、握拳练习"
+            placeholder={t('addProject.projectNamePlaceholder')}
             placeholderTextColor={Colors.textDisabled}
             value={name}
-            onChangeText={setName}
+            onChangeText={handleNameChange}
             maxLength={20}
           />
-          <Text style={styles.hint}>{name.length}/20</Text>
+          <Text style={styles.hint}>{t('addProject.projectNameHint', { length: name.length })}</Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>项目说明</Text>
+          <Text style={styles.label}>{t('addProject.projectDescription')}</Text>
           <TextInput
             style={[styles.input, styles.textArea]}
-            placeholder="详细说明如何执行"
+            placeholder={t('addProject.projectDescriptionPlaceholder')}
             placeholderTextColor={Colors.textDisabled}
             value={description}
-            onChangeText={setDescription}
+            onChangeText={handleDescriptionChange}
             multiline
             numberOfLines={3}
             maxLength={100}
             textAlignVertical="top"
           />
-          <Text style={styles.hint}>{description.length}/100</Text>
+          <Text style={styles.hint}>{t('addProject.projectDescriptionHint', { length: description.length })}</Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>提醒时间 *</Text>
-          <Text style={[styles.hint, styles.hintTop]}>选择快捷时间或自定义时间</Text>
+          <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
+          <Text style={[styles.hint, styles.hintTop]}>{t('addProject.reminderTimeHint')}</Text>
 
           {/* 已添加的时间 */}
           {reminderTimes.length > 0 && (
             <View style={styles.selectedTimesContainer}>
-              <Text style={styles.selectedTimesLabel}>已选择 ({reminderTimes.length}):</Text>
+              <Text style={styles.selectedTimesLabel}>{t('addProject.selectedCount', { count: reminderTimes.length })}</Text>
               <View style={styles.selectedTimesList}>
                 {reminderTimes.map((time) => (
                   <TouchableOpacity
@@ -264,9 +287,9 @@ export const AddProjectScreen: React.FC = () => {
           )}
 
           {/* 快捷时间按钮 */}
-          <Text style={styles.sectionLabel}>快捷时间</Text>
+          <Text style={styles.sectionLabel}>{t('addProject.quickTimes')}</Text>
           <View style={styles.quickTimesGrid}>
-            {QUICK_TIMES.map((item) => (
+            {quickTimes.map((item) => (
               <TouchableOpacity
                 key={item.time}
                 style={[
@@ -296,9 +319,9 @@ export const AddProjectScreen: React.FC = () => {
           </View>
 
           {/* 时间模板 */}
-          <Text style={styles.sectionLabel}>常用模板</Text>
+          <Text style={styles.sectionLabel}>{t('addProject.templates')}</Text>
           <View style={styles.templatesContainer}>
-            {TIME_TEMPLATES.map((template, index) => (
+            {timeTemplates.map((template, index) => (
               <TouchableOpacity
                 key={index}
                 style={styles.templateButton}
@@ -312,7 +335,7 @@ export const AddProjectScreen: React.FC = () => {
 
           {/* 自定义时间 */}
           <LargeButton
-            title="+ 自定义时间"
+            title={t('addProject.customTime')}
             onPress={() => {
               if (Platform.OS === 'ios') {
                 setShowTimeModal(true);
@@ -348,11 +371,11 @@ export const AddProjectScreen: React.FC = () => {
               <View style={styles.modalContent}>
                 <View style={styles.modalHeader}>
                   <TouchableOpacity onPress={handleCancelTimePicker}>
-                    <Text style={styles.modalCancelButton}>取消</Text>
+                    <Text style={styles.modalCancelButton}>{t('common.cancel')}</Text>
                   </TouchableOpacity>
-                  <Text style={styles.modalTitle}>选择时间</Text>
+                  <Text style={styles.modalTitle}>{t('addProject.selectTime')}</Text>
                   <TouchableOpacity onPress={() => handleAddCustomTime(null, tempTime)}>
-                    <Text style={styles.modalConfirmButton}>确定</Text>
+                    <Text style={styles.modalConfirmButton}>{t('common.confirm')}</Text>
                   </TouchableOpacity>
                 </View>
                 <DateTimePicker
@@ -369,7 +392,7 @@ export const AddProjectScreen: React.FC = () => {
         )}
 
         <LargeButton
-          title="保存项目"
+          title={t('addProject.saveProject')}
           onPress={handleSubmit}
           loading={submitting}
           style={styles.submitButton}
