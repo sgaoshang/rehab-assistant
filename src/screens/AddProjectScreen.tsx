@@ -363,9 +363,22 @@ export const AddProjectScreen: React.FC = () => {
             </Text>
           </View>
 
-          {/* 已选时间 */}
-          {reminderTimes.length > 0 && (
-            <View style={styles.selectedTimesContainer}>
+          {/* Selected Times */}
+          <View style={styles.selectedTimesSection}>
+            <Text style={styles.selectedTimesLabel}>
+              {t('addProject.reminderTime')}
+              <Text style={styles.timesCount}>
+                {t('addProject.timesCount', { count: reminderTimes.length })}
+              </Text>
+            </Text>
+
+            {reminderTimes.length === 0 ? (
+              <View style={styles.emptyTimesContainer}>
+                <Text style={styles.emptyTimesText}>
+                  {t('addProject.noTimeSelectedHint')}
+                </Text>
+              </View>
+            ) : (
               <View style={styles.selectedTimesList}>
                 {reminderTimes.map((time) => (
                   <TouchableOpacity
@@ -378,8 +391,8 @@ export const AddProjectScreen: React.FC = () => {
                   </TouchableOpacity>
                 ))}
               </View>
-            </View>
-          )}
+            )}
+          </View>
         </View>
 
         {/* Android 时间选择器 */}
