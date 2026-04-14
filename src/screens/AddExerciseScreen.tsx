@@ -69,13 +69,18 @@ export const AddExerciseScreen: React.FC = () => {
       return;
     }
 
+    if (reminderTimes.length === 0) {
+      Alert.alert('提示', '请至少添加一个提醒时间');
+      return;
+    }
+
     setSubmitting(true);
     try {
       await addExercise({
         name: name.trim(),
         description: description.trim(),
         isPreset: false,
-        isEnabled: reminderTimes.length > 0,
+        isEnabled: true,
         reminderTimes,
       });
 
@@ -183,7 +188,8 @@ export const AddExerciseScreen: React.FC = () => {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>提醒时间</Text>
+          <Text style={styles.label}>提醒时间 *</Text>
+          <Text style={[styles.hint, styles.hintTop]}>至少添加一个每日提醒时间</Text>
           {reminderTimes.map((time) => (
             <View key={time} style={styles.timeItem}>
               <Text style={styles.timeText}>{time}</Text>
@@ -278,6 +284,11 @@ const styles = StyleSheet.create({
     color: Colors.textDisabled,
     marginTop: 4,
     textAlign: 'right',
+  },
+  hintTop: {
+    marginTop: 0,
+    marginBottom: 8,
+    textAlign: 'left',
   },
   timeItem: {
     flexDirection: 'row',

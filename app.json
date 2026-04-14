@@ -13,7 +13,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.rehab.assistant",
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "android": {
@@ -31,6 +33,11 @@
           "color": "#4A90E2"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "01869539-dcee-4a6d-9a15-b4e1e3c2a968"
+      }
+    }
   }
 }

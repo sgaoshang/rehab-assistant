@@ -17,18 +17,15 @@
         "resourceClass": "m-medium"
       },
       "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease"
+        "buildType": "apk"
       }
     },
     "production": {
       "ios": {
-        "resourceClass": "m-medium",
-        "bundleIdentifier": "com.rehab.assistant"
+        "resourceClass": "m-medium"
       },
       "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease"
+        "buildType": "apk"
       }
     }
   },
