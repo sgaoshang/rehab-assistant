@@ -3,6 +3,7 @@ import { AppState, Project, Settings } from '../types';
 import { getProjects, saveProjects } from '../storage/projectStorage';
 import { getSettings, saveSettings } from '../storage/settingsStorage';
 import { scheduleProjectNotifications, cancelProjectNotifications } from '../services/notificationService';
+import { useTranslation } from '../i18n';
 
 interface AppContextType {
   state: AppState;
@@ -30,6 +31,7 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  const { t } = useTranslation();
   const [state, setState] = useState<AppState>({
     projects: [],
     settings: {
@@ -78,7 +80,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setState((prev) => ({ ...prev, projects }));
 
     if (newProject.isEnabled) {
-      await scheduleProjectNotifications(newProject);
+      await scheduleProjectNotifications(newProject, t);
     }
   };
 
@@ -93,7 +95,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
       // 重新调度通知
       if (projects[index].isEnabled) {
-        await scheduleProjectNotifications(projects[index]);
+        await scheduleProjectNotifications(projects[index], t);
       } else {
         await cancelProjectNotifications(id);
       }

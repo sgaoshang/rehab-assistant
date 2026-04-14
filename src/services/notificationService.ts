@@ -2,6 +2,7 @@ import * as Notifications from 'expo-notifications';
 import { SchedulableTriggerInputTypes } from 'expo-notifications';
 import { Platform } from 'react-native';
 import { Project } from '../types';
+import { TranslationFunction } from '../i18n/types';
 
 // 配置通知处理器
 Notifications.setNotificationHandler({
@@ -57,9 +58,31 @@ export const checkNotificationPermission = async (): Promise<boolean> => {
 };
 
 /**
+ * Get translated project name and description
+ */
+const getTranslatedProject = (
+  project: Project,
+  t: TranslationFunction
+): { name: string; description: string } => {
+  if (project.presetId) {
+    return {
+      name: t(`presets.${project.presetId}.name`),
+      description: t(`presets.${project.presetId}.description`),
+    };
+  }
+  return {
+    name: project.name,
+    description: project.description,
+  };
+};
+
+/**
  * 为训练调度通知
  */
-export const scheduleProjectNotifications = async (project: Project): Promise<void> => {
+export const scheduleProjectNotifications = async (
+  project: Project,
+  t: TranslationFunction
+): Promise<void> => {
   if (!project.isEnabled || project.reminderTimes.length === 0) {
     return;
   }
@@ -68,20 +91,27 @@ export const scheduleProjectNotifications = async (project: Project): Promise<vo
     // 取消该训练的所有现有通知
     await cancelProjectNotifications(project.id);
 
+    const { name, description } = getTranslatedProject(project, t);
+
     // 为每个提醒时间创建通知
     for (const timeString of project.reminderTimes) {
       const [hours, minutes] = timeString.split(':').map(Number);
 
+      const notificationTitle = `⏰ ${timeString} ${t('notifications.title')}`;
+      const notificationBody = t('notifications.body', { name }).substring(0, 100) ||
+        (description ? description.substring(0, 100) : '');
+
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: `⏰ ${timeString} 提醒`,
-          body: `${project.name} - ${project.description.substring(0, 40) || '点击查看详情'}`,
+          title: notificationTitle,
+          body: notificationBody,
           sound: true,
           priority: Notifications.AndroidNotificationPriority.HIGH,
           data: {
             projectId: project.id,
             projectName: project.name,
             projectDescription: project.description,
+            presetId: project.presetId,
           },
         },
         trigger: {
@@ -130,13 +160,16 @@ export const cancelAllNotifications = async (): Promise<void> => {
 /**
  * 重新调度所有启用训练的通知
  */
-export const rescheduleAllNotifications = async (projects: Project[]): Promise<void> => {
+export const rescheduleAllNotifications = async (
+  projects: Project[],
+  t: TranslationFunction
+): Promise<void> => {
   try {
     await cancelAllNotifications();
 
     const enabledProjects = projects.filter((ex) => ex.isEnabled);
     for (const project of enabledProjects) {
-      await scheduleProjectNotifications(project);
+      await scheduleProjectNotifications(project, t);
     }
   } catch (error) {
     console.error('Failed to reschedule all notifications:', error);
@@ -147,20 +180,23 @@ export const rescheduleAllNotifications = async (projects: Project[]): Promise<v
 /**
  * 发送测试通知
  */
-export const sendTestNotification = async (): Promise<void> => {
+export const sendTestNotification = async (t: TranslationFunction): Promise<void> => {
   try {
     const now = new Date();
     const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
+    const testProjectName = t('notifications.title');
+    const testBody = t('notifications.body', { name: testProjectName });
+
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: `⏰ ${timeString} 提醒`,
-        body: '测试项目 - 这是一条测试通知，点击可打开应用',
+        title: `⏰ ${timeString} ${t('notifications.title')}`,
+        body: testBody,
         sound: true,
         priority: Notifications.AndroidNotificationPriority.HIGH,
         data: {
           projectId: 'test',
-          projectName: '测试项目',
+          projectName: testProjectName,
         },
       },
       trigger: {
