@@ -18,6 +18,8 @@ export const zh: Translations = {
     greetingEmpty: '欢迎使用提醒助手！',
     emptyState: '还没有提醒项目',
     emptyHint: '点击下方"设置"添加提醒项目',
+    showAll: '显示全部',
+    hideCompleted: '隐藏已完成',
   },
   settings: {
     title: '项目管理',
@@ -35,6 +37,11 @@ export const zh: Translations = {
     rehabilitation: '康复训练',
     medication: '用药提醒',
     healthCheck: '健康测量',
+    completed: '已完成',
+    notCompleted: '未完成',
+    markCompleted: '标记完成',
+    markIncomplete: '标记未完成',
+    completionStats: '完成 {{thisWeek}}/本周 · {{total}}/总计',
   },
   presets: {
     fistExercise: {
