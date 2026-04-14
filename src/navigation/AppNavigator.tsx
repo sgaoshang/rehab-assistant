@@ -14,7 +14,7 @@ import { useTranslation } from '../i18n';
 
 export type RootStackParamList = {
   MainTabs: undefined;
-  AddProject: undefined;
+  AddProject: { projectId?: string } | undefined;
   ManageProjects: undefined;
 };
 

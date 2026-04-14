@@ -138,8 +138,10 @@ export const zh: Translations = {
     saveProject: '保存项目',
     success: '成功',
     projectAdded: '项目已添加',
+    projectUpdated: '项目已更新',
     error: '错误',
     addFailed: '添加失败，请重试',
+    updateFailed: '更新失败，请重试',
     nameRequired: '请输入项目名称',
     nameTooLong: '项目名称不能超过20个字',
     descriptionTooLong: '项目说明不能超过100个字',
@@ -161,6 +163,7 @@ export const zh: Translations = {
   manageProjects: {
     title: '管理项目',
     noProjects: '还没有项目',
+    edit: '编辑',
     confirmDelete: '确认删除',
     confirmDeleteMessage: '确定要删除"{{name}}"吗？',
     deleteSuccess: '成功',

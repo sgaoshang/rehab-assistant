@@ -138,8 +138,10 @@ export const en: Translations = {
     saveProject: 'Save Project',
     success: 'Success',
     projectAdded: 'Project added',
+    projectUpdated: 'Project updated',
     error: 'Error',
     addFailed: 'Failed to add, please try again',
+    updateFailed: 'Failed to update, please try again',
     nameRequired: 'Please enter project name',
     nameTooLong: 'Project name cannot exceed 20 characters',
     descriptionTooLong: 'Project description cannot exceed 100 characters',
@@ -161,6 +163,7 @@ export const en: Translations = {
   manageProjects: {
     title: 'Manage Projects',
     noProjects: 'No projects yet',
+    edit: 'Edit',
     confirmDelete: 'Confirm Delete',
     confirmDeleteMessage: 'Are you sure you want to delete "{{name}}"?',
     deleteSuccess: 'Success',

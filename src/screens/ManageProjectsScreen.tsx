@@ -1,11 +1,17 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useApp } from '../context/AppContext';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
 import { useTranslation } from '../i18n';
+import { RootStackParamList } from '../navigation/AppNavigator';
+
+type ManageProjectsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ManageProjects'>;
 
 export const ManageProjectsScreen: React.FC = () => {
+  const navigation = useNavigation<ManageProjectsScreenNavigationProp>();
   const { state, toggleProjectEnabled, deleteProject } = useApp();
   const { t } = useTranslation();
 
@@ -59,6 +65,12 @@ export const ManageProjectsScreen: React.FC = () => {
                   onValueChange={() => toggleProjectEnabled(project.id)}
                   trackColor={{ false: Colors.neutral, true: Colors.success }}
                 />
+                <TouchableOpacity
+                  style={styles.editButton}
+                  onPress={() => navigation.navigate('AddProject', { projectId: project.id })}
+                >
+                  <Text style={styles.editText}>{t('manageProjects.edit')}</Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.deleteButton}
                   onPress={() => handleDelete(project.id, project.name)}
@@ -117,6 +129,15 @@ const styles = StyleSheet.create({
   },
   actions: {
     alignItems: 'center',
+  },
+  editButton: {
+    marginTop: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  editText: {
+    fontSize: 14,
+    color: Colors.primary,
   },
   deleteButton: {
     marginTop: 8,

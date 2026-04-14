@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
   Platform,
   Modal,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useApp } from '../context/AppContext';
 import { LargeButton } from '../components/LargeButton';
@@ -20,26 +20,45 @@ import { CommonStyles } from '../constants/styles';
 import { getPresetProjects, PresetProjectId } from '../constants/presetProjects';
 import { formatTime } from '../utils/dateHelper';
 import { useTranslation } from '../i18n';
+import { RootStackParamList } from '../navigation/AppNavigator';
 
 type Mode = 'select' | 'preset' | 'custom';
+type AddProjectScreenRouteProp = RouteProp<RootStackParamList, 'AddProject'>;
 
 export const AddProjectScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { addProject } = useApp();
+  const route = useRoute<AddProjectScreenRouteProp>();
+  const { state, addProject, updateProject } = useApp();
   const { t } = useTranslation();
 
-  const [mode, setMode] = useState<Mode>('select');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [reminderTimes, setReminderTimes] = useState<string[]>([]);
+  // Check if we're in edit mode
+  const projectId = route.params?.projectId;
+  const isEditMode = !!projectId;
+  const existingProject = isEditMode ? state.projects.find(p => p.id === projectId) : null;
+
+  const [mode, setMode] = useState<Mode>(isEditMode ? 'custom' : 'select');
+  const [name, setName] = useState(existingProject?.name || '');
+  const [description, setDescription] = useState(existingProject?.description || '');
+  const [reminderTimes, setReminderTimes] = useState<string[]>(existingProject?.reminderTimes || []);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showTimeModal, setShowTimeModal] = useState(false);
   const [tempTime, setTempTime] = useState(new Date());
   const [submitting, setSubmitting] = useState(false);
-  const [presetId, setPresetId] = useState<PresetProjectId | undefined>();
+  const [presetId, setPresetId] = useState<PresetProjectId | undefined>(existingProject?.presetId as PresetProjectId);
 
   // Get preset projects with translations
   const presetProjects = useMemo(() => getPresetProjects(t), [t]);
+
+  // Load existing project data when in edit mode
+  useEffect(() => {
+    if (isEditMode && existingProject) {
+      setMode('custom');
+      setName(existingProject.name);
+      setDescription(existingProject.description);
+      setReminderTimes(existingProject.reminderTimes);
+      setPresetId(existingProject.presetId as PresetProjectId);
+    }
+  }, [isEditMode, existingProject]);
 
   // Quick time options
   const quickTimes = useMemo(() => [
@@ -151,23 +170,41 @@ export const AddProjectScreen: React.FC = () => {
 
     setSubmitting(true);
     try {
-      await addProject({
-        name: name.trim(),
-        description: description.trim(),
-        isPreset: false,
-        isEnabled: true,
-        reminderTimes,
-        presetId,
-      });
+      if (isEditMode && projectId) {
+        // Update existing project
+        await updateProject(projectId, {
+          name: name.trim(),
+          description: description.trim(),
+          reminderTimes,
+          presetId,
+        });
 
-      Alert.alert(t('addProject.success'), t('addProject.projectAdded'), [
-        {
-          text: t('common.confirm'),
-          onPress: () => navigation.goBack(),
-        },
-      ]);
+        Alert.alert(t('addProject.success'), t('addProject.projectUpdated'), [
+          {
+            text: t('common.confirm'),
+            onPress: () => navigation.goBack(),
+          },
+        ]);
+      } else {
+        // Add new project
+        await addProject({
+          name: name.trim(),
+          description: description.trim(),
+          isPreset: false,
+          isEnabled: true,
+          reminderTimes,
+          presetId,
+        });
+
+        Alert.alert(t('addProject.success'), t('addProject.projectAdded'), [
+          {
+            text: t('common.confirm'),
+            onPress: () => navigation.goBack(),
+          },
+        ]);
+      }
     } catch (error) {
-      Alert.alert(t('addProject.error'), t('addProject.addFailed'));
+      Alert.alert(t('addProject.error'), isEditMode ? t('addProject.updateFailed') : t('addProject.addFailed'));
       setSubmitting(false);
     }
   };
