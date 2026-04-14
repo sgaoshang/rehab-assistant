@@ -455,10 +455,17 @@ export const AddProjectScreen: React.FC = () => {
           </Modal>
         )}
 
+        {reminderTimes.length === 0 && (
+          <Text style={styles.validationError}>
+            {t('addProject.timeRequiredError')}
+          </Text>
+        )}
+
         <LargeButton
           title={t('addProject.saveProject')}
           onPress={handleSubmit}
           loading={submitting}
+          disabled={reminderTimes.length === 0}
           style={styles.submitButton}
         />
       </ScrollView>
@@ -714,6 +721,12 @@ const styles = StyleSheet.create({
   },
   timePicker: {
     height: 200,
+  },
+  validationError: {
+    fontSize: 12,
+    color: Colors.error,
+    textAlign: 'center',
+    marginBottom: 8,
   },
   submitButton: {
     marginTop: 16,
