@@ -27,6 +27,7 @@ export const HomeScreen: React.FC = () => {
     ? enabledProjects.filter((proj) => !isCompletedToday(proj.completionHistory))
     : enabledProjects;
   const totalProjects = enabledProjects.length;
+  const completedCount = enabledProjects.filter((proj) => isCompletedToday(proj.completionHistory)).length;
 
   // 自动播报项目
   useFocusEffect(
@@ -47,13 +48,6 @@ export const HomeScreen: React.FC = () => {
     }, [loading, state.initialized, enabledProjects, t, locale])
   );
 
-  const getGreeting = () => {
-    if (totalProjects === 0) {
-      return t('home.greetingEmpty');
-    }
-    return t('home.greeting', { count: totalProjects });
-  };
-
   return (
     <View style={CommonStyles.container}>
       <ScrollView
@@ -62,22 +56,27 @@ export const HomeScreen: React.FC = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <View style={styles.header}>
-          <Text style={CommonStyles.title}>{formatDate(new Date(), locale)}</Text>
-          <Text style={[CommonStyles.body, styles.greeting]}>{getGreeting()}</Text>
+          <Text style={styles.dateText}>{formatDate(new Date(), locale)}</Text>
 
-          {enabledProjects.length > 0 && (
-            <View style={styles.filterRow}>
-              <Text style={CommonStyles.body}>
-                {hideCompleted ? t('home.showAll') : t('home.hideCompleted')}
-              </Text>
-              <Switch
-                value={hideCompleted}
-                onValueChange={setHideCompleted}
-                trackColor={{ false: Colors.border, true: Colors.primary }}
-                thumbColor={Colors.cardBackground}
-              />
-            </View>
-          )}
+          <View style={styles.statsRow}>
+            <Text style={styles.statsText}>
+              今天有 {totalProjects} 个项目 · 已完成 {completedCount} 个
+            </Text>
+
+            {enabledProjects.length > 0 && (
+              <View style={styles.filterControl}>
+                <Text style={styles.filterLabel}>
+                  {hideCompleted ? t('home.showAll') : t('home.hideCompleted')}
+                </Text>
+                <Switch
+                  value={hideCompleted}
+                  onValueChange={setHideCompleted}
+                  trackColor={{ false: Colors.border, true: Colors.primary }}
+                  thumbColor={Colors.cardBackground}
+                />
+              </View>
+            )}
+          </View>
         </View>
 
         {enabledProjects.length === 0 ? (
@@ -119,17 +118,32 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   header: {
-    marginBottom: 24,
+    marginBottom: 16,
   },
-  greeting: {
-    marginTop: 8,
+  dateText: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    marginBottom: 6,
   },
-  filterRow: {
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  statsText: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+  filterControl: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 16,
-    paddingVertical: 8,
+    gap: 8,
+  },
+  filterLabel: {
+    fontSize: 13,
+    color: Colors.primary,
+    fontWeight: '500',
   },
   emptyState: {
     alignItems: 'center',
