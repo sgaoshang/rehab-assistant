@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Project } from '../types';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
+import { useTranslation } from '../i18n';
 
 interface ProjectCardProps {
   project: Project;
@@ -10,6 +11,16 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useTranslation();
+
+  // Use translations for preset projects, original text for custom projects
+  const displayName = project.presetId
+    ? t(`presets.${project.presetId}.name`)
+    : project.name;
+
+  const displayDescription = project.presetId
+    ? t(`presets.${project.presetId}.description`)
+    : project.description;
 
   return (
     <TouchableOpacity
@@ -19,7 +30,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     >
       <View style={styles.header}>
         <View style={styles.content}>
-          <Text style={CommonStyles.title}>{project.name}</Text>
+          <Text style={CommonStyles.title}>{displayName}</Text>
           {project.reminderTimes.length > 0 && (
             <Text style={styles.reminderText}>
               ⏰ {project.reminderTimes.join(', ')}
@@ -32,7 +43,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       {isExpanded && (
         <View style={styles.descriptionContainer}>
           <View style={styles.divider} />
-          <Text style={styles.descriptionText}>{project.description}</Text>
+          <Text style={styles.descriptionText}>{displayDescription}</Text>
         </View>
       )}
     </TouchableOpacity>
