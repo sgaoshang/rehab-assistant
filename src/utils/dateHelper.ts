@@ -110,3 +110,35 @@ export const parseTimeToToday = (timeString: string): number => {
   today.setHours(hours, minutes, 0, 0);
   return today.getTime();
 };
+
+/**
+ * 获取今天的日期字符串 (YYYY-MM-DD format)
+ */
+export const getTodayDateString = (): string => {
+  return format(new Date(), 'yyyy-MM-dd');
+};
+
+/**
+ * 获取本周一的日期字符串 (YYYY-MM-DD format)
+ */
+export const getWeekStartDateString = (): string => {
+  return format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'yyyy-MM-dd');
+};
+
+/**
+ * 检查项目今天是否已完成
+ */
+export const isCompletedToday = (completionHistory: string[]): boolean => {
+  const today = getTodayDateString();
+  return completionHistory.includes(today);
+};
+
+/**
+ * 获取完成统计信息
+ */
+export const getCompletionStats = (completionHistory: string[]): { total: number; thisWeek: number } => {
+  const total = completionHistory.length;
+  const weekStart = getWeekStartDateString();
+  const thisWeek = completionHistory.filter(date => date >= weekStart).length;
+  return { total, thisWeek };
+};
