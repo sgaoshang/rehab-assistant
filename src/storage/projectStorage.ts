@@ -11,12 +11,23 @@ const generateId = (): string => {
 };
 
 /**
+ * 迁移项目数据：添加 completionHistory 字段
+ */
+const migrateProjects = (projects: any[]): Project[] => {
+  return projects.map(project => ({
+    ...project,
+    completionHistory: project.completionHistory || [],
+  }));
+};
+
+/**
  * 获取所有项目
  */
 export const getProjects = async (): Promise<Project[]> => {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    const rawProjects = data ? JSON.parse(data) : [];
+    return migrateProjects(rawProjects);
   } catch (error) {
     console.error('Failed to get projects:', error);
     return [];
