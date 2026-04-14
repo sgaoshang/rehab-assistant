@@ -251,8 +251,6 @@ export const AddProjectScreen: React.FC = () => {
     return (
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.pageTitle}>{t('addProject.choosePreset')}</Text>
-
           {presetProjects.map((preset, index) => (
             <TouchableOpacity
               key={index}
@@ -292,8 +290,6 @@ export const AddProjectScreen: React.FC = () => {
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.pageTitle}>{t('addProject.projectInfo')}</Text>
-
         <View style={styles.inputContainer}>
           <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
           <TextInput
@@ -394,8 +390,8 @@ export const AddProjectScreen: React.FC = () => {
           </View>
 
           {/* 自定义时间 */}
-          <LargeButton
-            title={t('addProject.customTime')}
+          <TouchableOpacity
+            style={styles.addTimeButton}
             onPress={() => {
               if (Platform.OS === 'ios') {
                 setShowTimeModal(true);
@@ -403,9 +399,10 @@ export const AddProjectScreen: React.FC = () => {
                 setShowTimePicker(true);
               }
             }}
-            variant="secondary"
-            style={styles.addTimeButton}
-          />
+            activeOpacity={0.7}
+          >
+            <Text style={styles.addTimeButtonText}>+ {t('addProject.customTime')}</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Android 时间选择器 */}
@@ -564,7 +561,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 8,
@@ -574,13 +571,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 14,
-    paddingHorizontal: 16,
-    fontSize: 16,
+    padding: 12,
+    paddingHorizontal: 14,
+    fontSize: 15,
     color: Colors.textPrimary,
   },
   textArea: {
-    minHeight: 100,
+    minHeight: 90,
+    paddingTop: 12,
   },
   hint: {
     fontSize: 13,
@@ -611,19 +609,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.primary,
-    borderRadius: 16,
+    borderRadius: 14,
     paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingVertical: 5,
     marginRight: 8,
     marginBottom: 8,
   },
   selectedTimeText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#FFFFFF',
     marginRight: 4,
   },
   removeChipIcon: {
-    fontSize: 18,
+    fontSize: 17,
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
@@ -645,9 +643,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 10,
+    padding: 9,
     paddingHorizontal: 12,
-    minWidth: 85,
+    minWidth: 82,
     alignItems: 'center',
   },
   quickTimeButtonSelected: {
@@ -678,21 +676,33 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 12,
+    padding: 10,
+    paddingHorizontal: 12,
     marginBottom: 8,
   },
   templateLabel: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     color: Colors.textPrimary,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   templateTimes: {
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.textSecondary,
   },
   addTimeButton: {
     marginTop: 8,
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingVertical: 11,
+    alignItems: 'center',
+  },
+  addTimeButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: Colors.primary,
   },
   modalOverlay: {
     flex: 1,
