@@ -598,9 +598,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'left',
   },
-  selectedTimesContainer: {
-    marginBottom: 12,
-  },
   selectedTimesList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -625,86 +622,62 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  quickTimesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    marginBottom: 16,
+  templateDropdownContainer: {
+    marginBottom: 12,
   },
-  quickTimeChip: {
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-  },
-  quickTimeChipSelected: {
-    backgroundColor: Colors.success,
-    borderColor: Colors.success,
-  },
-  quickTimeChipText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: Colors.textPrimary,
-  },
-  quickTimeChipTextSelected: {
-    color: '#FFFFFF',
-  },
-  customTimeChip: {
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    borderStyle: 'dashed',
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-  },
-  customTimeChipText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: Colors.primary,
-  },
-  sectionLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginTop: 4,
-    marginBottom: 10,
-  },
-  templatesContainer: {
-    gap: 8,
-    marginBottom: 14,
-  },
-  templateCard: {
+  templatePicker: {
     backgroundColor: Colors.cardBackground,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 12,
-    paddingHorizontal: 14,
   },
-  templateLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textPrimary,
+  templateHint: {
+    fontSize: 12,
+    color: Colors.textDisabled,
+    marginTop: 6,
+  },
+  selectedTimesSection: {
+    marginBottom: 12,
+  },
+  selectedTimesLabel: {
+    fontSize: 13,
+    color: Colors.textDisabled,
     marginBottom: 8,
   },
-  templateTimesRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
+  timesCount: {
+    fontWeight: '600',
+    color: Colors.primary,
   },
-  templateTimeChip: {
-    backgroundColor: Colors.background,
-    borderRadius: 10,
-    paddingVertical: 3,
-    paddingHorizontal: 8,
+  emptyTimesContainer: {
+    minHeight: 48,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: Colors.border,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#fafafa',
   },
-  templateTimeText: {
-    fontSize: 12,
-    color: Colors.textSecondary,
+  emptyTimesText: {
+    fontSize: 13,
+    color: Colors.textDisabled,
+    fontStyle: 'italic',
+  },
+  customTimeButton: {
+    width: '100%',
+    padding: 12,
+    backgroundColor: Colors.cardBackground,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: Colors.primary,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  customTimeButtonText: {
+    fontSize: 14,
     fontWeight: '500',
+    color: Colors.primary,
   },
   modalOverlay: {
     flex: 1,
