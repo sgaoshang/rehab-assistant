@@ -8,6 +8,7 @@ import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
 import { FeelingType, Exercise } from '../types';
+import { speakEncouragement } from '../services/speechService';
 
 const ENCOURAGEMENTS = [
   '太棒了！坚持就是胜利！',
@@ -51,6 +52,10 @@ export const CheckInScreen: React.FC = () => {
       });
 
       const encouragement = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+
+      // 播放语音鼓励
+      speakEncouragement(encouragement);
+
       Alert.alert('完成！', encouragement, [
         {
           text: '确定',

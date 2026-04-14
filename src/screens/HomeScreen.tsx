@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, RefreshControl } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../context/AppContext';
 import { ExerciseCard } from '../components/ExerciseCard';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
 import { formatChineseDate } from '../utils/dateHelper';
+import { speakTodayExercises } from '../services/speechService';
 
 export const HomeScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const { state, loading, refreshExercises, refreshCheckIns, isCheckedInToday } = useApp();
   const [refreshing, setRefreshing] = React.useState(false);
+  const hasSpokenToday = useRef<string | null>(null);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -22,6 +24,26 @@ export const HomeScreen: React.FC = () => {
   const enabledExercises = state.exercises.filter((ex) => ex.isEnabled);
   const totalExercises = enabledExercises.length;
   const completedCount = enabledExercises.filter((ex) => isCheckedInToday(ex.id)).length;
+  const incompleteExercises = enabledExercises.filter((ex) => !isCheckedInToday(ex.id));
+
+  // 自动播报待做训练
+  useFocusEffect(
+    React.useCallback(() => {
+      const today = new Date().toDateString();
+
+      // 如果今天还没播报过，且数据已加载完成
+      if (!loading && state.initialized && hasSpokenToday.current !== today) {
+        hasSpokenToday.current = today;
+
+        // 延迟1秒播报，等页面加载完成
+        const timer = setTimeout(() => {
+          speakTodayExercises(incompleteExercises);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+      }
+    }, [loading, state.initialized, incompleteExercises])
+  );
 
   const getGreeting = () => {
     if (completedCount === 0) {
