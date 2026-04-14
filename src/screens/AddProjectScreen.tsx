@@ -129,6 +129,24 @@ export const AddProjectScreen: React.FC = () => {
     }
   };
 
+  // Handle template selection from dropdown
+  const handleTemplateChange = (value: string) => {
+    setSelectedTemplate(value);
+
+    // Don't process empty/placeholder selection
+    if (!value) return;
+
+    // Find selected template
+    const template = templates.find(t => t.value === value);
+    if (!template) return;
+
+    // Append times with deduplication
+    const merged = [...new Set([...reminderTimes, ...template.times])];
+
+    // Sort and update
+    setReminderTimes(merged.sort());
+  };
+
   // 添加快捷时间
   const handleAddQuickTime = (time: string) => {
     if (!reminderTimes.includes(time)) {
@@ -136,16 +154,6 @@ export const AddProjectScreen: React.FC = () => {
     }
   };
 
-  // 使用时间模板
-  const handleUseTemplate = (times: string[]) => {
-    const newTimes = [...reminderTimes];
-    times.forEach(time => {
-      if (!newTimes.includes(time)) {
-        newTimes.push(time);
-      }
-    });
-    setReminderTimes(newTimes.sort());
-  };
 
   // 自定义时间
   const handleAddCustomTime = (event: any, selectedDate?: Date) => {
