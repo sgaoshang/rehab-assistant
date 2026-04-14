@@ -338,6 +338,31 @@ export const AddProjectScreen: React.FC = () => {
           <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
           <Text style={[styles.hint, styles.hintTop]}>{t('addProject.reminderTimeHint')}</Text>
 
+          {/* Template Dropdown */}
+          <View style={styles.templateDropdownContainer}>
+            <Picker
+              selectedValue={selectedTemplate}
+              onValueChange={handleTemplateChange}
+              style={styles.templatePicker}
+            >
+              <Picker.Item
+                label={t('addProject.selectTemplate')}
+                value=""
+                color={Platform.OS === 'ios' ? Colors.textDisabled : undefined}
+              />
+              {templates.map((template) => (
+                <Picker.Item
+                  key={template.value}
+                  label={template.label}
+                  value={template.value}
+                />
+              ))}
+            </Picker>
+            <Text style={styles.templateHint}>
+              💡 {t('addProject.templateChangeHint')}
+            </Text>
+          </View>
+
           {/* 已选时间 */}
           {reminderTimes.length > 0 && (
             <View style={styles.selectedTimesContainer}>
