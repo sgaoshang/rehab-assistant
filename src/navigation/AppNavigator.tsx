@@ -10,6 +10,7 @@ import { SettingsScreen } from '../screens/SettingsScreen';
 import { AddProjectScreen } from '../screens/AddProjectScreen';
 import { ManageProjectsScreen } from '../screens/ManageProjectsScreen';
 import { COLORS } from '../constants/theme';
+import { useTranslation } from '../i18n';
 
 export type RootStackParamList = {
   MainTabs: undefined;
@@ -26,6 +27,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
 function MainTabs() {
+  const { t } = useTranslation();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -68,16 +71,16 @@ function MainTabs() {
         name="Home"
         component={HomeScreen}
         options={{
-          title: '首页',
-          headerTitle: '提醒助手',
+          title: t('tabs.home'),
+          headerTitle: t('settings.version').replace(' v1.0.0', ''),
         }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
-          title: '设置',
-          headerTitle: '设置',
+          title: t('tabs.settings'),
+          headerTitle: t('tabs.settings'),
         }}
       />
     </Tab.Navigator>
@@ -85,6 +88,8 @@ function MainTabs() {
 }
 
 export default function AppNavigator() {
+  const { t } = useTranslation();
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -107,7 +112,7 @@ export default function AppNavigator() {
           name="AddProject"
           component={AddProjectScreen}
           options={{
-            title: '添加项目',
+            title: t('addProject.title'),
             presentation: 'modal',
           }}
         />
@@ -115,7 +120,7 @@ export default function AppNavigator() {
           name="ManageProjects"
           component={ManageProjectsScreen}
           options={{
-            title: '管理项目',
+            title: t('manageProjects.title'),
           }}
         />
       </Stack.Navigator>
