@@ -6,8 +6,9 @@ import * as Notifications from 'expo-notifications';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import { AppProvider } from './src/context/AppContext';
+import { LocaleProvider } from './src/i18n';
 import { requestNotificationPermission } from './src/services/notificationService';
-import { speakExerciseNotification } from './src/services/speechService';
+import { speakProjectNotification } from './src/services/speechService';
 
 function App() {
   useEffect(() => {
@@ -16,26 +17,26 @@ function App() {
 
     // 监听前台通知（app打开时收到通知）
     const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
-      const exerciseName = notification.request.content.data?.exerciseName as string;
-      const description = notification.request.content.data?.exerciseDescription as string;
+      const projectName = notification.request.content.data?.projectName as string;
+      const description = notification.request.content.data?.projectDescription as string;
 
-      if (exerciseName) {
+      if (projectName) {
         // 延迟0.5秒播报，等通知显示完成
         setTimeout(() => {
-          speakExerciseNotification(exerciseName, description);
+          speakProjectNotification(projectName, description);
         }, 500);
       }
     });
 
     // 监听通知点击（用户点击通知打开app）
     const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
-      const exerciseName = response.notification.request.content.data?.exerciseName as string;
-      const description = response.notification.request.content.data?.exerciseDescription as string;
+      const projectName = response.notification.request.content.data?.projectName as string;
+      const description = response.notification.request.content.data?.projectDescription as string;
 
-      if (exerciseName) {
+      if (projectName) {
         // 延迟1秒播报，等app完全打开
         setTimeout(() => {
-          speakExerciseNotification(exerciseName, description);
+          speakProjectNotification(projectName, description);
         }, 1000);
       }
     });
@@ -47,12 +48,14 @@ function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <AppProvider>
-        <AppNavigator />
-        <StatusBar style="auto" />
-      </AppProvider>
-    </SafeAreaProvider>
+    <LocaleProvider>
+      <SafeAreaProvider>
+        <AppProvider>
+          <AppNavigator />
+          <StatusBar style="auto" />
+        </AppProvider>
+      </SafeAreaProvider>
+    </LocaleProvider>
   );
 }
 
