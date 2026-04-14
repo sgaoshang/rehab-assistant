@@ -7,6 +7,7 @@ export interface Project {
   reminderTimes: string[];
   createdAt: number;
   presetId?: string;  // identifies if created from preset
+  completionHistory: string[];  // Array of completion dates in YYYY-MM-DD format
 }
 
 export interface Settings {
