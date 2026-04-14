@@ -54,9 +54,6 @@ export const HomeScreen: React.FC = () => {
     return t('home.greeting', { count: totalProjects });
   };
 
-  const allCompletedToday = enabledProjects.length > 0 &&
-    enabledProjects.every((proj) => isCompletedToday(proj.completionHistory));
-
   return (
     <View style={CommonStyles.container}>
       <ScrollView
@@ -77,7 +74,7 @@ export const HomeScreen: React.FC = () => {
                 value={hideCompleted}
                 onValueChange={setHideCompleted}
                 trackColor={{ false: Colors.border, true: Colors.primary }}
-                thumbColor={Colors.white}
+                thumbColor={Colors.cardBackground}
               />
             </View>
           )}
