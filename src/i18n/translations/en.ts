@@ -174,6 +174,11 @@ export const en: Translations = {
     timeDuplicate: 'Time already exists',
     timeLimit: 'Maximum 8 reminder times',
     noTimeSelected: 'No time selected',
+    selectTemplate: 'Select template (optional)',
+    noTimeSelectedHint: 'Select a template or add custom time',
+    templateChangeHint: 'Times will be added automatically when selecting template. Switching templates will append new times (auto-dedup)',
+    timesCount: '({{count}})',
+    timeRequiredError: 'Please add at least one reminder time',
   },
   manageProjects: {
     title: 'Manage Projects',

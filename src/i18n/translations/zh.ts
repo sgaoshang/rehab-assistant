@@ -174,6 +174,11 @@ export const zh: Translations = {
     timeDuplicate: '该时间已存在',
     timeLimit: '最多添加8个提醒时间',
     noTimeSelected: '未选择时间',
+    selectTemplate: '选择常用模板（可选）',
+    noTimeSelectedHint: '请选择模板或添加自定义时间',
+    templateChangeHint: '选择模板后会自动添加时间，切换模板会追加新时间（自动去重）',
+    timesCount: '({{count}}个)',
+    timeRequiredError: '请至少添加一个提醒时间',
   },
   manageProjects: {
     title: '管理项目',
