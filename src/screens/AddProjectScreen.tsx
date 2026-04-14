@@ -222,7 +222,7 @@ export const AddProjectScreen: React.FC = () => {
               <Text style={styles.modeCardIcon}>📚</Text>
               <View style={styles.modeCardText}>
                 <Text style={styles.modeCardTitle}>{t('addProject.selectPreset')}</Text>
-                <Text style={styles.modeCardDescription}>选择预设的康复项目</Text>
+                <Text style={styles.modeCardDescription}>{t('addProject.selectPresetDesc')}</Text>
               </View>
               <Text style={styles.modeCardArrow}>›</Text>
             </View>
@@ -237,7 +237,7 @@ export const AddProjectScreen: React.FC = () => {
               <Text style={styles.modeCardIcon}>✏️</Text>
               <View style={styles.modeCardText}>
                 <Text style={styles.modeCardTitle}>{t('addProject.customProject')}</Text>
-                <Text style={styles.modeCardDescription}>创建自定义项目</Text>
+                <Text style={styles.modeCardDescription}>{t('addProject.customProjectDesc')}</Text>
               </View>
               <Text style={styles.modeCardArrow}>›</Text>
             </View>
