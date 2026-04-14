@@ -167,6 +167,10 @@ export interface Translations {
     twiceDailyMorningEvening: string;
     onceDailyMorning: string;
     onceDailyEvening: string;
+    timelineInstruction: string;
+    timeDuplicate: string;
+    timeLimit: string;
+    noTimeSelected: string;
   };
   manageProjects: {
     title: string;

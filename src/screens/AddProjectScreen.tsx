@@ -11,6 +11,7 @@ import {
   Platform,
   Modal,
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useApp } from '../context/AppContext';
@@ -45,6 +46,7 @@ export const AddProjectScreen: React.FC = () => {
   const [tempTime, setTempTime] = useState(new Date());
   const [submitting, setSubmitting] = useState(false);
   const [presetId, setPresetId] = useState<PresetProjectId | undefined>(existingProject?.presetId as PresetProjectId);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
 
   // Get preset projects with translations
   const presetProjects = useMemo(() => getPresetProjects(t), [t]);
@@ -60,25 +62,38 @@ export const AddProjectScreen: React.FC = () => {
     }
   }, [isEditMode, existingProject]);
 
-  // Quick time options
-  const quickTimes = useMemo(() => [
-    { label: t('addProject.morning'), time: '08:00' },
-    { label: t('addProject.midMorning'), time: '10:00' },
-    { label: t('addProject.noon'), time: '12:00' },
-    { label: t('addProject.afternoon'), time: '14:00' },
-    { label: t('addProject.evening'), time: '18:00' },
-    { label: t('addProject.night'), time: '20:00' },
-    { label: t('addProject.beforeBed'), time: '22:00' },
-  ], [t]);
-
-  // Time templates
-  const timeTemplates = useMemo(() => [
-    { label: t('addProject.threeDailyMorningNoonEvening'), times: ['08:00', '12:00', '18:00'] },
-    { label: t('addProject.threeDailyBeforeMeals'), times: ['07:30', '11:30', '17:30'] },
-    { label: t('addProject.threeDailyAfterMeals'), times: ['08:30', '12:30', '18:30'] },
-    { label: t('addProject.twiceDailyMorningEvening'), times: ['08:00', '20:00'] },
-    { label: t('addProject.onceDailyMorning'), times: ['08:00'] },
-    { label: t('addProject.onceDailyEvening'), times: ['20:00'] },
+  // Template definitions for dropdown
+  const templates = useMemo(() => [
+    {
+      value: 'three-daily-morning-noon-evening',
+      label: t('addProject.threeDailyMorningNoonEvening'),
+      times: ['08:00', '12:00', '18:00'],
+    },
+    {
+      value: 'three-daily-before-meals',
+      label: t('addProject.threeDailyBeforeMeals'),
+      times: ['07:30', '11:30', '17:30'],
+    },
+    {
+      value: 'three-daily-after-meals',
+      label: t('addProject.threeDailyAfterMeals'),
+      times: ['08:30', '12:30', '18:30'],
+    },
+    {
+      value: 'twice-daily-morning-evening',
+      label: t('addProject.twiceDailyMorningEvening'),
+      times: ['08:00', '20:00'],
+    },
+    {
+      value: 'once-daily-morning',
+      label: t('addProject.onceDailyMorning'),
+      times: ['08:00'],
+    },
+    {
+      value: 'once-daily-evening',
+      label: t('addProject.onceDailyEvening'),
+      times: ['20:00'],
+    },
   ], [t]);
 
   const handleSelectPreset = (preset: typeof presetProjects[0]) => {
@@ -103,22 +118,22 @@ export const AddProjectScreen: React.FC = () => {
     }
   };
 
-  // 添加快捷时间
-  const handleAddQuickTime = (time: string) => {
-    if (!reminderTimes.includes(time)) {
-      setReminderTimes([...reminderTimes, time].sort());
-    }
-  };
+  // Handle template selection from dropdown
+  const handleTemplateChange = (value: string) => {
+    setSelectedTemplate(value);
 
-  // 使用时间模板
-  const handleUseTemplate = (times: string[]) => {
-    const newTimes = [...reminderTimes];
-    times.forEach(time => {
-      if (!newTimes.includes(time)) {
-        newTimes.push(time);
-      }
-    });
-    setReminderTimes(newTimes.sort());
+    // Don't process empty/placeholder selection
+    if (!value) return;
+
+    // Find selected template
+    const template = templates.find(t => t.value === value);
+    if (!template) return;
+
+    // Append times with deduplication
+    const merged = [...new Set([...reminderTimes, ...template.times])];
+
+    // Sort and update
+    setReminderTimes(merged.sort());
   };
 
   // 自定义时间
@@ -323,9 +338,47 @@ export const AddProjectScreen: React.FC = () => {
           <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
           <Text style={[styles.hint, styles.hintTop]}>{t('addProject.reminderTimeHint')}</Text>
 
-          {/* 已选时间 */}
-          {reminderTimes.length > 0 && (
-            <View style={styles.selectedTimesContainer}>
+          {/* Template Dropdown */}
+          <View style={styles.templateDropdownContainer}>
+            <Picker
+              selectedValue={selectedTemplate}
+              onValueChange={handleTemplateChange}
+              style={styles.templatePicker}
+            >
+              <Picker.Item
+                label={t('addProject.selectTemplate')}
+                value=""
+                color={Platform.OS === 'ios' ? Colors.textDisabled : undefined}
+              />
+              {templates.map((template) => (
+                <Picker.Item
+                  key={template.value}
+                  label={template.label}
+                  value={template.value}
+                />
+              ))}
+            </Picker>
+            <Text style={styles.templateHint}>
+              💡 {t('addProject.templateChangeHint')}
+            </Text>
+          </View>
+
+          {/* Selected Times */}
+          <View style={styles.selectedTimesSection}>
+            <Text style={styles.selectedTimesLabel}>
+              {t('addProject.reminderTime')}
+              <Text style={styles.timesCount}>
+                {t('addProject.timesCount', { count: reminderTimes.length })}
+              </Text>
+            </Text>
+
+            {reminderTimes.length === 0 ? (
+              <View style={styles.emptyTimesContainer}>
+                <Text style={styles.emptyTimesText}>
+                  {t('addProject.noTimeSelectedHint')}
+                </Text>
+              </View>
+            ) : (
               <View style={styles.selectedTimesList}>
                 {reminderTimes.map((time) => (
                   <TouchableOpacity
@@ -338,66 +391,25 @@ export const AddProjectScreen: React.FC = () => {
                   </TouchableOpacity>
                 ))}
               </View>
-            </View>
-          )}
-
-          {/* 快捷时间 */}
-          <View style={styles.quickTimesGrid}>
-            {quickTimes.map((item) => (
-              <TouchableOpacity
-                key={item.time}
-                style={[
-                  styles.quickTimeChip,
-                  reminderTimes.includes(item.time) && styles.quickTimeChipSelected,
-                ]}
-                onPress={() => handleAddQuickTime(item.time)}
-              >
-                <Text
-                  style={[
-                    styles.quickTimeChipText,
-                    reminderTimes.includes(item.time) && styles.quickTimeChipTextSelected,
-                  ]}
-                >
-                  {item.time}
-                </Text>
-              </TouchableOpacity>
-            ))}
-            {/* 自定义时间按钮 */}
-            <TouchableOpacity
-              style={styles.customTimeChip}
-              onPress={() => {
-                if (Platform.OS === 'ios') {
-                  setShowTimeModal(true);
-                } else {
-                  setShowTimePicker(true);
-                }
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.customTimeChipText}>+ {t('addProject.customTimeShort')}</Text>
-            </TouchableOpacity>
+            )}
           </View>
 
-          {/* 时间模板 */}
-          <Text style={styles.sectionLabel}>{t('addProject.templates')}</Text>
-          <View style={styles.templatesContainer}>
-            {timeTemplates.map((template, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.templateCard}
-                onPress={() => handleUseTemplate(template.times)}
-              >
-                <Text style={styles.templateLabel}>{template.label}</Text>
-                <View style={styles.templateTimesRow}>
-                  {template.times.map((time, idx) => (
-                    <View key={idx} style={styles.templateTimeChip}>
-                      <Text style={styles.templateTimeText}>{time}</Text>
-                    </View>
-                  ))}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+          {/* Add Custom Time Button */}
+          <TouchableOpacity
+            style={styles.customTimeButton}
+            onPress={() => {
+              if (Platform.OS === 'ios') {
+                setShowTimeModal(true);
+              } else {
+                setShowTimePicker(true);
+              }
+            }}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.customTimeButtonText}>
+              + {t('addProject.customTimeShort')}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Android 时间选择器 */}
@@ -443,10 +455,17 @@ export const AddProjectScreen: React.FC = () => {
           </Modal>
         )}
 
+        {reminderTimes.length === 0 && (
+          <Text style={styles.validationError}>
+            {t('addProject.timeRequiredError')}
+          </Text>
+        )}
+
         <LargeButton
           title={t('addProject.saveProject')}
           onPress={handleSubmit}
           loading={submitting}
+          disabled={reminderTimes.length === 0}
           style={styles.submitButton}
         />
       </ScrollView>
@@ -586,9 +605,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'left',
   },
-  selectedTimesContainer: {
-    marginBottom: 12,
-  },
   selectedTimesList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -613,86 +629,62 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  quickTimesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    marginBottom: 16,
+  templateDropdownContainer: {
+    marginBottom: 12,
   },
-  quickTimeChip: {
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-  },
-  quickTimeChipSelected: {
-    backgroundColor: Colors.success,
-    borderColor: Colors.success,
-  },
-  quickTimeChipText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: Colors.textPrimary,
-  },
-  quickTimeChipTextSelected: {
-    color: '#FFFFFF',
-  },
-  customTimeChip: {
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    borderStyle: 'dashed',
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-  },
-  customTimeChipText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: Colors.primary,
-  },
-  sectionLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginTop: 4,
-    marginBottom: 10,
-  },
-  templatesContainer: {
-    gap: 8,
-    marginBottom: 14,
-  },
-  templateCard: {
+  templatePicker: {
     backgroundColor: Colors.cardBackground,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 12,
-    paddingHorizontal: 14,
   },
-  templateLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textPrimary,
+  templateHint: {
+    fontSize: 12,
+    color: Colors.textDisabled,
+    marginTop: 6,
+  },
+  selectedTimesSection: {
+    marginBottom: 12,
+  },
+  selectedTimesLabel: {
+    fontSize: 13,
+    color: Colors.textDisabled,
     marginBottom: 8,
   },
-  templateTimesRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
+  timesCount: {
+    fontWeight: '600',
+    color: Colors.primary,
   },
-  templateTimeChip: {
-    backgroundColor: Colors.background,
-    borderRadius: 10,
-    paddingVertical: 3,
-    paddingHorizontal: 8,
+  emptyTimesContainer: {
+    minHeight: 48,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: Colors.border,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#fafafa',
   },
-  templateTimeText: {
-    fontSize: 12,
-    color: Colors.textSecondary,
+  emptyTimesText: {
+    fontSize: 13,
+    color: Colors.textDisabled,
+    fontStyle: 'italic',
+  },
+  customTimeButton: {
+    width: '100%',
+    padding: 12,
+    backgroundColor: Colors.cardBackground,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: Colors.primary,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  customTimeButtonText: {
+    fontSize: 14,
     fontWeight: '500',
+    color: Colors.primary,
   },
   modalOverlay: {
     flex: 1,
@@ -729,6 +721,12 @@ const styles = StyleSheet.create({
   },
   timePicker: {
     height: 200,
+  },
+  validationError: {
+    fontSize: 12,
+    color: Colors.error,
+    textAlign: 'center',
+    marginBottom: 8,
   },
   submitButton: {
     marginTop: 16,
