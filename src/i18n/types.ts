@@ -18,6 +18,8 @@ export interface Translations {
     greetingEmpty: string;
     emptyState: string;
     emptyHint: string;
+    showAll: string;
+    hideCompleted: string;
   };
   settings: {
     title: string;
@@ -35,6 +37,11 @@ export interface Translations {
     rehabilitation: string;
     medication: string;
     healthCheck: string;
+    completed: string;
+    notCompleted: string;
+    markCompleted: string;
+    markIncomplete: string;
+    completionStats: string;
   };
   presets: {
     fistExercise: {
@@ -138,8 +145,10 @@ export interface Translations {
     saveProject: string;
     success: string;
     projectAdded: string;
+    projectUpdated: string;
     error: string;
     addFailed: string;
+    updateFailed: string;
     nameRequired: string;
     nameTooLong: string;
     descriptionTooLong: string;
@@ -161,6 +170,7 @@ export interface Translations {
   manageProjects: {
     title: string;
     noProjects: string;
+    edit: string;
     confirmDelete: string;
     confirmDeleteMessage: string;
     deleteSuccess: string;

@@ -14,10 +14,12 @@ export const en: Translations = {
     settings: 'Settings',
   },
   home: {
-    greeting: 'Hello! You have {{count}} reminder projects',
-    greetingEmpty: 'Welcome to Reminder Assistant!',
-    emptyState: 'No reminder projects yet',
-    emptyHint: 'Tap "Settings" below to add projects',
+    greeting: 'You have {{count}} reminder projects today',
+    greetingEmpty: 'No reminder projects today',
+    emptyState: 'No projects added yet',
+    emptyHint: 'Go to Settings → Manage Projects to add one',
+    showAll: 'Show All',
+    hideCompleted: 'Hide Completed',
   },
   settings: {
     title: 'Project Management',
@@ -35,6 +37,11 @@ export const en: Translations = {
     rehabilitation: 'Rehabilitation',
     medication: 'Medication',
     healthCheck: 'Health Check',
+    completed: 'Completed',
+    notCompleted: 'Not Completed',
+    markCompleted: 'Mark Completed',
+    markIncomplete: 'Mark Incomplete',
+    completionStats: 'Completed {{thisWeek}}/Week · {{total}}/Total',
   },
   presets: {
     fistExercise: {
