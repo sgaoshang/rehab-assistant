@@ -3,36 +3,42 @@ import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert } f
 import { useApp } from '../context/AppContext';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
+import { useTranslation } from '../i18n';
 
 export const ManageProjectsScreen: React.FC = () => {
   const { state, toggleProjectEnabled, deleteProject } = useApp();
+  const { t } = useTranslation();
 
   const handleDelete = (id: string, name: string) => {
-    Alert.alert('确认删除', `确定要删除"${name}"吗？`, [
-      {
-        text: '取消',
-        style: 'cancel',
-      },
-      {
-        text: '删除',
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            await deleteProject(id);
-            Alert.alert('成功', '项目已删除');
-          } catch (error) {
-            Alert.alert('错误', '删除失败，请重试');
-          }
+    Alert.alert(
+      t('manageProjects.confirmDelete'),
+      t('manageProjects.confirmDeleteMessage', { name }),
+      [
+        {
+          text: t('common.cancel'),
+          style: 'cancel',
         },
-      },
-    ]);
+        {
+          text: t('common.delete'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteProject(id);
+              Alert.alert(t('manageProjects.deleteSuccess'), t('manageProjects.projectDeleted'));
+            } catch (error) {
+              Alert.alert(t('addProject.error'), t('manageProjects.deleteFailed'));
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
         {state.projects.length === 0 ? (
-          <Text style={[CommonStyles.body, styles.emptyText]}>还没有项目</Text>
+          <Text style={[CommonStyles.body, styles.emptyText]}>{t('manageProjects.noProjects')}</Text>
         ) : (
           state.projects.map((project) => (
             <View key={project.id} style={styles.projectItem}>
@@ -43,7 +49,7 @@ export const ManageProjectsScreen: React.FC = () => {
                 </Text>
                 {project.reminderTimes.length > 0 && (
                   <Text style={styles.reminderText}>
-                    提醒时间: {project.reminderTimes.join(', ')}
+                    {t('projects.reminderTimes')}: {project.reminderTimes.join(', ')}
                   </Text>
                 )}
               </View>
@@ -57,7 +63,7 @@ export const ManageProjectsScreen: React.FC = () => {
                   style={styles.deleteButton}
                   onPress={() => handleDelete(project.id, project.name)}
                 >
-                  <Text style={styles.deleteText}>删除</Text>
+                  <Text style={styles.deleteText}>{t('common.delete')}</Text>
                 </TouchableOpacity>
               </View>
             </View>
