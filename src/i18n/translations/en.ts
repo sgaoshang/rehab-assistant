@@ -170,6 +170,10 @@ export const en: Translations = {
     twiceDailyMorningEvening: 'Twice Daily (Morning & Evening)',
     onceDailyMorning: 'Once Daily (Morning)',
     onceDailyEvening: 'Once Daily (Evening)',
+    timelineInstruction: 'Tap timeline to add time, drag marker to adjust, tap marker to delete',
+    timeDuplicate: 'Time already exists',
+    timeLimit: 'Maximum 8 reminder times',
+    noTimeSelected: 'No time selected',
   },
   manageProjects: {
     title: 'Manage Projects',

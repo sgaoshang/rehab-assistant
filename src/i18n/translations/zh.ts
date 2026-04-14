@@ -170,6 +170,10 @@ export const zh: Translations = {
     twiceDailyMorningEvening: '早晚各一次',
     onceDailyMorning: '一日一次(早)',
     onceDailyEvening: '一日一次(晚)',
+    timelineInstruction: '点击时间轴添加提醒时间，拖动圆点调整，点击圆点删除',
+    timeDuplicate: '该时间已存在',
+    timeLimit: '最多添加8个提醒时间',
+    noTimeSelected: '未选择时间',
   },
   manageProjects: {
     title: '管理项目',
