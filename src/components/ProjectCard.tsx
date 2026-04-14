@@ -33,37 +33,56 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   };
 
   return (
-    <View style={CommonStyles.card}>
+    <View style={[
+      CommonStyles.card,
+      {
+        borderLeftWidth: 4,
+        borderLeftColor: completed ? Colors.success : Colors.border,
+        padding: 14,
+        paddingHorizontal: 16,
+        marginVertical: 4,
+        borderRadius: 8,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.08,
+        shadowRadius: 3,
+      }
+    ]}>
       <TouchableOpacity
         onPress={() => setIsExpanded(!isExpanded)}
         activeOpacity={0.7}
       >
         <View style={styles.header}>
+          {/* Completion button - left side */}
+          <TouchableOpacity
+            style={[styles.completionButton, completed && styles.completionButtonActive]}
+            onPress={handleToggleCompletion}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.completionIcon, completed && styles.completionIconActive]}>
+              ✓
+            </Text>
+          </TouchableOpacity>
+
+          {/* Content area - middle */}
           <View style={styles.content}>
-            <Text style={CommonStyles.title}>{displayName}</Text>
-            {project.reminderTimes.length > 0 && (
-              <Text style={styles.reminderText}>
-                ⏰ {project.reminderTimes.join(', ')}
+            <Text style={styles.projectName}>{displayName}</Text>
+            <View style={styles.infoRow}>
+              <Text style={styles.timeText}>
+                {project.reminderTimes.join(' · ')}
               </Text>
-            )}
-            {stats.total > 0 && (
-              <Text style={styles.statsText}>
-                {t('projects.completionStats', { thisWeek: stats.thisWeek, total: stats.total })}
-              </Text>
-            )}
+              {stats.total > 0 && (
+                <>
+                  <Text style={styles.separator}>•</Text>
+                  <Text style={styles.statsText}>
+                    本周{stats.thisWeek} 总计{stats.total}
+                  </Text>
+                </>
+              )}
+            </View>
           </View>
-          <View style={styles.actions}>
-            <TouchableOpacity
-              style={[styles.completionButton, completed && styles.completionButtonActive]}
-              onPress={handleToggleCompletion}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.completionIcon, completed && styles.completionIconActive]}>
-                ✓
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.expandIcon}>{isExpanded ? '▲' : '▼'}</Text>
-          </View>
+
+          {/* Expand icon - right side */}
+          <Text style={styles.expandIcon}>{isExpanded ? '▲' : '▼'}</Text>
         </View>
 
         {isExpanded && (
@@ -80,43 +99,54 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 12,
   },
   content: {
     flex: 1,
+    minWidth: 0,
   },
-  reminderText: {
-    fontSize: 16,
-    color: Colors.primary,
-    marginTop: 8,
+  projectName: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: Colors.textPrimary,
   },
-  statsText: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    marginTop: 4,
-  },
-  actions: {
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
+    marginTop: 4,
+  },
+  timeText: {
+    fontSize: 13,
+    color: Colors.primary,
+  },
+  separator: {
+    fontSize: 13,
+    color: Colors.textDisabled,
+  },
+  statsText: {
+    fontSize: 13,
+    color: Colors.success,
+    fontWeight: '500',
   },
   completionButton: {
     width: 32,
     height: 32,
-    borderRadius: 16,
+    borderRadius: 6,
     borderWidth: 2,
     borderColor: Colors.border,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
+    flexShrink: 0,
   },
   completionButtonActive: {
-    borderColor: Colors.success,
+    borderWidth: 0,
     backgroundColor: Colors.success,
   },
   completionIcon: {
-    fontSize: 18,
+    fontSize: 16,
     color: Colors.border,
     fontWeight: 'bold',
   },
@@ -124,9 +154,9 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   expandIcon: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.textSecondary,
-    marginLeft: 4,
+    flexShrink: 0,
   },
   descriptionContainer: {
     marginTop: 12,
