@@ -125,7 +125,7 @@ export const en: Translations = {
   },
   addProject: {
     title: 'Add Project',
-    selectPreset: 'Select Preset Project',
+    selectPreset: 'Preset Project',
     selectPresetDesc: 'Choose from preset rehabilitation projects',
     customProject: 'Custom Project',
     customProjectDesc: 'Create a custom project',

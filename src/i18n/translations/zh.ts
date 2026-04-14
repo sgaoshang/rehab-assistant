@@ -125,7 +125,7 @@ export const zh: Translations = {
   },
   addProject: {
     title: '添加项目',
-    selectPreset: '选择预设项目',
+    selectPreset: '预设项目',
     selectPresetDesc: '选择预设的康复项目',
     customProject: '自定义项目',
     customProjectDesc: '创建自定义项目',
