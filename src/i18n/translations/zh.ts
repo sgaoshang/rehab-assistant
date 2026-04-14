@@ -1,0 +1,137 @@
+import { Translations } from '../types';
+
+export const zh: Translations = {
+  common: {
+    confirm: '确认',
+    cancel: '取消',
+    save: '保存',
+    delete: '删除',
+    edit: '编辑',
+    back: '返回',
+  },
+  tabs: {
+    home: '首页',
+    settings: '设置',
+  },
+  home: {
+    greeting: '您好！当前有{{count}}个提醒项目',
+    greetingEmpty: '欢迎使用提醒助手！',
+    emptyState: '还没有提醒项目',
+    emptyHint: '点击下方"设置"添加提醒项目',
+  },
+  settings: {
+    title: '项目管理',
+    addProject: '+ 添加项目',
+    manageProjects: '管理我的项目',
+    languageSettings: '语言设置',
+    language: '语言',
+    developerInfo: '开发者信息',
+    version: '提醒助手 v1.0.0',
+  },
+  projects: {
+    reminderTimes: '提醒时间',
+    enabled: '已启用',
+    disabled: '已禁用',
+    rehabilitation: '康复训练',
+    medication: '用药提醒',
+    healthCheck: '健康测量',
+  },
+  presets: {
+    fistExercise: {
+      name: '握拳练习',
+      description: '缓慢握拳再放松，重复10-15次',
+    },
+    fingerStretch: {
+      name: '手指伸展',
+      description: '伸展手指，保持5秒，重复10次',
+    },
+    armRaise: {
+      name: '抬臂运动',
+      description: '双臂缓慢向上抬起，保持3秒后放下',
+    },
+    shoulderRotation: {
+      name: '肩关节旋转',
+      description: '肩部画圈转动，顺时针和逆时针各5次',
+    },
+    ankleExercise: {
+      name: '踝关节运动',
+      description: '脚踝上下活动，左右各10次',
+    },
+    kneeFlexion: {
+      name: '膝关节屈伸',
+      description: '坐姿屈伸膝盖，重复10-15次',
+    },
+    marchingInPlace: {
+      name: '原地踏步',
+      description: '原地抬腿踏步，每次持续1-2分钟',
+    },
+    neckRotation: {
+      name: '颈部转动',
+      description: '缓慢转动头部，左右各5次',
+    },
+    deepBreathing: {
+      name: '深呼吸练习',
+      description: '深吸气保持3秒，缓慢呼气',
+    },
+    balanceTraining: {
+      name: '平衡训练',
+      description: '单腿站立保持平衡，每侧30秒',
+    },
+    bloodPressureMed: {
+      name: '降压药',
+      description: '按医嘱服用降压药物',
+    },
+    diabetesMed: {
+      name: '降糖药',
+      description: '按医嘱服用降糖药物',
+    },
+    vitaminSupplement: {
+      name: '维生素补充',
+      description: '服用维生素补充剂',
+    },
+    calciumSupplement: {
+      name: '钙片补充',
+      description: '服用钙片',
+    },
+    checkBloodPressure: {
+      name: '测量血压',
+      description: '使用血压计测量并记录',
+    },
+    checkBloodSugar: {
+      name: '测量血糖',
+      description: '使用血糖仪测量并记录',
+    },
+    drinkWater: {
+      name: '喝水提醒',
+      description: '喝一杯水（约200ml）',
+    },
+    afternoonNap: {
+      name: '午休提醒',
+      description: '午休30-60分钟',
+    },
+  },
+  speech: {
+    todayProjectsIntro: '今天有{{count}}个提醒项目',
+    projectReminder: '{{name}}，提醒时间：{{times}}',
+    noProjects: '今天没有提醒项目',
+  },
+  addProject: {
+    title: '添加项目',
+    selectPreset: '选择预设项目',
+    customProject: '自定义项目',
+    projectName: '项目名称',
+    projectNamePlaceholder: '输入项目名称',
+    projectDescription: '项目说明',
+    projectDescriptionPlaceholder: '输入项目说明',
+    addReminderTime: '+ 添加提醒时间',
+    selectTime: '选择时间',
+  },
+  manageProjects: {
+    title: '管理项目',
+    noProjects: '暂无项目',
+  },
+  notifications: {
+    title: '提醒通知',
+    body: '{{name}} - 是时候了！',
+  },
+};
