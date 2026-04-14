@@ -355,27 +355,6 @@ export const AddProjectScreen: React.FC = () => {
               </View>
             </View>
           )}
-
-          {/* 时间模板 */}
-          <Text style={styles.sectionLabel}>{t('addProject.templates')}</Text>
-          <View style={styles.templatesContainer}>
-            {timeTemplates.map((template, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.templateCard}
-                onPress={() => handleUseTemplate(template.times)}
-              >
-                <Text style={styles.templateLabel}>{template.label}</Text>
-                <View style={styles.templateTimesRow}>
-                  {template.times.map((time, idx) => (
-                    <View key={idx} style={styles.templateTimeChip}>
-                      <Text style={styles.templateTimeText}>{time}</Text>
-                    </View>
-                  ))}
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
         </View>
 
         {/* Android 时间选择器 */}
