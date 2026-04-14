@@ -34,7 +34,7 @@ export const SettingsScreen: React.FC = () => {
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
         <View style={styles.section}>
-          <Text style={CommonStyles.title}>{t('settings.title')}</Text>
+          <Text style={styles.sectionTitle}>{t('settings.title')}</Text>
           <LargeButton
             title={t('settings.addProject')}
             onPress={() => navigation.navigate('AddProject' as never)}
@@ -50,7 +50,7 @@ export const SettingsScreen: React.FC = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={CommonStyles.title}>{t('settings.languageSettings')}</Text>
+          <Text style={styles.sectionTitle}>{t('settings.languageSettings')}</Text>
           <View style={styles.languageSelector}>
             <Text style={styles.languageLabel}>{t('settings.language')}</Text>
             <View style={styles.languageButtons}>
@@ -96,36 +96,47 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   section: {
-    marginBottom: 32,
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    marginBottom: 12,
   },
   button: {
     marginTop: 12,
   },
   languageSelector: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 12,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderRadius: 8,
+    padding: 14,
+    paddingHorizontal: 16,
+    marginTop: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
   },
   languageLabel: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: Colors.textPrimary,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   languageButtons: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
   },
   languageButton: {
     flex: 1,
     backgroundColor: Colors.background,
-    borderRadius: 8,
+    borderRadius: 6,
     borderWidth: 2,
     borderColor: Colors.border,
-    padding: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     alignItems: 'center',
   },
   languageButtonActive: {
@@ -133,7 +144,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
   },
   languageButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textPrimary,
   },
@@ -142,12 +153,12 @@ const styles = StyleSheet.create({
   },
   footer: {
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 40,
+    marginTop: 16,
+    marginBottom: 32,
   },
   developerInfo: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 20,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderTopColor: Colors.border,
@@ -155,19 +166,19 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   developerTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textSecondary,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   developerText: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.textSecondary,
-    marginBottom: 6,
+    marginBottom: 5,
   },
   version: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.textDisabled,
-    marginTop: 20,
+    marginTop: 16,
   },
 });
