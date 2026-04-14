@@ -25,6 +25,9 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
 }) => {
   const { t } = useTranslation();
   const [trackWidth, setTrackWidth] = useState(0);
+  const [draggingTime, setDraggingTime] = useState<string | null>(null);
+  const [dragStartX, setDragStartX] = useState(0);
+  const dragOffsetAnim = useRef(new Animated.Value(0)).current;
 
   const handleTrackPress = (e: any) => {
     const touchX = e.nativeEvent.locationX;
@@ -58,6 +61,67 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
     // Add and sort times
     const newTimes = [...selectedTimes, newTime].sort();
     onTimesChange(newTimes);
+  };
+
+  const createMarkerPanResponder = (time: string) => {
+    return PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        // Only start drag if moved more than 5px horizontally
+        return Math.abs(gestureState.dx) > 5;
+      },
+      onPanResponderGrant: (e, gestureState) => {
+        setDraggingTime(time);
+        setDragStartX(gestureState.x0);
+        dragOffsetAnim.setValue(0);
+      },
+      onPanResponderMove: (e, gestureState) => {
+        dragOffsetAnim.setValue(gestureState.dx);
+      },
+      onPanResponderRelease: (e, gestureState) => {
+        // If movement < 5px, treat as tap (delete)
+        if (Math.abs(gestureState.dx) < 5) {
+          handleDeleteTime(time);
+          setDraggingTime(null);
+          dragOffsetAnim.setValue(0);
+          return;
+        }
+
+        // Calculate new position
+        const trackStart = trackWidth * 0.1;
+        const trackEnd = trackWidth * 0.9;
+        const effectiveWidth = trackEnd - trackStart;
+
+        const currentPosition = timeToPosition(time, effectiveWidth);
+        const newPosition = currentPosition + gestureState.dx;
+
+        // Constrain to bounds
+        const constrainedPosition = Math.max(0, Math.min(effectiveWidth, newPosition));
+
+        // Convert to time
+        const newTime = positionToTime(constrainedPosition, effectiveWidth);
+
+        // Check for duplicate
+        const otherTimes = selectedTimes.filter((t) => t !== time);
+        if (otherTimes.includes(newTime)) {
+          Alert.alert('', t('addProject.timeDuplicate'));
+          setDraggingTime(null);
+          dragOffsetAnim.setValue(0);
+          return;
+        }
+
+        // Update time
+        const newTimes = [...otherTimes, newTime].sort();
+        onTimesChange(newTimes);
+
+        setDraggingTime(null);
+        dragOffsetAnim.setValue(0);
+      },
+    });
+  };
+
+  const handleDeleteTime = (time: string) => {
+    onTimesChange(selectedTimes.filter((t) => t !== time));
   };
 
   return (
@@ -102,18 +166,34 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
 
           {/* Time markers - rendered on top of track */}
           {selectedTimes.map((time) => {
-            const position = timeToPosition(time, trackWidth);
+            const trackStart = trackWidth * 0.1;
+            const trackEnd = trackWidth * 0.9;
+            const effectiveWidth = trackEnd - trackStart;
+            const position = timeToPosition(time, effectiveWidth) + trackStart;
+
+            const isDragging = draggingTime === time;
+            const panResponder = createMarkerPanResponder(time);
+
             return (
-              <View
+              <Animated.View
                 key={time}
+                {...panResponder.panHandlers}
                 style={[
                   styles.marker,
-                  { left: position },
+                  {
+                    left: isDragging
+                      ? position
+                      : position,
+                    transform: [
+                      { translateX: isDragging ? dragOffsetAnim : 0 },
+                      { translateY: -10 },
+                    ],
+                  },
                 ]}
               >
                 <Text style={styles.markerLabel}>{time}</Text>
                 <View style={styles.markerCircle} />
-              </View>
+              </Animated.View>
             );
           })}
         </View>
