@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from 'react-native';
+import * as Notifications from 'expo-notifications';
 
 import { HomeScreen } from '../screens/HomeScreen';
 import { CheckInScreen } from '../screens/CheckInScreen';
@@ -109,8 +110,26 @@ function MainTabs() {
 }
 
 export default function AppNavigator() {
+  const navigationRef = useRef<any>();
+
+  useEffect(() => {
+    // 监听通知点击事件
+    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+      const exerciseId = response.notification.request.content.data?.exerciseId;
+
+      if (exerciseId && navigationRef.current) {
+        // 导航到打卡页面（不传exercise参数，让用户从列表选择）
+        navigationRef.current.navigate('MainTabs', {
+          screen: 'CheckIn',
+        });
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
+
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {

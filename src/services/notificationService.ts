@@ -74,14 +74,14 @@ export const scheduleExerciseNotifications = async (exercise: Exercise): Promise
 
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: '该做训练了',
-          body: exercise.name,
-          subtitle: exercise.description.substring(0, 30),
+          title: `⏰ ${timeString} 该做训练了`,
+          body: `${exercise.name} - ${exercise.description.substring(0, 40) || '点击查看详情'}`,
           sound: true,
           priority: Notifications.AndroidNotificationPriority.HIGH,
           data: {
             exerciseId: exercise.id,
             exerciseName: exercise.name,
+            screen: 'CheckIn',
           },
         },
         trigger: {
@@ -149,11 +149,20 @@ export const rescheduleAllNotifications = async (exercises: Exercise[]): Promise
  */
 export const sendTestNotification = async (): Promise<void> => {
   try {
+    const now = new Date();
+    const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: '测试通知',
-        body: '通知功能正常！',
+        title: `⏰ ${timeString} 该做训练了`,
+        body: '测试训练 - 这是一条测试通知，点击可打开应用',
         sound: true,
+        priority: Notifications.AndroidNotificationPriority.HIGH,
+        data: {
+          exerciseId: 'test',
+          exerciseName: '测试训练',
+          screen: 'CheckIn',
+        },
       },
       trigger: {
         type: SchedulableTriggerInputTypes.TIME_INTERVAL,
