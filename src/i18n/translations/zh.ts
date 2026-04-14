@@ -25,7 +25,7 @@ export const zh: Translations = {
   settings: {
     title: '项目管理',
     addProject: '添加项目',
-    manageProjects: '管理我的项目',
+    manageProjects: '管理项目',
     languageSettings: '语言设置',
     language: '语言',
     developerInfo: '开发者信息',
@@ -129,6 +129,7 @@ export const zh: Translations = {
     selectPresetDesc: '选择预设的康复项目',
     customProject: '自定义项目',
     customProjectDesc: '创建自定义项目',
+    customTimeShort: '自定义',
     choosePreset: '选择预设项目',
     projectInfo: '项目信息',
     projectName: '项目名称',

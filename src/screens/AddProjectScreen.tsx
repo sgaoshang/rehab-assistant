@@ -323,10 +323,9 @@ export const AddProjectScreen: React.FC = () => {
           <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
           <Text style={[styles.hint, styles.hintTop]}>{t('addProject.reminderTimeHint')}</Text>
 
-          {/* 已添加的时间 */}
+          {/* 已选时间 */}
           {reminderTimes.length > 0 && (
             <View style={styles.selectedTimesContainer}>
-              <Text style={styles.selectedTimesLabel}>{t('addProject.selectedCount', { count: reminderTimes.length })}</Text>
               <View style={styles.selectedTimesList}>
                 {reminderTimes.map((time) => (
                   <TouchableOpacity
@@ -342,36 +341,41 @@ export const AddProjectScreen: React.FC = () => {
             </View>
           )}
 
-          {/* 快捷时间按钮 */}
-          <Text style={styles.sectionLabel}>{t('addProject.quickTimes')}</Text>
+          {/* 快捷时间 */}
           <View style={styles.quickTimesGrid}>
             {quickTimes.map((item) => (
               <TouchableOpacity
                 key={item.time}
                 style={[
-                  styles.quickTimeButton,
-                  reminderTimes.includes(item.time) && styles.quickTimeButtonSelected,
+                  styles.quickTimeChip,
+                  reminderTimes.includes(item.time) && styles.quickTimeChipSelected,
                 ]}
                 onPress={() => handleAddQuickTime(item.time)}
               >
                 <Text
                   style={[
-                    styles.quickTimeLabel,
-                    reminderTimes.includes(item.time) && styles.quickTimeLabelSelected,
-                  ]}
-                >
-                  {item.label}
-                </Text>
-                <Text
-                  style={[
-                    styles.quickTimeValue,
-                    reminderTimes.includes(item.time) && styles.quickTimeValueSelected,
+                    styles.quickTimeChipText,
+                    reminderTimes.includes(item.time) && styles.quickTimeChipTextSelected,
                   ]}
                 >
                   {item.time}
                 </Text>
               </TouchableOpacity>
             ))}
+            {/* 自定义时间按钮 */}
+            <TouchableOpacity
+              style={styles.customTimeChip}
+              onPress={() => {
+                if (Platform.OS === 'ios') {
+                  setShowTimeModal(true);
+                } else {
+                  setShowTimePicker(true);
+                }
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.customTimeChipText}>+ {t('addProject.customTimeShort')}</Text>
+            </TouchableOpacity>
           </View>
 
           {/* 时间模板 */}
@@ -380,29 +384,20 @@ export const AddProjectScreen: React.FC = () => {
             {timeTemplates.map((template, index) => (
               <TouchableOpacity
                 key={index}
-                style={styles.templateButton}
+                style={styles.templateCard}
                 onPress={() => handleUseTemplate(template.times)}
               >
                 <Text style={styles.templateLabel}>{template.label}</Text>
-                <Text style={styles.templateTimes}>{template.times.join(' ')}</Text>
+                <View style={styles.templateTimesRow}>
+                  {template.times.map((time, idx) => (
+                    <View key={idx} style={styles.templateTimeChip}>
+                      <Text style={styles.templateTimeText}>{time}</Text>
+                    </View>
+                  ))}
+                </View>
               </TouchableOpacity>
             ))}
           </View>
-
-          {/* 自定义时间 */}
-          <TouchableOpacity
-            style={styles.addTimeButton}
-            onPress={() => {
-              if (Platform.OS === 'ios') {
-                setShowTimeModal(true);
-              } else {
-                setShowTimePicker(true);
-              }
-            }}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.addTimeButtonText}>+ {t('addProject.customTime')}</Text>
-          </TouchableOpacity>
         </View>
 
         {/* Android 时间选择器 */}
@@ -592,13 +587,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   selectedTimesContainer: {
-    marginBottom: 14,
-  },
-  selectedTimesLabel: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginBottom: 8,
+    marginBottom: 12,
   },
   selectedTimesList: {
     flexDirection: 'row',
@@ -609,100 +598,101 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.primary,
-    borderRadius: 14,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    marginRight: 8,
-    marginBottom: 8,
+    borderRadius: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
   selectedTimeText: {
     fontSize: 13,
     color: '#FFFFFF',
     marginRight: 4,
+    fontWeight: '500',
   },
   removeChipIcon: {
-    fontSize: 17,
+    fontSize: 16,
     color: '#FFFFFF',
     fontWeight: 'bold',
-  },
-  sectionLabel: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-    marginTop: 8,
-    marginBottom: 10,
   },
   quickTimesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    gap: 6,
+    marginBottom: 16,
+  },
+  quickTimeChip: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  quickTimeChipSelected: {
+    backgroundColor: Colors.success,
+    borderColor: Colors.success,
+  },
+  quickTimeChipText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: Colors.textPrimary,
+  },
+  quickTimeChipTextSelected: {
+    color: '#FFFFFF',
+  },
+  customTimeChip: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderStyle: 'dashed',
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  customTimeChipText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: Colors.primary,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    marginTop: 4,
+    marginBottom: 10,
+  },
+  templatesContainer: {
     gap: 8,
     marginBottom: 14,
   },
-  quickTimeButton: {
+  templateCard: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 6,
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 9,
-    paddingHorizontal: 12,
-    minWidth: 82,
-    alignItems: 'center',
-  },
-  quickTimeButtonSelected: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
-  },
-  quickTimeLabel: {
-    fontSize: 13,
-    color: Colors.textSecondary,
-    marginBottom: 3,
-  },
-  quickTimeLabelSelected: {
-    color: '#FFFFFF',
-  },
-  quickTimeValue: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.textPrimary,
-  },
-  quickTimeValueSelected: {
-    color: '#FFFFFF',
-  },
-  templatesContainer: {
-    marginBottom: 14,
-  },
-  templateButton: {
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    padding: 10,
-    paddingHorizontal: 12,
-    marginBottom: 8,
+    padding: 12,
+    paddingHorizontal: 14,
   },
   templateLabel: {
     fontSize: 14,
     fontWeight: '600',
     color: Colors.textPrimary,
-    marginBottom: 3,
+    marginBottom: 8,
   },
-  templateTimes: {
+  templateTimesRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  templateTimeChip: {
+    backgroundColor: Colors.background,
+    borderRadius: 10,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+  },
+  templateTimeText: {
     fontSize: 12,
     color: Colors.textSecondary,
-  },
-  addTimeButton: {
-    marginTop: 8,
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    paddingVertical: 11,
-    alignItems: 'center',
-  },
-  addTimeButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.primary,
+    fontWeight: '500',
   },
   modalOverlay: {
     flex: 1,

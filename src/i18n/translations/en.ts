@@ -25,7 +25,7 @@ export const en: Translations = {
   settings: {
     title: 'Project Management',
     addProject: 'Add Project',
-    manageProjects: 'Manage My Projects',
+    manageProjects: 'Manage Projects',
     languageSettings: 'Language Settings',
     language: 'Language',
     developerInfo: 'Developer Info',
@@ -129,6 +129,7 @@ export const en: Translations = {
     selectPresetDesc: 'Choose from preset rehabilitation projects',
     customProject: 'Custom Project',
     customProjectDesc: 'Create a custom project',
+    customTimeShort: 'Custom',
     choosePreset: 'Choose Preset Project',
     projectInfo: 'Project Information',
     projectName: 'Project Name',

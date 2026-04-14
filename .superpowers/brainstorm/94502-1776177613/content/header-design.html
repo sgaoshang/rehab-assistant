@@ -1,0 +1,170 @@
+<h2>首页头部设计</h2>
+<p class="subtitle">头部包含日期、项目统计和过滤开关。如何组织这些信息既清晰又不占用太多空间？</p>
+
+<div class="options">
+  <div class="option" data-choice="card-header" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>卡片式头部</h3>
+      <p style="color: #7f8c8d; font-size: 14px;">所有信息集中在一个卡片中</p>
+      <div class="mockup" style="margin: 16px 0;">
+        <div class="mockup-body" style="background: #F8F9FA; padding: 16px;">
+          <div style="background: white; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div>
+                <div style="font-size: 20px; font-weight: 600; color: #2c3e50;">2026年4月14日</div>
+                <div style="font-size: 14px; color: #7f8c8d; margin-top: 4px;">今天有 5 个提醒项目 · 已完成 3 个</div>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #E8EAED; padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 14px; color: #4A90E2; font-weight: 500;">隐藏已完成</div>
+              <div style="width: 44px; height: 24px; background: #4A90E2; border-radius: 12px; position: relative;">
+                <div style="width: 20px; height: 20px; background: white; border-radius: 10px; position: absolute; right: 2px; top: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 示例项目卡片 -->
+          <div style="background: white; border-radius: 8px; padding: 14px 16px; border-left: 4px solid #10B981; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 6px; background: #10B981; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: bold;">✓</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 17px; color: #2c3e50;">握拳练习</div>
+                <div style="font-size: 13px; color: #95a5a6; margin-top: 2px;">08:00 · 12:00 · 18:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>信息集中，一目了然</li>
+            <li>统计信息突出显示</li>
+            <li>整体感强</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>占用空间较多</li>
+            <li>有些"重"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="split-header" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>分离式头部</h3>
+      <p style="color: #7f8c8d; font-size: 14px;">日期和过滤器分开，更轻量</p>
+      <div class="mockup" style="margin: 16px 0;">
+        <div class="mockup-body" style="background: #F8F9FA; padding: 16px;">
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 20px; font-weight: 600; color: #2c3e50; margin-bottom: 4px;">2026年4月14日</div>
+            <div style="font-size: 14px; color: #7f8c8d;">今天有 5 个提醒项目 · 已完成 3 个</div>
+          </div>
+
+          <div style="background: white; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+            <div style="font-size: 14px; color: #4A90E2; font-weight: 500;">隐藏已完成</div>
+            <div style="width: 44px; height: 24px; background: #4A90E2; border-radius: 12px; position: relative;">
+              <div style="width: 20px; height: 20px; background: white; border-radius: 10px; position: absolute; right: 2px; top: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></div>
+            </div>
+          </div>
+
+          <!-- 示例项目卡片 -->
+          <div style="background: white; border-radius: 8px; padding: 14px 16px; border-left: 4px solid #10B981; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 6px; background: #10B981; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: bold;">✓</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 17px; color: #2c3e50;">握拳练习</div>
+                <div style="font-size: 13px; color: #95a5a6; margin-top: 2px;">08:00 · 12:00 · 18:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>视觉更轻盈</li>
+            <li>层次分明</li>
+            <li>过滤器独立，易于操作</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>两个独立元素，稍显分散</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="minimal-header" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>极简头部</h3>
+      <p style="color: #7f8c8d; font-size: 14px;">无卡片，纯文字，极简风格</p>
+      <div class="mockup" style="margin: 16px 0;">
+        <div class="mockup-body" style="background: #F8F9FA; padding: 16px;">
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 20px; font-weight: 600; color: #2c3e50; margin-bottom: 6px;">2026年4月14日</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 14px; color: #7f8c8d;">今天有 5 个项目 · 已完成 3 个</div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="font-size: 13px; color: #4A90E2; font-weight: 500;">隐藏已完成</div>
+                <div style="width: 40px; height: 22px; background: #4A90E2; border-radius: 11px; position: relative;">
+                  <div style="width: 18px; height: 18px; background: white; border-radius: 9px; position: absolute; right: 2px; top: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.2);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 示例项目卡片 -->
+          <div style="background: white; border-radius: 8px; padding: 14px 16px; border-left: 4px solid #10B981; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 32px; height: 32px; border-radius: 6px; background: #10B981; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: bold;">✓</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 17px; color: #2c3e50;">握拳练习</div>
+                <div style="font-size: 13px; color: #95a5a6; margin-top: 2px;">08:00 · 12:00 · 18:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>最简洁，占用空间最小</li>
+            <li>符合清爽简约风格</li>
+            <li>过滤器在同一行，方便操作</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>信息密度高，可能不够突出</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 32px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+  <h3>设计说明</h3>
+  <p>三种头部设计的区别：</p>
+  <ul>
+    <li><strong>A - 卡片式：</strong>所有信息在一个卡片中，整体感强，但较"重"</li>
+    <li><strong>B - 分离式：</strong>日期和过滤器分开，层次分明，视觉轻盈</li>
+    <li><strong>C - 极简式：</strong>无背景卡片，纯文字，最节省空间，最符合简约风</li>
+  </ul>
+  <p style="margin-top: 16px; color: #666;">考虑到您选择的紧凑型卡片布局，哪种头部设计更搭配？</p>
+</div>
