@@ -234,7 +234,7 @@ export const AddProjectScreen: React.FC = () => {
     return (
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-          <Text style={CommonStyles.title}>{t('addProject.choosePreset')}</Text>
+          <Text style={styles.pageTitle}>{t('addProject.choosePreset')}</Text>
 
           {presetProjects.map((preset, index) => (
             <TouchableOpacity
@@ -269,7 +269,7 @@ export const AddProjectScreen: React.FC = () => {
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={CommonStyles.title}>{t('addProject.projectInfo')}</Text>
+        <Text style={styles.pageTitle}>{t('addProject.projectInfo')}</Text>
 
         <View style={styles.inputContainer}>
           <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
@@ -449,64 +449,75 @@ const styles = StyleSheet.create({
   modeButton: {
     marginBottom: 16,
   },
+  pageTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    marginBottom: 16,
+  },
   presetCard: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 8,
-    borderWidth: 1,
-    borderColor: Colors.border,
+    borderRadius: 8,
+    padding: 14,
+    paddingHorizontal: 16,
+    marginVertical: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
   },
   presetName: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 4,
   },
   presetDescription: {
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.textSecondary,
   },
   backButton: {
     marginTop: 16,
   },
   inputContainer: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 8,
   },
   input: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 12,
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 16,
-    fontSize: 18,
+    padding: 14,
+    paddingHorizontal: 16,
+    fontSize: 16,
     color: Colors.textPrimary,
   },
   textArea: {
     minHeight: 100,
   },
   hint: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.textDisabled,
     marginTop: 4,
     textAlign: 'right',
   },
   hintTop: {
     marginTop: 0,
-    marginBottom: 12,
+    marginBottom: 10,
     textAlign: 'left',
   },
   selectedTimesContainer: {
-    marginBottom: 16,
+    marginBottom: 14,
   },
   selectedTimesLabel: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 8,
@@ -520,42 +531,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.primary,
-    borderRadius: 20,
+    borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 6,
     marginRight: 8,
     marginBottom: 8,
   },
   selectedTimeText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#FFFFFF',
     marginRight: 4,
   },
   removeChipIcon: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
   sectionLabel: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginTop: 8,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   quickTimesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    marginBottom: 16,
+    marginBottom: 14,
   },
   quickTimeButton: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 8,
+    borderRadius: 6,
     borderWidth: 1,
     borderColor: Colors.border,
-    padding: 12,
-    minWidth: 90,
+    padding: 10,
+    paddingHorizontal: 12,
+    minWidth: 85,
     alignItems: 'center',
   },
   quickTimeButtonSelected: {
@@ -563,15 +575,15 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
   },
   quickTimeLabel: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.textSecondary,
-    marginBottom: 4,
+    marginBottom: 3,
   },
   quickTimeLabelSelected: {
     color: '#FFFFFF',
   },
   quickTimeValue: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textPrimary,
   },
@@ -579,24 +591,24 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   templatesContainer: {
-    marginBottom: 16,
+    marginBottom: 14,
   },
   templateButton: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 8,
+    borderRadius: 6,
     borderWidth: 1,
     borderColor: Colors.border,
     padding: 12,
     marginBottom: 8,
   },
   templateLabel: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 4,
   },
   templateTimes: {
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.textSecondary,
   },
   addTimeButton: {
@@ -609,8 +621,8 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: Colors.cardBackground,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
     paddingBottom: Platform.OS === 'ios' ? 40 : 20,
   },
   modalHeader: {
@@ -622,16 +634,16 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '600',
     color: Colors.textPrimary,
   },
   modalCancelButton: {
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.textSecondary,
   },
   modalConfirmButton: {
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.primary,
     fontWeight: '600',
   },
