@@ -4,6 +4,7 @@ import { getProjects, saveProjects } from '../storage/projectStorage';
 import { getSettings, saveSettings } from '../storage/settingsStorage';
 import { scheduleProjectNotifications, cancelProjectNotifications } from '../services/notificationService';
 import { useTranslation } from '../i18n';
+import { getTodayDateString, isCompletedToday } from '../utils/dateHelper';
 
 interface AppContextType {
   state: AppState;
@@ -13,6 +14,7 @@ interface AppContextType {
   updateProject: (id: string, updates: Partial<Project>) => Promise<void>;
   deleteProject: (id: string) => Promise<void>;
   toggleProjectEnabled: (id: string) => Promise<void>;
+  toggleProjectCompletion: (id: string) => Promise<void>;
   updateSettings: (updates: Partial<Settings>) => Promise<void>;
 }
 
@@ -116,6 +118,24 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   };
 
+  const toggleProjectCompletion = async (id: string) => {
+    const project = state.projects.find((proj) => proj.id === id);
+    if (!project) return;
+
+    const today = getTodayDateString();
+    const completionHistory = [...project.completionHistory];
+
+    if (isCompletedToday(completionHistory)) {
+      // Remove today's completion
+      const filtered = completionHistory.filter(date => date !== today);
+      await updateProject(id, { completionHistory: filtered });
+    } else {
+      // Add today's completion
+      completionHistory.push(today);
+      await updateProject(id, { completionHistory });
+    }
+  };
+
   const updateSettings = async (updates: Partial<Settings>) => {
     const newSettings = { ...state.settings, ...updates };
     await saveSettings(newSettings);
@@ -130,6 +150,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     updateProject,
     deleteProject,
     toggleProjectEnabled,
+    toggleProjectCompletion,
     updateSettings,
   };
 
