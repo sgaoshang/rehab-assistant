@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../context/AppContext';
 import { ProjectCard } from '../components/ProjectCard';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
-import { formatDate } from '../utils/dateHelper';
+import { formatDate, isCompletedToday } from '../utils/dateHelper';
 import { speakTodayProjects } from '../services/speechService';
 import { useTranslation } from '../i18n';
 
@@ -13,6 +13,7 @@ export const HomeScreen: React.FC = () => {
   const { state, loading, refreshProjects } = useApp();
   const { t, locale } = useTranslation();
   const [refreshing, setRefreshing] = React.useState(false);
+  const [hideCompleted, setHideCompleted] = useState(false);
   const hasSpokenToday = useRef<string | null>(null);
 
   const onRefresh = async () => {
@@ -22,6 +23,9 @@ export const HomeScreen: React.FC = () => {
   };
 
   const enabledProjects = state.projects.filter((proj) => proj.isEnabled);
+  const visibleProjects = hideCompleted
+    ? enabledProjects.filter((proj) => !isCompletedToday(proj.completionHistory))
+    : enabledProjects;
   const totalProjects = enabledProjects.length;
 
   // 自动播报项目
@@ -50,6 +54,9 @@ export const HomeScreen: React.FC = () => {
     return t('home.greeting', { count: totalProjects });
   };
 
+  const allCompletedToday = enabledProjects.length > 0 &&
+    enabledProjects.every((proj) => isCompletedToday(proj.completionHistory));
+
   return (
     <View style={CommonStyles.container}>
       <ScrollView
@@ -60,6 +67,20 @@ export const HomeScreen: React.FC = () => {
         <View style={styles.header}>
           <Text style={CommonStyles.title}>{formatDate(new Date(), locale)}</Text>
           <Text style={[CommonStyles.body, styles.greeting]}>{getGreeting()}</Text>
+
+          {enabledProjects.length > 0 && (
+            <View style={styles.filterRow}>
+              <Text style={CommonStyles.body}>
+                {hideCompleted ? t('home.showAll') : t('home.hideCompleted')}
+              </Text>
+              <Switch
+                value={hideCompleted}
+                onValueChange={setHideCompleted}
+                trackColor={{ false: Colors.border, true: Colors.primary }}
+                thumbColor={Colors.white}
+              />
+            </View>
+          )}
         </View>
 
         {enabledProjects.length === 0 ? (
@@ -72,8 +93,15 @@ export const HomeScreen: React.FC = () => {
               {t('home.emptyHint')}
             </Text>
           </View>
+        ) : visibleProjects.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyIcon}>✅</Text>
+            <Text style={[CommonStyles.body, styles.emptyText]}>
+              {t('home.allCompletedToday')}
+            </Text>
+          </View>
         ) : (
-          enabledProjects.map((project) => (
+          visibleProjects.map((project) => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -98,6 +126,13 @@ const styles = StyleSheet.create({
   },
   greeting: {
     marginTop: 8,
+  },
+  filterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 16,
+    paddingVertical: 8,
   },
   emptyState: {
     alignItems: 'center',

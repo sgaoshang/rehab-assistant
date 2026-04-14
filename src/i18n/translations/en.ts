@@ -20,6 +20,7 @@ export const en: Translations = {
     emptyHint: 'Go to Settings → Manage Projects to add one',
     showAll: 'Show All',
     hideCompleted: 'Hide Completed',
+    allCompletedToday: 'All projects completed today!',
   },
   settings: {
     title: 'Project Management',

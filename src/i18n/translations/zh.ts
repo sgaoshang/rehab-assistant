@@ -20,6 +20,7 @@ export const zh: Translations = {
     emptyHint: '点击设置页面的"管理项目"开始添加',
     showAll: '显示全部',
     hideCompleted: '隐藏已完成',
+    allCompletedToday: '今天所有项目都已完成！',
   },
   settings: {
     title: '项目管理',
