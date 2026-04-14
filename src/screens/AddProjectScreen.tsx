@@ -213,18 +213,35 @@ export const AddProjectScreen: React.FC = () => {
     return (
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-          <LargeButton
-            title={t('addProject.selectPreset')}
+          <TouchableOpacity
+            style={styles.modeCard}
             onPress={() => setMode('preset')}
-            variant="primary"
-            style={styles.modeButton}
-          />
-          <LargeButton
-            title={t('addProject.customProject')}
+            activeOpacity={0.7}
+          >
+            <View style={styles.modeCardContent}>
+              <Text style={styles.modeCardIcon}>📚</Text>
+              <View style={styles.modeCardText}>
+                <Text style={styles.modeCardTitle}>{t('addProject.selectPreset')}</Text>
+                <Text style={styles.modeCardDescription}>选择预设的康复项目</Text>
+              </View>
+              <Text style={styles.modeCardArrow}>›</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.modeCard}
             onPress={() => setMode('custom')}
-            variant="secondary"
-            style={styles.modeButton}
-          />
+            activeOpacity={0.7}
+          >
+            <View style={styles.modeCardContent}>
+              <Text style={styles.modeCardIcon}>✏️</Text>
+              <View style={styles.modeCardText}>
+                <Text style={styles.modeCardTitle}>{t('addProject.customProject')}</Text>
+                <Text style={styles.modeCardDescription}>创建自定义项目</Text>
+              </View>
+              <Text style={styles.modeCardArrow}>›</Text>
+            </View>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -243,17 +260,23 @@ export const AddProjectScreen: React.FC = () => {
               onPress={() => handleSelectPreset(preset)}
               activeOpacity={0.7}
             >
-              <Text style={styles.presetName}>{preset.name}</Text>
-              <Text style={styles.presetDescription}>{preset.description}</Text>
+              <View style={styles.presetCardContent}>
+                <View style={styles.presetCardText}>
+                  <Text style={styles.presetName}>{preset.name}</Text>
+                  <Text style={styles.presetDescription}>{preset.description}</Text>
+                </View>
+                <Text style={styles.presetCardArrow}>›</Text>
+              </View>
             </TouchableOpacity>
           ))}
 
-          <LargeButton
-            title={t('common.back')}
-            onPress={() => setMode('select')}
-            variant="secondary"
+          <TouchableOpacity
             style={styles.backButton}
-          />
+            onPress={() => setMode('select')}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.backButtonText}>‹ {t('common.back')}</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );
@@ -446,14 +469,51 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 16,
   },
-  modeButton: {
-    marginBottom: 16,
-  },
   pageTitle: {
     fontSize: 20,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 16,
+  },
+  modeCard: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 8,
+    padding: 14,
+    paddingHorizontal: 16,
+    marginVertical: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  modeCardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  modeCardIcon: {
+    fontSize: 28,
+    width: 36,
+    textAlign: 'center',
+  },
+  modeCardText: {
+    flex: 1,
+  },
+  modeCardTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    marginBottom: 2,
+  },
+  modeCardDescription: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+  },
+  modeCardArrow: {
+    fontSize: 24,
+    color: Colors.textDisabled,
+    fontWeight: '300',
   },
   presetCard: {
     backgroundColor: Colors.cardBackground,
@@ -467,6 +527,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 2,
   },
+  presetCardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  presetCardText: {
+    flex: 1,
+  },
   presetName: {
     fontSize: 17,
     fontWeight: '600',
@@ -477,8 +545,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textSecondary,
   },
+  presetCardArrow: {
+    fontSize: 24,
+    color: Colors.textDisabled,
+    fontWeight: '300',
+  },
   backButton: {
-    marginTop: 16,
+    marginTop: 24,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  backButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: Colors.primary,
   },
   inputContainer: {
     marginBottom: 20,
