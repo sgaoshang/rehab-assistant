@@ -1,99 +1,138 @@
 import { Project } from '../types';
+import { TranslationFunction } from '../i18n/types';
 
-export const PRESET_PROJECTS: Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'>[] = [
-  // 康复训练类
+export type PresetProjectId =
+  | 'fistExercise'
+  | 'fingerStretch'
+  | 'armRaise'
+  | 'shoulderRotation'
+  | 'ankleExercise'
+  | 'kneeFlexion'
+  | 'marchingInPlace'
+  | 'neckRotation'
+  | 'deepBreathing'
+  | 'balanceTraining'
+  | 'bloodPressureMed'
+  | 'diabetesMed'
+  | 'vitaminSupplement'
+  | 'calciumSupplement'
+  | 'checkBloodPressure'
+  | 'checkBloodSugar'
+  | 'drinkWater'
+  | 'afternoonNap';
+
+export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId }> => [
+  // Rehabilitation exercises
   {
-    name: '握拳练习',
-    description: '慢慢握紧拳头，保持5秒，然后放松。每次重复10-15次',
+    name: t('presets.fistExercise.name'),
+    description: t('presets.fistExercise.description'),
     isPreset: true,
+    presetId: 'fistExercise',
   },
   {
-    name: '手指伸展',
-    description: '将手指尽量张开，保持5秒后放松。每次重复10次',
+    name: t('presets.fingerStretch.name'),
+    description: t('presets.fingerStretch.description'),
     isPreset: true,
+    presetId: 'fingerStretch',
   },
   {
-    name: '抬臂运动',
-    description: '慢慢将手臂向前抬高，尽量到肩膀高度。每侧重复8-10次',
+    name: t('presets.armRaise.name'),
+    description: t('presets.armRaise.description'),
     isPreset: true,
+    presetId: 'armRaise',
   },
   {
-    name: '肩关节旋转',
-    description: '缓慢转动肩膀，画圆圈。顺时针和逆时针各10次',
+    name: t('presets.shoulderRotation.name'),
+    description: t('presets.shoulderRotation.description'),
     isPreset: true,
+    presetId: 'shoulderRotation',
   },
   {
-    name: '踝关节运动',
-    description: '坐姿，脚尖向上勾，再向下压。每侧重复15次',
+    name: t('presets.ankleExercise.name'),
+    description: t('presets.ankleExercise.description'),
     isPreset: true,
+    presetId: 'ankleExercise',
   },
   {
-    name: '膝关节屈伸',
-    description: '坐姿，慢慢伸直腿，再弯曲。每侧重复10次',
+    name: t('presets.kneeFlexion.name'),
+    description: t('presets.kneeFlexion.description'),
     isPreset: true,
+    presetId: 'kneeFlexion',
   },
   {
-    name: '原地踏步',
-    description: '扶稳椅背，原地缓慢踏步。持续3-5分钟',
+    name: t('presets.marchingInPlace.name'),
+    description: t('presets.marchingInPlace.description'),
     isPreset: true,
+    presetId: 'marchingInPlace',
   },
   {
-    name: '颈部转动',
-    description: '慢慢左右转头，不要用力过猛。每侧重复8次',
+    name: t('presets.neckRotation.name'),
+    description: t('presets.neckRotation.description'),
     isPreset: true,
+    presetId: 'neckRotation',
   },
   {
-    name: '深呼吸练习',
-    description: '深吸气5秒，慢慢呼出5秒。重复10次',
+    name: t('presets.deepBreathing.name'),
+    description: t('presets.deepBreathing.description'),
     isPreset: true,
+    presetId: 'deepBreathing',
   },
   {
-    name: '平衡训练',
-    description: '扶稳物体，单脚站立保持10秒。每侧重复5次',
+    name: t('presets.balanceTraining.name'),
+    description: t('presets.balanceTraining.description'),
     isPreset: true,
+    presetId: 'balanceTraining',
   },
 
-  // 用药提醒类
+  // Medication reminders
   {
-    name: '降压药',
-    description: '每日定时服用降压药，饭后服用，避免空腹',
+    name: t('presets.bloodPressureMed.name'),
+    description: t('presets.bloodPressureMed.description'),
     isPreset: true,
+    presetId: 'bloodPressureMed',
   },
   {
-    name: '降糖药',
-    description: '餐前30分钟服用，注意监测血糖',
+    name: t('presets.diabetesMed.name'),
+    description: t('presets.diabetesMed.description'),
     isPreset: true,
+    presetId: 'diabetesMed',
   },
   {
-    name: '维生素补充',
-    description: '每日一次，早餐后服用',
+    name: t('presets.vitaminSupplement.name'),
+    description: t('presets.vitaminSupplement.description'),
     isPreset: true,
+    presetId: 'vitaminSupplement',
   },
   {
-    name: '钙片补充',
-    description: '睡前服用，促进吸收',
+    name: t('presets.calciumSupplement.name'),
+    description: t('presets.calciumSupplement.description'),
     isPreset: true,
+    presetId: 'calciumSupplement',
   },
 
-  // 生活习惯类
+  // Health check reminders
   {
-    name: '测量血压',
-    description: '每日早晚各一次，记录血压值',
+    name: t('presets.checkBloodPressure.name'),
+    description: t('presets.checkBloodPressure.description'),
     isPreset: true,
+    presetId: 'checkBloodPressure',
   },
   {
-    name: '测量血糖',
-    description: '空腹和餐后2小时测量，记录数值',
+    name: t('presets.checkBloodSugar.name'),
+    description: t('presets.checkBloodSugar.description'),
     isPreset: true,
+    presetId: 'checkBloodSugar',
   },
   {
-    name: '喝水提醒',
-    description: '每次饮水200-300ml，保持充足水分',
+    name: t('presets.drinkWater.name'),
+    description: t('presets.drinkWater.description'),
     isPreset: true,
+    presetId: 'drinkWater',
   },
   {
-    name: '午休',
-    description: '午饭后休息30分钟，有助于恢复精力',
+    name: t('presets.afternoonNap.name'),
+    description: t('presets.afternoonNap.description'),
     isPreset: true,
+    presetId: 'afternoonNap',
   },
 ];

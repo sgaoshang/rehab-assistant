@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { AppState, Project, Settings } from '../types';
-import { getProjects, saveProjects, initializePresetProjects } from '../storage/projectStorage';
+import { getProjects, saveProjects } from '../storage/projectStorage';
 import { getSettings, saveSettings } from '../storage/settingsStorage';
 import { scheduleProjectNotifications, cancelProjectNotifications } from '../services/notificationService';
 
@@ -43,7 +43,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   useEffect(() => {
     const initialize = async () => {
       try {
-        await initializePresetProjects();
         const projects = await getProjects();
         const settings = await getSettings();
 

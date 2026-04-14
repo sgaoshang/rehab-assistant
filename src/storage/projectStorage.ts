@@ -1,41 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Project } from '../types';
-import { PRESET_PROJECTS } from '../constants/presetProjects';
 
 const STORAGE_KEY = '@rehab_app:projects';
-const INIT_KEY = '@rehab_app:initialized';
 
 /**
  * 生成 UUID
  */
 const generateId = (): string => {
   return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-};
-
-/**
- * 初始化预设项目
- */
-export const initializePresetProjects = async (): Promise<void> => {
-  try {
-    const initialized = await AsyncStorage.getItem(INIT_KEY);
-    if (initialized === 'true') {
-      return;
-    }
-
-    const projects: Project[] = PRESET_PROJECTS.map((preset) => ({
-      ...preset,
-      id: generateId(),
-      isEnabled: false,
-      reminderTimes: [],
-      createdAt: Date.now(),
-    }));
-
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-    await AsyncStorage.setItem(INIT_KEY, 'true');
-  } catch (error) {
-    console.error('Failed to initialize preset projects:', error);
-    throw error;
-  }
 };
 
 /**
