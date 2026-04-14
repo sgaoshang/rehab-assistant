@@ -393,6 +393,23 @@ export const AddProjectScreen: React.FC = () => {
               </View>
             )}
           </View>
+
+          {/* Add Custom Time Button */}
+          <TouchableOpacity
+            style={styles.customTimeButton}
+            onPress={() => {
+              if (Platform.OS === 'ios') {
+                setShowTimeModal(true);
+              } else {
+                setShowTimePicker(true);
+              }
+            }}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.customTimeButtonText}>
+              + {t('addProject.customTimeShort')}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Android 时间选择器 */}
