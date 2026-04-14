@@ -1,6 +1,4 @@
-export type FeelingType = 'easy' | 'normal' | 'hard' | 'pain';
-
-export interface Exercise {
+export interface Project {
   id: string;
   name: string;
   description: string;
@@ -8,25 +6,15 @@ export interface Exercise {
   isEnabled: boolean;
   reminderTimes: string[];
   createdAt: number;
-}
-
-export interface CheckIn {
-  id: string;
-  exerciseId: string;
-  exerciseName: string;
-  timestamp: number;
-  feeling: FeelingType;
-  note?: string;
+  presetId?: string;  // identifies if created from preset
 }
 
 export interface Settings {
-  enableEarlyReminder: boolean;
   notificationPermissionGranted: boolean;
 }
 
 export interface AppState {
-  exercises: Exercise[];
-  checkins: CheckIn[];
+  projects: Project[];
   settings: Settings;
   initialized: boolean;
 }
