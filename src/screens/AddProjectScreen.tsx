@@ -46,6 +46,7 @@ export const AddProjectScreen: React.FC = () => {
   const [tempTime, setTempTime] = useState(new Date());
   const [submitting, setSubmitting] = useState(false);
   const [presetId, setPresetId] = useState<PresetProjectId | undefined>(existingProject?.presetId as PresetProjectId);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
 
   // Get preset projects with translations
   const presetProjects = useMemo(() => getPresetProjects(t), [t]);
