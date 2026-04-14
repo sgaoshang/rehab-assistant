@@ -1,16 +1,16 @@
 export const Colors = {
   // 主色调
-  primary: '#4A90E2',
+  primary: '#2E5C8A',
   primaryDark: '#2E5C8A',
 
   // 状态色
-  success: '#4CAF50',
+  success: '#10B981',
   warning: '#FFC107',
   error: '#F44336',
   neutral: '#9E9E9E',
 
   // 背景色
-  background: '#F5F5F5',
+  background: '#F8F9FA',
   cardBackground: '#FFFFFF',
 
   // 文字色
