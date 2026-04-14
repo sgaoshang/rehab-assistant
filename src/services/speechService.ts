@@ -1,39 +1,43 @@
 import * as Speech from 'expo-speech';
-import { Exercise } from '../types';
+import { Project } from '../types';
 
 /**
- * 播报单个训练
+ * 播报单个项目
  */
-export const speakExercise = async (exercise: Exercise): Promise<void> => {
+export const speakProject = async (project: Project): Promise<void> => {
   try {
     // 停止当前播报
     await Speech.stop();
 
     // 构建播报文本
-    let text = `该做${exercise.name}了。`;
-    if (exercise.description) {
-      text += exercise.description;
+    let text = `该做${project.name}了。`;
+    if (project.description) {
+      text += project.description;
     }
 
     // 播报
     await Speech.speak(text, {
       language: 'zh-CN',
       pitch: 1.0,
-      rate: 0.8, // 稍慢一点，老人更容易听清
+      rate: 0.8, // 稍慢一点，更容易听清
       volume: 1.0,
     });
   } catch (error) {
-    console.error('Failed to speak exercise:', error);
+    console.error('Failed to speak project:', error);
   }
 };
 
 /**
- * 播报今日待做训练列表
+ * 播报今日待做项目列表
  */
-export const speakTodayExercises = async (exercises: Exercise[]): Promise<void> => {
+export const speakTodayProjects = async (
+  projects: Project[],
+  t?: any,
+  locale?: any
+): Promise<void> => {
   try {
-    if (exercises.length === 0) {
-      await Speech.speak('今天的训练都完成了，太棒了！', {
+    if (projects.length === 0) {
+      await Speech.speak('今天的项目都完成了，太棒了！', {
         language: 'zh-CN',
         pitch: 1.0,
         rate: 0.8,
@@ -46,17 +50,17 @@ export const speakTodayExercises = async (exercises: Exercise[]): Promise<void> 
     await Speech.stop();
 
     // 构建播报文本
-    let text = `您好，今天还有${exercises.length}项训练需要完成。`;
+    let text = `您好，今天还有${projects.length}项待办事项需要完成。`;
 
-    if (exercises.length === 1) {
-      text += `是${exercises[0].name}。`;
-      if (exercises[0].description) {
-        text += exercises[0].description;
+    if (projects.length === 1) {
+      text += `是${projects[0].name}。`;
+      if (projects[0].description) {
+        text += projects[0].description;
       }
-    } else if (exercises.length <= 3) {
+    } else if (projects.length <= 3) {
       text += '分别是：';
-      exercises.forEach((ex, index) => {
-        text += `${index + 1}、${ex.name}。`;
+      projects.forEach((proj, index) => {
+        text += `${index + 1}、${proj.name}。`;
       });
     } else {
       text += '请查看首页列表。';
@@ -70,7 +74,7 @@ export const speakTodayExercises = async (exercises: Exercise[]): Promise<void> 
       volume: 1.0,
     });
   } catch (error) {
-    console.error('Failed to speak today exercises:', error);
+    console.error('Failed to speak today projects:', error);
   }
 };
 
@@ -117,8 +121,8 @@ export const isSpeaking = async (): Promise<boolean> => {
 /**
  * 播报通知内容
  */
-export const speakExerciseNotification = async (
-  exerciseName: string,
+export const speakProjectNotification = async (
+  projectName: string,
   description?: string
 ): Promise<void> => {
   try {
@@ -126,7 +130,7 @@ export const speakExerciseNotification = async (
     await Speech.stop();
 
     // 构建播报文本
-    let text = `提醒：该做${exerciseName}了。`;
+    let text = `提醒：该做${projectName}了。`;
     if (description) {
       text += description;
     }
@@ -135,7 +139,7 @@ export const speakExerciseNotification = async (
     await Speech.speak(text, {
       language: 'zh-CN',
       pitch: 1.0,
-      rate: 0.8, // 稍慢一点，老人更容易听清
+      rate: 0.8,
       volume: 1.0,
     });
   } catch (error) {

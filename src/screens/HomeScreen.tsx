@@ -1,32 +1,30 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, RefreshControl } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../context/AppContext';
-import { ExerciseCard } from '../components/ExerciseCard';
-import { LargeButton } from '../components/LargeButton';
+import { ProjectCard } from '../components/ProjectCard';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
-import { formatChineseDate } from '../utils/dateHelper';
-import { speakTodayExercises } from '../services/speechService';
+import { formatDate } from '../utils/dateHelper';
+import { speakTodayProjects } from '../services/speechService';
+import { useTranslation } from '../i18n';
 
 export const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<any>();
-  const { state, loading, refreshExercises, refreshCheckIns, isCheckedInToday } = useApp();
+  const { state, loading, refreshProjects } = useApp();
+  const { t, locale } = useTranslation();
   const [refreshing, setRefreshing] = React.useState(false);
   const hasSpokenToday = useRef<string | null>(null);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await Promise.all([refreshExercises(), refreshCheckIns()]);
+    await refreshProjects();
     setRefreshing(false);
   };
 
-  const enabledExercises = state.exercises.filter((ex) => ex.isEnabled);
-  const totalExercises = enabledExercises.length;
-  const completedCount = enabledExercises.filter((ex) => isCheckedInToday(ex.id)).length;
-  const incompleteExercises = enabledExercises.filter((ex) => !isCheckedInToday(ex.id));
+  const enabledProjects = state.projects.filter((proj) => proj.isEnabled);
+  const totalProjects = enabledProjects.length;
 
-  // 自动播报待做训练
+  // 自动播报项目
   useFocusEffect(
     React.useCallback(() => {
       const today = new Date().toDateString();
@@ -37,22 +35,19 @@ export const HomeScreen: React.FC = () => {
 
         // 延迟1秒播报，等页面加载完成
         const timer = setTimeout(() => {
-          speakTodayExercises(incompleteExercises);
+          speakTodayProjects(enabledProjects, t, locale);
         }, 1000);
 
         return () => clearTimeout(timer);
       }
-    }, [loading, state.initialized, incompleteExercises])
+    }, [loading, state.initialized, enabledProjects, t, locale])
   );
 
   const getGreeting = () => {
-    if (completedCount === 0) {
-      return `您好！今天要完成${totalExercises}项训练`;
-    } else if (completedCount === totalExercises && totalExercises > 0) {
-      return '太棒了！今天的训练全部完成！';
-    } else {
-      return `已完成${completedCount}项，还有${totalExercises - completedCount}项`;
+    if (totalProjects === 0) {
+      return t('home.greetingEmpty');
     }
+    return t('home.greeting', { count: totalProjects });
   };
 
   return (
@@ -63,36 +58,28 @@ export const HomeScreen: React.FC = () => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <View style={styles.header}>
-          <Text style={CommonStyles.title}>{formatChineseDate(new Date())}</Text>
+          <Text style={CommonStyles.title}>{formatDate(new Date(), locale)}</Text>
           <Text style={[CommonStyles.body, styles.greeting]}>{getGreeting()}</Text>
         </View>
 
-        {enabledExercises.length === 0 ? (
+        {enabledProjects.length === 0 ? (
           <View style={styles.emptyState}>
+            <Text style={styles.emptyIcon}>📝</Text>
             <Text style={[CommonStyles.body, styles.emptyText]}>
-              还没有启用的训练项目
+              {t('home.emptyState')}
             </Text>
             <Text style={[CommonStyles.smallBody, styles.emptyHint]}>
-              点击下方按钮添加训练
+              {t('home.emptyHint')}
             </Text>
           </View>
         ) : (
-          enabledExercises.map((exercise) => (
-            <ExerciseCard
-              key={exercise.id}
-              exercise={exercise}
-              isCompleted={isCheckedInToday(exercise.id)}
-              onPress={() => navigation.navigate('CheckIn', { exercise })}
+          enabledProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
             />
           ))
         )}
-
-        <LargeButton
-          title="+ 添加训练"
-          onPress={() => navigation.navigate('AddExercise')}
-          variant="secondary"
-          style={styles.addButton}
-        />
       </ScrollView>
     </View>
   );
@@ -117,6 +104,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 60,
   },
+  emptyIcon: {
+    fontSize: 48,
+    marginBottom: 16,
+  },
   emptyText: {
     textAlign: 'center',
     marginBottom: 8,
@@ -124,8 +115,5 @@ const styles = StyleSheet.create({
   emptyHint: {
     textAlign: 'center',
     color: Colors.textDisabled,
-  },
-  addButton: {
-    marginTop: 24,
   },
 });
