@@ -81,6 +81,7 @@ export const scheduleExerciseNotifications = async (exercise: Exercise): Promise
           data: {
             exerciseId: exercise.id,
             exerciseName: exercise.name,
+            exerciseDescription: exercise.description,
             screen: 'CheckIn',
           },
         },

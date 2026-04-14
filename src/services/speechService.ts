@@ -113,3 +113,32 @@ export const isSpeaking = async (): Promise<boolean> => {
     return false;
   }
 };
+
+/**
+ * 播报通知内容
+ */
+export const speakExerciseNotification = async (
+  exerciseName: string,
+  description?: string
+): Promise<void> => {
+  try {
+    // 停止当前播报
+    await Speech.stop();
+
+    // 构建播报文本
+    let text = `提醒：该做${exerciseName}了。`;
+    if (description) {
+      text += description;
+    }
+
+    // 播报
+    await Speech.speak(text, {
+      language: 'zh-CN',
+      pitch: 1.0,
+      rate: 0.8, // 稍慢一点，老人更容易听清
+      volume: 1.0,
+    });
+  } catch (error) {
+    console.error('Failed to speak notification:', error);
+  }
+};
