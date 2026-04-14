@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -28,6 +28,7 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
   const [draggingTime, setDraggingTime] = useState<string | null>(null);
   const [dragStartX, setDragStartX] = useState(0);
   const dragOffsetAnim = useRef(new Animated.Value(0)).current;
+  const markerScales = useRef<{ [key: string]: Animated.Value }>({}).current;
 
   const handleTrackPress = (e: any) => {
     const touchX = e.nativeEvent.locationX;
@@ -74,14 +75,37 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
         setDraggingTime(time);
         setDragStartX(gestureState.x0);
         dragOffsetAnim.setValue(0);
+
+        // Scale up marker
+        Animated.spring(markerScales[time], {
+          toValue: 1.1,
+          tension: 100,
+          friction: 7,
+          useNativeDriver: true,
+        }).start();
       },
       onPanResponderMove: (e, gestureState) => {
         dragOffsetAnim.setValue(gestureState.dx);
       },
       onPanResponderRelease: (e, gestureState) => {
+        // Scale back to normal
+        Animated.spring(markerScales[time], {
+          toValue: 1,
+          tension: 100,
+          friction: 7,
+          useNativeDriver: true,
+        }).start();
+
         // If movement < 5px, treat as tap (delete)
         if (Math.abs(gestureState.dx) < 5) {
-          handleDeleteTime(time);
+          // Animate out before deleting
+          Animated.timing(markerScales[time], {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+          }).start(() => {
+            handleDeleteTime(time);
+          });
           setDraggingTime(null);
           dragOffsetAnim.setValue(0);
           return;
@@ -123,6 +147,29 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
   const handleDeleteTime = (time: string) => {
     onTimesChange(selectedTimes.filter((t) => t !== time));
   };
+
+  // Initialize scale animations for each marker
+  useEffect(() => {
+    selectedTimes.forEach((time) => {
+      if (!markerScales[time]) {
+        markerScales[time] = new Animated.Value(0);
+        // Animate in
+        Animated.spring(markerScales[time], {
+          toValue: 1,
+          tension: 100,
+          friction: 7,
+          useNativeDriver: true,
+        }).start();
+      }
+    });
+
+    // Clean up removed times
+    Object.keys(markerScales).forEach((time) => {
+      if (!selectedTimes.includes(time)) {
+        delete markerScales[time];
+      }
+    });
+  }, [selectedTimes]);
 
   return (
     <View style={styles.container}>
@@ -187,6 +234,7 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
                     transform: [
                       { translateX: isDragging ? dragOffsetAnim : 0 },
                       { translateY: -10 },
+                      { scale: markerScales[time] || 1 },
                     ],
                   },
                 ]}
