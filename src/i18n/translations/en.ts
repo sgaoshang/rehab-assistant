@@ -24,7 +24,7 @@ export const en: Translations = {
   },
   settings: {
     title: 'Project Management',
-    addProject: '+ Add Project',
+    addProject: 'Add Project',
     manageProjects: 'Manage My Projects',
     languageSettings: 'Language Settings',
     language: 'Language',

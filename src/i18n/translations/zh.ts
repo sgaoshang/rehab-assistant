@@ -24,7 +24,7 @@ export const zh: Translations = {
   },
   settings: {
     title: '项目管理',
-    addProject: '+ 添加项目',
+    addProject: '添加项目',
     manageProjects: '管理我的项目',
     languageSettings: '语言设置',
     language: '语言',
