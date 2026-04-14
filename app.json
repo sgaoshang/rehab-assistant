@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "康复助手",
-    "slug": "rehab-assistant",
+    "name": "提醒助手",
+    "slug": "reminder-assistant",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,7 +32,8 @@
         {
           "color": "#4A90E2"
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "extra": {
       "eas": {

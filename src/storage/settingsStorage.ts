@@ -4,7 +4,6 @@ import { Settings } from '../types';
 const STORAGE_KEY = '@rehab_app:settings';
 
 const DEFAULT_SETTINGS: Settings = {
-  enableEarlyReminder: false,
   notificationPermissionGranted: false,
 };
 

@@ -1,7 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import { SchedulableTriggerInputTypes } from 'expo-notifications';
 import { Platform } from 'react-native';
-import { Exercise } from '../types';
+import { Project } from '../types';
 
 // 配置通知处理器
 Notifications.setNotificationHandler({
@@ -59,30 +59,29 @@ export const checkNotificationPermission = async (): Promise<boolean> => {
 /**
  * 为训练调度通知
  */
-export const scheduleExerciseNotifications = async (exercise: Exercise): Promise<void> => {
-  if (!exercise.isEnabled || exercise.reminderTimes.length === 0) {
+export const scheduleProjectNotifications = async (project: Project): Promise<void> => {
+  if (!project.isEnabled || project.reminderTimes.length === 0) {
     return;
   }
 
   try {
     // 取消该训练的所有现有通知
-    await cancelExerciseNotifications(exercise.id);
+    await cancelProjectNotifications(project.id);
 
     // 为每个提醒时间创建通知
-    for (const timeString of exercise.reminderTimes) {
+    for (const timeString of project.reminderTimes) {
       const [hours, minutes] = timeString.split(':').map(Number);
 
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: `⏰ ${timeString} 该做训练了`,
-          body: `${exercise.name} - ${exercise.description.substring(0, 40) || '点击查看详情'}`,
+          title: `⏰ ${timeString} 提醒`,
+          body: `${project.name} - ${project.description.substring(0, 40) || '点击查看详情'}`,
           sound: true,
           priority: Notifications.AndroidNotificationPriority.HIGH,
           data: {
-            exerciseId: exercise.id,
-            exerciseName: exercise.name,
-            exerciseDescription: exercise.description,
-            screen: 'CheckIn',
+            projectId: project.id,
+            projectName: project.name,
+            projectDescription: project.description,
           },
         },
         trigger: {
@@ -90,7 +89,7 @@ export const scheduleExerciseNotifications = async (exercise: Exercise): Promise
           hour: hours,
           minute: minutes,
         },
-        identifier: `${exercise.id}_${hours}${minutes}`,
+        identifier: `${project.id}_${hours}${minutes}`,
       });
     }
   } catch (error) {
@@ -102,11 +101,11 @@ export const scheduleExerciseNotifications = async (exercise: Exercise): Promise
 /**
  * 取消训练的所有通知
  */
-export const cancelExerciseNotifications = async (exerciseId: string): Promise<void> => {
+export const cancelProjectNotifications = async (projectId: string): Promise<void> => {
   try {
     const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
     const notificationIds = scheduledNotifications
-      .filter((n) => n.identifier.startsWith(exerciseId))
+      .filter((n) => n.identifier.startsWith(projectId))
       .map((n) => n.identifier);
 
     for (const id of notificationIds) {
@@ -131,13 +130,13 @@ export const cancelAllNotifications = async (): Promise<void> => {
 /**
  * 重新调度所有启用训练的通知
  */
-export const rescheduleAllNotifications = async (exercises: Exercise[]): Promise<void> => {
+export const rescheduleAllNotifications = async (projects: Project[]): Promise<void> => {
   try {
     await cancelAllNotifications();
 
-    const enabledExercises = exercises.filter((ex) => ex.isEnabled);
-    for (const exercise of enabledExercises) {
-      await scheduleExerciseNotifications(exercise);
+    const enabledProjects = projects.filter((ex) => ex.isEnabled);
+    for (const project of enabledProjects) {
+      await scheduleProjectNotifications(project);
     }
   } catch (error) {
     console.error('Failed to reschedule all notifications:', error);
@@ -155,14 +154,13 @@ export const sendTestNotification = async (): Promise<void> => {
 
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: `⏰ ${timeString} 该做训练了`,
-        body: '测试训练 - 这是一条测试通知，点击可打开应用',
+        title: `⏰ ${timeString} 提醒`,
+        body: '测试项目 - 这是一条测试通知，点击可打开应用',
         sound: true,
         priority: Notifications.AndroidNotificationPriority.HIGH,
         data: {
-          exerciseId: 'test',
-          exerciseName: '测试训练',
-          screen: 'CheckIn',
+          projectId: 'test',
+          projectName: '测试项目',
         },
       },
       trigger: {

@@ -9,12 +9,6 @@ export const Colors = {
   error: '#F44336',
   neutral: '#9E9E9E',
 
-  // 感受色
-  feelingEasy: '#4CAF50',
-  feelingNormal: '#2196F3',
-  feelingHard: '#FFC107',
-  feelingPain: '#F44336',
-
   // 背景色
   background: '#F5F5F5',
   cardBackground: '#FFFFFF',

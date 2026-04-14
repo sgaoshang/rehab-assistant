@@ -4,11 +4,11 @@ import { useApp } from '../context/AppContext';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
 
-export const ManageExercisesScreen: React.FC = () => {
-  const { state, toggleExerciseEnabled, deleteExercise } = useApp();
+export const ManageProjectsScreen: React.FC = () => {
+  const { state, toggleProjectEnabled, deleteProject } = useApp();
 
   const handleDelete = (id: string, name: string) => {
-    Alert.alert('确认删除', `确定要删除"${name}"吗？历史打卡记录将保留。`, [
+    Alert.alert('确认删除', `确定要删除"${name}"吗？`, [
       {
         text: '取消',
         style: 'cancel',
@@ -18,8 +18,8 @@ export const ManageExercisesScreen: React.FC = () => {
         style: 'destructive',
         onPress: async () => {
           try {
-            await deleteExercise(id);
-            Alert.alert('成功', '训练已删除');
+            await deleteProject(id);
+            Alert.alert('成功', '项目已删除');
           } catch (error) {
             Alert.alert('错误', '删除失败，请重试');
           }
@@ -31,31 +31,31 @@ export const ManageExercisesScreen: React.FC = () => {
   return (
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-        {state.exercises.length === 0 ? (
-          <Text style={[CommonStyles.body, styles.emptyText]}>还没有训练项目</Text>
+        {state.projects.length === 0 ? (
+          <Text style={[CommonStyles.body, styles.emptyText]}>还没有项目</Text>
         ) : (
-          state.exercises.map((exercise) => (
-            <View key={exercise.id} style={styles.exerciseItem}>
-              <View style={styles.exerciseInfo}>
-                <Text style={styles.exerciseName}>{exercise.name}</Text>
-                <Text style={styles.exerciseDescription} numberOfLines={1}>
-                  {exercise.description}
+          state.projects.map((project) => (
+            <View key={project.id} style={styles.projectItem}>
+              <View style={styles.projectInfo}>
+                <Text style={styles.projectName}>{project.name}</Text>
+                <Text style={styles.projectDescription} numberOfLines={1}>
+                  {project.description}
                 </Text>
-                {exercise.reminderTimes.length > 0 && (
+                {project.reminderTimes.length > 0 && (
                   <Text style={styles.reminderText}>
-                    提醒时间: {exercise.reminderTimes.join(', ')}
+                    提醒时间: {project.reminderTimes.join(', ')}
                   </Text>
                 )}
               </View>
               <View style={styles.actions}>
                 <Switch
-                  value={exercise.isEnabled}
-                  onValueChange={() => toggleExerciseEnabled(exercise.id)}
+                  value={project.isEnabled}
+                  onValueChange={() => toggleProjectEnabled(project.id)}
                   trackColor={{ false: Colors.neutral, true: Colors.success }}
                 />
                 <TouchableOpacity
                   style={styles.deleteButton}
-                  onPress={() => handleDelete(exercise.id, exercise.name)}
+                  onPress={() => handleDelete(project.id, project.name)}
                 >
                   <Text style={styles.deleteText}>删除</Text>
                 </TouchableOpacity>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     color: Colors.textDisabled,
     marginTop: 40,
   },
-  exerciseItem: {
+  projectItem: {
     backgroundColor: Colors.cardBackground,
     borderRadius: 12,
     padding: 16,
@@ -89,17 +89,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  exerciseInfo: {
+  projectInfo: {
     flex: 1,
     marginRight: 16,
   },
-  exerciseName: {
+  projectName: {
     fontSize: 20,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 4,
   },
-  exerciseDescription: {
+  projectDescription: {
     fontSize: 16,
     color: Colors.textSecondary,
     marginBottom: 4,

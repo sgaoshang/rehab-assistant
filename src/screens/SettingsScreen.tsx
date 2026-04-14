@@ -1,94 +1,87 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useApp } from '../context/AppContext';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
-import { clearAllCheckIns } from '../storage/checkinStorage';
-import { sendTestNotification } from '../services/notificationService';
+import { useTranslation } from '../i18n';
+import { Locale } from '../i18n/types';
 
 export const SettingsScreen: React.FC = () => {
   const navigation = useNavigation();
-  const { state, updateSettings, refreshCheckIns } = useApp();
+  const { t, locale, setLocale } = useTranslation();
 
-  const handleClearData = () => {
-    Alert.alert('确认清空', '这将删除所有打卡记录，训练项目不会被删除。确定要继续吗？', [
-      {
-        text: '取消',
-        style: 'cancel',
-      },
-      {
-        text: '确定',
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            await clearAllCheckIns();
-            await refreshCheckIns();
-            Alert.alert('成功', '打卡记录已清空');
-          } catch (error) {
-            Alert.alert('错误', '清空失败，请重试');
-          }
+  const handleLanguageChange = (newLocale: Locale) => {
+    Alert.alert(
+      t('common.confirm'),
+      t('settings.languageSettings'),
+      [
+        {
+          text: t('common.cancel'),
+          style: 'cancel',
         },
-      },
-    ]);
-  };
-
-  const handleTestNotification = async () => {
-    try {
-      await sendTestNotification();
-      Alert.alert('提示', '测试通知将在2秒后显示');
-    } catch (error) {
-      Alert.alert('错误', '发送测试通知失败');
-    }
+        {
+          text: t('common.confirm'),
+          onPress: async () => {
+            await setLocale(newLocale);
+          },
+        },
+      ]
+    );
   };
 
   return (
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
         <View style={styles.section}>
-          <Text style={CommonStyles.title}>训练管理</Text>
+          <Text style={CommonStyles.title}>{t('settings.title')}</Text>
           <LargeButton
-            title="管理我的训练"
-            onPress={() => navigation.navigate('ManageExercises' as never)}
+            title={t('settings.addProject')}
+            onPress={() => navigation.navigate('AddProject' as never)}
+            variant="primary"
+            style={styles.button}
+          />
+          <LargeButton
+            title={t('settings.manageProjects')}
+            onPress={() => navigation.navigate('ManageProjects' as never)}
             variant="secondary"
             style={styles.button}
           />
         </View>
 
         <View style={styles.section}>
-          <Text style={CommonStyles.title}>通知设置</Text>
-
-          <View style={styles.settingItem}>
-            <Text style={styles.settingLabel}>提前10分钟提醒</Text>
-            <Switch
-              value={state.settings.enableEarlyReminder}
-              onValueChange={(value) => updateSettings({ enableEarlyReminder: value })}
-              trackColor={{ false: Colors.neutral, true: Colors.primary }}
-            />
+          <Text style={CommonStyles.title}>{t('settings.languageSettings')}</Text>
+          <View style={styles.languageSelector}>
+            <Text style={styles.languageLabel}>{t('settings.language')}</Text>
+            <View style={styles.languageButtons}>
+              <TouchableOpacity
+                style={[styles.languageButton, locale === 'zh' && styles.languageButtonActive]}
+                onPress={() => locale !== 'zh' && handleLanguageChange('zh')}
+              >
+                <Text style={[styles.languageButtonText, locale === 'zh' && styles.languageButtonTextActive]}>
+                  中文
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.languageButton, locale === 'en' && styles.languageButtonActive]}
+                onPress={() => locale !== 'en' && handleLanguageChange('en')}
+              >
+                <Text style={[styles.languageButtonText, locale === 'en' && styles.languageButtonTextActive]}>
+                  English
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <LargeButton
-            title="测试通知"
-            onPress={handleTestNotification}
-            variant="secondary"
-            style={styles.button}
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={CommonStyles.title}>数据管理</Text>
-
-          <LargeButton
-            title="清空所有数据"
-            onPress={handleClearData}
-            variant="danger"
-            style={styles.button}
-          />
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.version}>康复助手 v1.0.0</Text>
+          <View style={styles.developerInfo}>
+            <Text style={styles.developerTitle}>{t('settings.developerInfo')}</Text>
+            <Text style={styles.developerText}>sgao</Text>
+            <Text style={styles.developerText}>📱 13552276232</Text>
+            <Text style={styles.developerText}>✉️ sgaoshang@outlook.com</Text>
+          </View>
+          <Text style={styles.version}>{t('settings.version')}</Text>
         </View>
       </ScrollView>
     </View>
@@ -108,26 +101,73 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 12,
   },
-  settingItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  languageSelector: {
     backgroundColor: Colors.cardBackground,
     borderRadius: 12,
     padding: 16,
     marginTop: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
-  settingLabel: {
+  languageLabel: {
     fontSize: 18,
+    fontWeight: '600',
     color: Colors.textPrimary,
+    marginBottom: 12,
+  },
+  languageButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  languageButton: {
+    flex: 1,
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: Colors.border,
+    padding: 12,
+    alignItems: 'center',
+  },
+  languageButtonActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  languageButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+  },
+  languageButtonTextActive: {
+    color: '#FFFFFF',
   },
   footer: {
     alignItems: 'center',
     marginTop: 20,
     marginBottom: 40,
   },
+  developerInfo: {
+    alignItems: 'center',
+    paddingVertical: 24,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderTopColor: Colors.border,
+    borderBottomColor: Colors.border,
+    width: '100%',
+  },
+  developerTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+    marginBottom: 12,
+  },
+  developerText: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    marginBottom: 6,
+  },
   version: {
     fontSize: 14,
     color: Colors.textDisabled,
+    marginTop: 20,
   },
 });

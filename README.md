@@ -1,218 +1,209 @@
-# 康复助手 (Rehab Assistant)
+# 提醒助手 (Reminder Assistant)
 
-A comprehensive rehabilitation assistant mobile application built with React Native and Expo, designed to help patients manage their recovery exercises and track progress.
+一个通用的提醒管理应用，支持康复训练、用药提醒、测量血压血糖等各种日常提醒事项。
 
-## Features
+## 功能特性
 
-- **Exercise Library**: Browse and search rehabilitation exercises with detailed instructions
-- **Personalized Plans**: Create custom recovery plans with scheduled exercises
-- **Progress Tracking**: Monitor completion rates and recovery progress over time
-- **Reminders**: Set up notifications for exercise sessions
-- **Calendar View**: Visualize exercise schedules and history
-- **Data Export**: Share progress reports with healthcare providers
+- **项目管理**：添加、编辑、启用/禁用提醒项目
+- **定时提醒**：为每个项目设置多个提醒时间
+- **语音播报**：每天首次打开应用自动播报待办事项
+- **预设项目**：内置康复训练、用药提醒、健康测量等常用项目
+- **简洁界面**：清晰的项目展示，点击展开查看详情
 
-## Tech Stack
+## 预设项目类型
 
-- **Framework**: React Native with Expo SDK 51
-- **Language**: TypeScript
-- **Navigation**: React Navigation (Stack & Bottom Tabs)
-- **Storage**: AsyncStorage for local data persistence
-- **Notifications**: Expo Notifications
-- **Date Handling**: date-fns library
-- **UI Components**: React Native Calendars
+### 康复训练
+- 握拳练习、手指伸展、抬臂运动
+- 肩关节旋转、踝关节运动、膝关节屈伸
+- 原地踏步、颈部转动、深呼吸练习
+- 平衡训练
 
-## Prerequisites
+### 用药提醒
+- 降压药、降糖药
+- 维生素补充、钙片补充
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Expo Go app (for testing on physical devices)
-- iOS Simulator or Android Emulator (optional)
+### 健康测量
+- 测量血压、测量血糖
+- 喝水提醒、午休提醒
 
-## Installation
+## 技术栈
 
-1. Clone the repository:
+- **框架**: React Native + Expo SDK 51
+- **语言**: TypeScript
+- **导航**: React Navigation (Stack & Bottom Tabs)
+- **存储**: AsyncStorage 本地数据持久化
+- **通知**: Expo Notifications
+- **语音**: Expo Speech
+
+## 环境要求
+
+- Node.js (v18 或更高)
+- npm 或 yarn
+- Expo Go app (用于真机测试)
+- iOS Simulator 或 Android Emulator (可选)
+
+## 安装步骤
+
+1. 克隆仓库:
 ```bash
 git clone <repository-url>
 cd rehab-assistant
 ```
 
-2. Install dependencies:
+2. 安装依赖:
 ```bash
 npm install
 ```
 
-3. Start the development server:
+3. 启动开发服务器:
 ```bash
 npm start
 ```
 
-## Available Scripts
+## 可用脚本
 
-- `npm start` - Start the Expo development server
-- `npm run android` - Run on Android device/emulator
-- `npm run ios` - Run on iOS device/simulator
-- `npm run web` - Run in web browser
-- `npx tsc --noEmit` - Run TypeScript type checking
+- `npm start` - 启动 Expo 开发服务器
+- `npm run android` - 在 Android 设备/模拟器运行
+- `npm run ios` - 在 iOS 设备/模拟器运行
+- `npx tsc --noEmit` - TypeScript 类型检查
 
-## Project Structure
+## 项目结构
 
 ```
 src/
-├── components/       # Reusable UI components
-│   ├── ExerciseCard.tsx
-│   ├── ExerciseList.tsx
-│   ├── PlanCard.tsx
-│   ├── ProgressChart.tsx
-│   └── StatCard.tsx
-├── constants/        # App configuration and constants
-│   ├── Colors.ts
-│   ├── Exercises.ts
-│   ├── Images.ts
-│   ├── Layout.ts
-│   └── Styles.ts
-├── context/          # React Context providers
-│   └── DataContext.tsx
-├── navigation/       # Navigation configuration
-│   ├── AppNavigator.tsx
-│   └── types.ts
-├── screens/          # Screen components
-│   ├── CalendarScreen.tsx
-│   ├── ExerciseDetailScreen.tsx
-│   ├── ExerciseLibraryScreen.tsx
+├── components/       # 可复用 UI 组件
+│   ├── ProjectCard.tsx
+│   └── LargeButton.tsx
+├── constants/        # 常量配置
+│   ├── colors.ts
+│   ├── styles.ts
+│   ├── theme.ts
+│   └── presetProjects.ts
+├── context/          # React Context 状态管理
+│   └── AppContext.tsx
+├── navigation/       # 导航配置
+│   └── AppNavigator.tsx
+├── screens/          # 页面组件
 │   ├── HomeScreen.tsx
-│   ├── PlanDetailScreen.tsx
-│   ├── ProgressScreen.tsx
-│   └── SettingsScreen.tsx
-├── services/         # Business logic and services
-│   ├── exerciseService.ts
+│   ├── SettingsScreen.tsx
+│   ├── AddProjectScreen.tsx
+│   └── ManageProjectsScreen.tsx
+├── services/         # 业务逻辑服务
 │   ├── notificationService.ts
-│   └── progressService.ts
-├── storage/          # Data persistence layer
-│   ├── exerciseStorage.ts
-│   ├── planStorage.ts
-│   ├── progressStorage.ts
+│   └── speechService.ts
+├── storage/          # 数据持久化层
+│   ├── projectStorage.ts
 │   └── settingsStorage.ts
-├── types/            # TypeScript type definitions
+├── types/            # TypeScript 类型定义
 │   └── index.ts
-├── utils/            # Utility functions
-│   └── dateUtils.ts
-└── App.tsx           # Root component
+└── utils/            # 工具函数
+    └── dateHelper.ts
 ```
 
-## Usage Guide
+## 使用指南
 
-### Creating a Recovery Plan
+### 添加提醒项目
 
-1. Navigate to the Home screen
-2. Tap "Create New Plan"
-3. Select exercises from the library
-4. Set schedule and frequency
-5. Save the plan
+1. 进入"设置"页面
+2. 点击"+ 添加项目"
+3. 选择预设项目或自定义项目
+4. 输入项目名称和说明
+5. 设置提醒时间
+6. 保存项目
 
-### Tracking Progress
+### 管理项目
 
-1. Complete exercises as scheduled
-2. Mark exercises as completed in the app
-3. View progress charts in the Progress screen
-4. Export reports to share with healthcare providers
+1. 进入"设置"页面
+2. 点击"管理我的项目"
+3. 开关控制启用/禁用项目
+4. 点击"删除"移除项目
 
-### Setting Reminders
+### 查看项目详情
 
-1. Go to Settings
-2. Enable notifications
-3. Set reminder times for exercise sessions
-4. Grant notification permissions when prompted
+1. 在首页点击任意项目卡片展开
+2. 查看完整的项目说明和提醒时间
+3. 再次点击收起
 
-### Viewing Exercise Details
+### 通知设置
 
-1. Browse the Exercise Library
-2. Tap on any exercise to view detailed instructions
-3. Watch video demonstrations (if available)
-4. Add exercises to your recovery plan
+应用使用 Expo Notifications 实现定时提醒：
+- **iOS**: 首次使用时请求权限
+- **Android**: 首次使用时请求权限
 
-## Configuration
+## 数据存储
 
-### Notifications
+所有数据使用 AsyncStorage 本地存储：
+- 提醒项目列表
+- 项目启用状态
+- 提醒时间设置
+- 通知权限状态
 
-The app uses Expo Notifications for reminders. Ensure you have granted notification permissions:
+## 生产构建
 
-- **iOS**: Permissions are requested on first use
-- **Android**: Permissions are requested on first use
+### 使用 EAS Build
 
-### Data Storage
-
-All data is stored locally using AsyncStorage:
-- Exercise completion history
-- Custom recovery plans
-- User preferences
-- Progress statistics
-
-## Building for Production
-
-### Using EAS Build
-
-1. Install EAS CLI:
+1. 安装 EAS CLI:
 ```bash
 npm install -g eas-cli
 ```
 
-2. Configure your project (see `eas.json`)
+2. 配置项目 (参见 `eas.json`)
 
-3. Build for iOS:
+3. iOS 构建:
 ```bash
 eas build --platform ios
 ```
 
-4. Build for Android:
+4. Android 构建:
 ```bash
 eas build --platform android
 ```
 
-See [deployment documentation](./docs/DEPLOYMENT.md) for detailed build instructions.
+## 开发
 
-## Development
+### 类型检查
 
-### Type Checking
-
-Run TypeScript compiler to check for type errors:
+运行 TypeScript 编译器检查类型错误:
 ```bash
 npx tsc --noEmit
 ```
 
-### Code Structure
+### 代码规范
 
-- All components use TypeScript for type safety
-- React Context API for state management
-- Modular architecture with clear separation of concerns
-- Service layer for business logic
-- Storage layer for data persistence
+- 所有组件使用 TypeScript
+- React Context API 状态管理
+- 模块化架构，清晰的关注点分离
+- Service 层处理业务逻辑
+- Storage 层处理数据持久化
 
-## Troubleshooting
+## 故障排除
 
-### Common Issues
+### 常见问题
 
-**App won't start:**
-- Clear Metro bundler cache: `npx expo start -c`
-- Delete node_modules and reinstall: `rm -rf node_modules && npm install`
+**应用无法启动:**
+- 清理 Metro bundler 缓存: `npx expo start -c`
+- 删除 node_modules 重新安装: `rm -rf node_modules && npm install`
 
-**Notifications not working:**
-- Ensure notification permissions are granted
-- Check device notification settings
-- Verify Expo Notifications is properly configured
+**通知不工作:**
+- 确保已授予通知权限
+- 检查设备通知设置
+- 验证 Expo Notifications 配置正确
 
-**Data not persisting:**
-- Check AsyncStorage implementation
-- Verify storage methods are awaited properly
-- Check for storage quota issues
+**数据未保存:**
+- 检查 AsyncStorage 实现
+- 确保 storage 方法使用 await
+- 检查存储配额问题
 
-## Support
+## 开发者
 
-For issues, questions, or contributions, please contact the development team.
+**sgao**
+- 电话: 13552276232
+- 邮箱: sgaoshang@outlook.com
 
-## License
+## 版本
+
+v1.0.0
+
+## 许可
 
 Private - All rights reserved
-
-## Version
-
-1.0.0

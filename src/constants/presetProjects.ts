@@ -1,6 +1,7 @@
-import { Exercise } from '../types';
+import { Project } from '../types';
 
-export const PRESET_EXERCISES: Omit<Exercise, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'>[] = [
+export const PRESET_PROJECTS: Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'>[] = [
+  // 康复训练类
   {
     name: '握拳练习',
     description: '慢慢握紧拳头，保持5秒，然后放松。每次重复10-15次',
@@ -49,6 +50,50 @@ export const PRESET_EXERCISES: Omit<Exercise, 'id' | 'createdAt' | 'isEnabled' |
   {
     name: '平衡训练',
     description: '扶稳物体，单脚站立保持10秒。每侧重复5次',
+    isPreset: true,
+  },
+
+  // 用药提醒类
+  {
+    name: '降压药',
+    description: '每日定时服用降压药，饭后服用，避免空腹',
+    isPreset: true,
+  },
+  {
+    name: '降糖药',
+    description: '餐前30分钟服用，注意监测血糖',
+    isPreset: true,
+  },
+  {
+    name: '维生素补充',
+    description: '每日一次，早餐后服用',
+    isPreset: true,
+  },
+  {
+    name: '钙片补充',
+    description: '睡前服用，促进吸收',
+    isPreset: true,
+  },
+
+  // 生活习惯类
+  {
+    name: '测量血压',
+    description: '每日早晚各一次，记录血压值',
+    isPreset: true,
+  },
+  {
+    name: '测量血糖',
+    description: '空腹和餐后2小时测量，记录数值',
+    isPreset: true,
+  },
+  {
+    name: '喝水提醒',
+    description: '每次饮水200-300ml，保持充足水分',
+    isPreset: true,
+  },
+  {
+    name: '午休',
+    description: '午饭后休息30分钟，有助于恢复精力',
     isPreset: true,
   },
 ];

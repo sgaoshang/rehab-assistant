@@ -1,21 +1,17 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { AppState, Exercise, CheckIn, Settings } from '../types';
-import { getExercises, saveExercises, initializePresetExercises } from '../storage/exerciseStorage';
-import { getCheckIns, addCheckIn as addCheckInStorage, hasCheckedInToday } from '../storage/checkinStorage';
+import { AppState, Project, Settings } from '../types';
+import { getProjects, saveProjects, initializePresetProjects } from '../storage/projectStorage';
 import { getSettings, saveSettings } from '../storage/settingsStorage';
-import { scheduleExerciseNotifications, cancelExerciseNotifications, rescheduleAllNotifications } from '../services/notificationService';
+import { scheduleProjectNotifications, cancelProjectNotifications } from '../services/notificationService';
 
 interface AppContextType {
   state: AppState;
   loading: boolean;
-  refreshExercises: () => Promise<void>;
-  refreshCheckIns: () => Promise<void>;
-  addExercise: (exercise: Omit<Exercise, 'id' | 'createdAt'>) => Promise<void>;
-  updateExercise: (id: string, updates: Partial<Exercise>) => Promise<void>;
-  deleteExercise: (id: string) => Promise<void>;
-  toggleExerciseEnabled: (id: string) => Promise<void>;
-  addCheckIn: (checkin: Omit<CheckIn, 'id' | 'timestamp'>) => Promise<void>;
-  isCheckedInToday: (exerciseId: string) => boolean;
+  refreshProjects: () => Promise<void>;
+  addProject: (project: Omit<Project, 'id' | 'createdAt'>) => Promise<void>;
+  updateProject: (id: string, updates: Partial<Project>) => Promise<void>;
+  deleteProject: (id: string) => Promise<void>;
+  toggleProjectEnabled: (id: string) => Promise<void>;
   updateSettings: (updates: Partial<Settings>) => Promise<void>;
 }
 
@@ -35,10 +31,8 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [state, setState] = useState<AppState>({
-    exercises: [],
-    checkins: [],
+    projects: [],
     settings: {
-      enableEarlyReminder: false,
       notificationPermissionGranted: false,
     },
     initialized: false,
@@ -49,14 +43,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   useEffect(() => {
     const initialize = async () => {
       try {
-        await initializePresetExercises();
-        const exercises = await getExercises();
-        const checkins = await getCheckIns();
+        await initializePresetProjects();
+        const projects = await getProjects();
         const settings = await getSettings();
 
         setState({
-          exercises,
-          checkins,
+          projects,
           settings,
           initialized: true,
         });
@@ -70,78 +62,57 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     initialize();
   }, []);
 
-  const refreshExercises = async () => {
-    const exercises = await getExercises();
-    setState((prev) => ({ ...prev, exercises }));
+  const refreshProjects = async () => {
+    const projects = await getProjects();
+    setState((prev) => ({ ...prev, projects }));
   };
 
-  const refreshCheckIns = async () => {
-    const checkins = await getCheckIns();
-    setState((prev) => ({ ...prev, checkins }));
-  };
-
-  const addExercise = async (exercise: Omit<Exercise, 'id' | 'createdAt'>) => {
-    const exercises = [...state.exercises];
-    const newExercise: Exercise = {
-      ...exercise,
+  const addProject = async (project: Omit<Project, 'id' | 'createdAt'>) => {
+    const projects = [...state.projects];
+    const newProject: Project = {
+      ...project,
       id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       createdAt: Date.now(),
     };
-    exercises.push(newExercise);
-    await saveExercises(exercises);
-    setState((prev) => ({ ...prev, exercises }));
+    projects.push(newProject);
+    await saveProjects(projects);
+    setState((prev) => ({ ...prev, projects }));
 
-    if (newExercise.isEnabled) {
-      await scheduleExerciseNotifications(newExercise);
+    if (newProject.isEnabled) {
+      await scheduleProjectNotifications(newProject);
     }
   };
 
-  const updateExercise = async (id: string, updates: Partial<Exercise>) => {
-    const exercises = [...state.exercises];
-    const index = exercises.findIndex((ex) => ex.id === id);
+  const updateProject = async (id: string, updates: Partial<Project>) => {
+    const projects = [...state.projects];
+    const index = projects.findIndex((proj) => proj.id === id);
     if (index !== -1) {
-      const oldExercise = exercises[index];
-      exercises[index] = { ...oldExercise, ...updates };
-      await saveExercises(exercises);
-      setState((prev) => ({ ...prev, exercises }));
+      const oldProject = projects[index];
+      projects[index] = { ...oldProject, ...updates };
+      await saveProjects(projects);
+      setState((prev) => ({ ...prev, projects }));
 
       // 重新调度通知
-      if (exercises[index].isEnabled) {
-        await scheduleExerciseNotifications(exercises[index]);
+      if (projects[index].isEnabled) {
+        await scheduleProjectNotifications(projects[index]);
       } else {
-        await cancelExerciseNotifications(id);
+        await cancelProjectNotifications(id);
       }
     }
   };
 
-  const deleteExercise = async (id: string) => {
-    await cancelExerciseNotifications(id);
-    const exercises = state.exercises.filter((ex) => ex.id !== id);
-    await saveExercises(exercises);
-    setState((prev) => ({ ...prev, exercises }));
+  const deleteProject = async (id: string) => {
+    await cancelProjectNotifications(id);
+    const projects = state.projects.filter((proj) => proj.id !== id);
+    await saveProjects(projects);
+    setState((prev) => ({ ...prev, projects }));
   };
 
-  const toggleExerciseEnabled = async (id: string) => {
-    const exercise = state.exercises.find((ex) => ex.id === id);
-    if (exercise) {
-      await updateExercise(id, { isEnabled: !exercise.isEnabled });
+  const toggleProjectEnabled = async (id: string) => {
+    const project = state.projects.find((proj) => proj.id === id);
+    if (project) {
+      await updateProject(id, { isEnabled: !project.isEnabled });
     }
-  };
-
-  const addCheckIn = async (checkin: Omit<CheckIn, 'id' | 'timestamp'>) => {
-    const newCheckIn = await addCheckInStorage(checkin);
-    setState((prev) => ({
-      ...prev,
-      checkins: [...prev.checkins, newCheckIn],
-    }));
-  };
-
-  const isCheckedInToday = (exerciseId: string): boolean => {
-    const todayStart = new Date().setHours(0, 0, 0, 0);
-    const todayEnd = new Date().setHours(23, 59, 59, 999);
-    return state.checkins.some(
-      (c) => c.exerciseId === exerciseId && c.timestamp >= todayStart && c.timestamp <= todayEnd
-    );
   };
 
   const updateSettings = async (updates: Partial<Settings>) => {
@@ -153,14 +124,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const value: AppContextType = {
     state,
     loading,
-    refreshExercises,
-    refreshCheckIns,
-    addExercise,
-    updateExercise,
-    deleteExercise,
-    toggleExerciseEnabled,
-    addCheckIn,
-    isCheckedInToday,
+    refreshProjects,
+    addProject,
+    updateProject,
+    deleteProject,
+    toggleProjectEnabled,
     updateSettings,
   };
 

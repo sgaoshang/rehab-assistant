@@ -1,29 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from 'react-native';
-import * as Notifications from 'expo-notifications';
 
 import { HomeScreen } from '../screens/HomeScreen';
-import { CheckInScreen } from '../screens/CheckInScreen';
-import { HistoryScreen } from '../screens/HistoryScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
-import { AddExerciseScreen } from '../screens/AddExerciseScreen';
-import { ManageExercisesScreen } from '../screens/ManageExercisesScreen';
+import { AddProjectScreen } from '../screens/AddProjectScreen';
+import { ManageProjectsScreen } from '../screens/ManageProjectsScreen';
 import { COLORS } from '../constants/theme';
 
 export type RootStackParamList = {
   MainTabs: undefined;
-  AddExercise: undefined;
-  ManageExercises: undefined;
+  AddProject: undefined;
+  ManageProjects: undefined;
 };
 
 export type TabParamList = {
   Home: undefined;
-  CheckIn: undefined;
-  History: undefined;
   Settings: undefined;
 };
 
@@ -39,10 +34,6 @@ function MainTabs() {
 
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'CheckIn') {
-            iconName = focused ? 'checkbox' : 'checkbox-outline';
-          } else if (route.name === 'History') {
-            iconName = focused ? 'calendar' : 'calendar-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
           } else {
@@ -78,23 +69,7 @@ function MainTabs() {
         component={HomeScreen}
         options={{
           title: '首页',
-          headerTitle: '康复助手',
-        }}
-      />
-      <Tab.Screen
-        name="CheckIn"
-        component={CheckInScreen}
-        options={{
-          title: '打卡',
-          headerTitle: '今日打卡',
-        }}
-      />
-      <Tab.Screen
-        name="History"
-        component={HistoryScreen}
-        options={{
-          title: '历史',
-          headerTitle: '训练历史',
+          headerTitle: '提醒助手',
         }}
       />
       <Tab.Screen
@@ -110,26 +85,8 @@ function MainTabs() {
 }
 
 export default function AppNavigator() {
-  const navigationRef = useRef<any>();
-
-  useEffect(() => {
-    // 监听通知点击事件
-    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
-      const exerciseId = response.notification.request.content.data?.exerciseId;
-
-      if (exerciseId && navigationRef.current) {
-        // 导航到打卡页面（不传exercise参数，让用户从列表选择）
-        navigationRef.current.navigate('MainTabs', {
-          screen: 'CheckIn',
-        });
-      }
-    });
-
-    return () => subscription.remove();
-  }, []);
-
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
@@ -147,18 +104,18 @@ export default function AppNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="AddExercise"
-          component={AddExerciseScreen}
+          name="AddProject"
+          component={AddProjectScreen}
           options={{
-            title: '添加训练',
+            title: '添加项目',
             presentation: 'modal',
           }}
         />
         <Stack.Screen
-          name="ManageExercises"
-          component={ManageExercisesScreen}
+          name="ManageProjects"
+          component={ManageProjectsScreen}
           options={{
-            title: '管理训练',
+            title: '管理项目',
           }}
         />
       </Stack.Navigator>
