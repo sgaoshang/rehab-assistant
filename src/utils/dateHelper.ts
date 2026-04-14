@@ -1,5 +1,6 @@
 import { format, startOfDay, endOfDay, startOfWeek, endOfWeek, subDays, isSameDay } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
+import { Locale } from '../i18n/types';
 
 /**
  * 获取当天的开始时间戳（00:00:00）
@@ -34,6 +35,35 @@ export const getWeekEnd = (): number => {
  */
 export const formatChineseDate = (date: Date): string => {
   return format(date, 'yyyy年M月d日 EEEE', { locale: zhCN });
+};
+
+/**
+ * 格式化日期为英文格式：Monday, April 14, 2026
+ */
+export const formatEnglishDate = (date: Date): string => {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const dayName = days[date.getDay()];
+  const monthName = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${dayName}, ${monthName} ${day}, ${year}`;
+};
+
+/**
+ * 根据语言环境格式化日期
+ */
+export const formatDate = (date: Date, locale: Locale): string => {
+  if (locale === 'zh') {
+    return formatChineseDate(date);
+  } else {
+    return formatEnglishDate(date);
+  }
 };
 
 /**
