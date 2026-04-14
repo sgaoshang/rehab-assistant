@@ -26,6 +26,40 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
   const { t } = useTranslation();
   const [trackWidth, setTrackWidth] = useState(0);
 
+  const handleTrackPress = (e: any) => {
+    const touchX = e.nativeEvent.locationX;
+    const trackStart = trackWidth * 0.1; // 10% margin
+    const trackEnd = trackWidth * 0.9;   // 90% position
+    const effectiveWidth = trackEnd - trackStart;
+
+    // Calculate relative position within the track
+    const relativeX = touchX - trackStart;
+
+    // Ignore if outside track bounds
+    if (relativeX < 0 || relativeX > effectiveWidth) {
+      return;
+    }
+
+    // Convert to time
+    const newTime = positionToTime(relativeX, effectiveWidth);
+
+    // Check if time already exists
+    if (selectedTimes.includes(newTime)) {
+      Alert.alert('', t('addProject.timeDuplicate'));
+      return;
+    }
+
+    // Check if limit reached
+    if (selectedTimes.length >= maxTimes) {
+      Alert.alert('', t('addProject.timeLimit'));
+      return;
+    }
+
+    // Add and sort times
+    const newTimes = [...selectedTimes, newTime].sort();
+    onTimesChange(newTimes);
+  };
+
   return (
     <View style={styles.container}>
       {/* Selected Times Chips */}
@@ -56,6 +90,8 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
           onLayout={(e: LayoutChangeEvent) => {
             setTrackWidth(e.nativeEvent.layout.width);
           }}
+          onStartShouldSetResponder={() => true}
+          onResponderGrant={(e) => handleTrackPress(e)}
         >
           {/* Track line */}
           <View style={styles.trackLine} />
