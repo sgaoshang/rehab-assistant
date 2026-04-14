@@ -17,6 +17,7 @@
     "date-fns": "^3.0.0",
     "expo": "~54.0.0",
     "expo-file-system": "~19.0.21",
+    "expo-localization": "~17.0.8",
     "expo-notifications": "~0.32.16",
     "expo-sharing": "~14.0.8",
     "expo-speech": "~14.0.8",
