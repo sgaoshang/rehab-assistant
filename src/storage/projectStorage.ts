@@ -27,7 +27,15 @@ export const getProjects = async (): Promise<Project[]> => {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY);
     const rawProjects = data ? JSON.parse(data) : [];
-    return migrateProjects(rawProjects);
+    const migratedProjects = migrateProjects(rawProjects);
+
+    // If migration added missing fields, save the migrated data
+    const needsMigration = rawProjects.some((p: any) => !p.completionHistory);
+    if (needsMigration && rawProjects.length > 0) {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(migratedProjects));
+    }
+
+    return migratedProjects;
   } catch (error) {
     console.error('Failed to get projects:', error);
     return [];
