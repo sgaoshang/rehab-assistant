@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image, Platform } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import * as MediaLibrary from 'expo-media-library';
 import { downloadAsync, cacheDirectory } from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 import { LargeButton } from '../components/LargeButton';
@@ -70,31 +69,6 @@ export const SettingsScreen: React.FC = () => {
     } catch (error) {
       console.error('识别二维码失败:', error);
       Alert.alert(t('addProject.error'), t('settings.recognizeError'));
-    }
-  };
-
-  const handleSaveQRCode = async () => {
-    try {
-      // 请求相册权限
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(t('addProject.error'), t('settings.permissionDenied'));
-        return;
-      }
-
-      // 获取二维码文件
-      const fileUri = await getQRCodeFileUri();
-
-      // 保存到相册
-      const assetResult = await MediaLibrary.createAssetAsync(fileUri);
-
-      Alert.alert(
-        t('settings.saveSuccess'),
-        t('settings.saveSuccessHint')
-      );
-    } catch (error) {
-      console.error('保存二维码失败:', error);
-      Alert.alert(t('addProject.error'), t('settings.saveError'));
     }
   };
 
@@ -238,13 +212,6 @@ export const SettingsScreen: React.FC = () => {
               onPress={handleRecognizeQRCode}
             >
               <Text style={styles.recognizeButtonText}>{t('settings.recognizeQRCode')}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={handleSaveQRCode}
-            >
-              <Text style={styles.saveButtonText}>{t('settings.saveToAlbum')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -448,26 +415,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   recognizeButtonText: {
     fontSize: 16,
     fontWeight: '700',
     color: '#FFFFFF',
-  },
-  saveButton: {
-    backgroundColor: 'transparent',
-    borderRadius: 8,
-    paddingVertical: 12,
-    alignItems: 'center',
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  saveButtonText: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: Colors.textPrimary,
   },
   closeButton: {
     backgroundColor: Colors.background,
