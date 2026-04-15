@@ -41,6 +41,12 @@ export const ManageProjectsScreen: React.FC = () => {
     );
   };
 
+  const getDisplayName = (project: any) => {
+    return project.presetId
+      ? t(`presets.${project.presetId}.name`)
+      : project.name;
+  };
+
   const renderRightActions = (projectId: string, projectName: string) => (
     progress: Animated.AnimatedInterpolation<number>,
     dragX: Animated.AnimatedInterpolation<number>
@@ -69,37 +75,69 @@ export const ManageProjectsScreen: React.FC = () => {
     );
   };
 
+  const totalProjects = state.projects.length;
+  const enabledCount = state.projects.filter(p => p.isEnabled).length;
+
   return (
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
+        {/* 统计信息 */}
+        {totalProjects > 0 && (
+          <View style={styles.header}>
+            <Text style={styles.statsText}>
+              共 {totalProjects} 个项目 · 已启用 {enabledCount} 个
+            </Text>
+          </View>
+        )}
+
         {state.projects.length === 0 ? (
-          <Text style={[CommonStyles.body, styles.emptyText]}>{t('manageProjects.noProjects')}</Text>
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyIcon}>📋</Text>
+            <Text style={[CommonStyles.body, styles.emptyText]}>
+              {t('manageProjects.noProjects')}
+            </Text>
+          </View>
         ) : (
           state.projects.map((project) => (
             <Swipeable
               key={project.id}
-              renderRightActions={renderRightActions(project.id, project.name)}
+              renderRightActions={renderRightActions(project.id, getDisplayName(project))}
               overshootRight={false}
               friction={2}
               rightThreshold={40}
             >
-              <View style={styles.projectItem}>
-                <View style={styles.projectInfo}>
-                  <Text style={styles.projectName}>{project.name}</Text>
-                  <Text style={styles.projectDescription} numberOfLines={1}>
-                    {project.description}
-                  </Text>
-                  {project.reminderTimes.length > 0 && (
-                    <Text style={styles.reminderText}>
-                      {t('projects.reminderTimes')}: {project.reminderTimes.join(', ')}
+              <View style={[
+                styles.projectItem,
+                {
+                  borderLeftWidth: 4,
+                  borderLeftColor: project.isEnabled ? Colors.success : Colors.border,
+                }
+              ]}>
+                <View style={styles.projectContent}>
+                  <View style={styles.projectInfo}>
+                    <Text style={styles.projectName}>
+                      {project.presetId
+                        ? t(`presets.${project.presetId}.name`)
+                        : project.name}
                     </Text>
-                  )}
+                    <Text style={styles.projectDescription} numberOfLines={2}>
+                      {project.presetId
+                        ? t(`presets.${project.presetId}.description`)
+                        : project.description}
+                    </Text>
+                    {project.reminderTimes.length > 0 && (
+                      <Text style={styles.reminderText}>
+                        {project.reminderTimes.join(' · ')}
+                      </Text>
+                    )}
+                  </View>
+                  <Switch
+                    value={project.isEnabled}
+                    onValueChange={() => toggleProjectEnabled(project.id)}
+                    trackColor={{ false: Colors.border, true: Colors.primary }}
+                    thumbColor={Colors.cardBackground}
+                  />
                 </View>
-                <Switch
-                  value={project.isEnabled}
-                  onValueChange={() => toggleProjectEnabled(project.id)}
-                  trackColor={{ false: Colors.neutral, true: Colors.success }}
-                />
               </View>
             </Swipeable>
           ))
@@ -115,11 +153,27 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 16,
+    paddingBottom: 32,
+  },
+  header: {
+    marginBottom: 16,
+  },
+  statsText: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
+  },
+  emptyIcon: {
+    fontSize: 48,
+    marginBottom: 16,
   },
   emptyText: {
     textAlign: 'center',
-    color: Colors.textDisabled,
-    marginTop: 40,
+    color: Colors.textSecondary,
   },
   projectItem: {
     backgroundColor: Colors.cardBackground,
@@ -127,39 +181,40 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     padding: 14,
     paddingHorizontal: 16,
-    marginBottom: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    marginVertical: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
     elevation: 2,
   },
+  projectContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
   projectInfo: {
     flex: 1,
-    marginRight: 12,
+    minWidth: 0,
   },
   projectName: {
     fontSize: 17,
     fontWeight: '600',
     color: Colors.textPrimary,
-    marginBottom: 4,
   },
   projectDescription: {
     fontSize: 14,
     color: Colors.textSecondary,
-    marginBottom: 4,
+    marginTop: 2,
   },
   reminderText: {
     fontSize: 13,
     color: Colors.primary,
-    marginTop: 3,
+    marginTop: 4,
   },
   swipeActions: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginVertical: 4,
   },
   swipeEditButton: {
     backgroundColor: Colors.primary,
