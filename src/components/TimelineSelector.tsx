@@ -197,33 +197,29 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
 
       {/* Timeline Track */}
       <View style={styles.trackCard}>
-        <View
-          style={styles.trackContainer}
-          onLayout={(e: LayoutChangeEvent) => {
-            setTrackWidth(e.nativeEvent.layout.width);
-          }}
-          onStartShouldSetResponder={() => true}
-          onResponderGrant={(e) => handleTrackPress(e)}
-        >
-          {/* Track line */}
-          <View style={styles.trackLine} />
+        {Platform.OS === 'web' ? (
+          <TouchableOpacity
+            style={styles.trackContainer}
+            onLayout={(e: LayoutChangeEvent) => {
+              setTrackWidth(e.nativeEvent.layout.width);
+            }}
+            onPress={(e) => handleTrackPress(e)}
+            activeOpacity={1}
+          >
+            {/* Track line */}
+            <View style={styles.trackLine} />
 
-          {/* Scale labels */}
-          <Text style={[styles.scaleLabel, styles.scaleLabelLeft]}>00:00</Text>
-          <Text style={[styles.scaleLabel, styles.scaleLabelRight]}>23:59</Text>
+            {/* Scale labels */}
+            <Text style={[styles.scaleLabel, styles.scaleLabelLeft]}>00:00</Text>
+            <Text style={[styles.scaleLabel, styles.scaleLabelRight]}>23:59</Text>
 
-          {/* Time markers - rendered on top of track */}
-          {selectedTimes.map((time) => {
-            const trackStart = trackWidth * 0.1;
-            const trackEnd = trackWidth * 0.9;
-            const effectiveWidth = trackEnd - trackStart;
-            const position = timeToPosition(time, effectiveWidth) + trackStart;
+            {/* Time markers - rendered on top of track */}
+            {selectedTimes.map((time) => {
+              const trackStart = trackWidth * 0.1;
+              const trackEnd = trackWidth * 0.9;
+              const effectiveWidth = trackEnd - trackStart;
+              const position = timeToPosition(time, effectiveWidth) + trackStart;
 
-            const isDragging = draggingTime === time;
-            const panResponder = createMarkerPanResponder(time);
-
-            // On web, use TouchableOpacity instead of PanResponder
-            if (Platform.OS === 'web') {
               return (
                 <TouchableOpacity
                   key={time}
@@ -243,33 +239,59 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
                   <View style={styles.markerCircle} />
                 </TouchableOpacity>
               );
-            }
+            })}
+          </TouchableOpacity>
+        ) : (
+          <View
+            style={styles.trackContainer}
+            onLayout={(e: LayoutChangeEvent) => {
+              setTrackWidth(e.nativeEvent.layout.width);
+            }}
+            onStartShouldSetResponder={() => true}
+            onResponderGrant={(e) => handleTrackPress(e)}
+          >
+            {/* Track line */}
+            <View style={styles.trackLine} />
 
-            // On native, use PanResponder for drag
-            return (
-              <Animated.View
-                key={time}
-                {...panResponder.panHandlers}
-                style={[
-                  styles.marker,
-                  {
-                    left: isDragging
-                      ? position
-                      : position,
-                    transform: [
-                      { translateX: isDragging ? dragOffsetAnim : 0 },
-                      { translateY: -10 },
-                      { scale: markerScales[time] || 1 },
-                    ],
-                  },
-                ]}
-              >
-                <Text style={styles.markerLabel}>{time}</Text>
-                <View style={styles.markerCircle} />
-              </Animated.View>
-            );
-          })}
-        </View>
+            {/* Scale labels */}
+            <Text style={[styles.scaleLabel, styles.scaleLabelLeft]}>00:00</Text>
+            <Text style={[styles.scaleLabel, styles.scaleLabelRight]}>23:59</Text>
+
+            {/* Time markers - rendered on top of track */}
+            {selectedTimes.map((time) => {
+              const trackStart = trackWidth * 0.1;
+              const trackEnd = trackWidth * 0.9;
+              const effectiveWidth = trackEnd - trackStart;
+              const position = timeToPosition(time, effectiveWidth) + trackStart;
+
+              const isDragging = draggingTime === time;
+              const panResponder = createMarkerPanResponder(time);
+
+              return (
+                <Animated.View
+                  key={time}
+                  {...panResponder.panHandlers}
+                  style={[
+                    styles.marker,
+                    {
+                      left: isDragging
+                        ? position
+                        : position,
+                      transform: [
+                        { translateX: isDragging ? dragOffsetAnim : 0 },
+                        { translateY: -10 },
+                        { scale: markerScales[time] || 1 },
+                      ],
+                    },
+                  ]}
+                >
+                  <Text style={styles.markerLabel}>{time}</Text>
+                  <View style={styles.markerCircle} />
+                </Animated.View>
+              );
+            })}
+          </View>
+        )}
       </View>
 
       {/* Instruction Hint */}
