@@ -9,6 +9,7 @@ import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
 import { useTranslation } from '../i18n';
 import { Locale } from '../i18n/types';
+import { AppConfig } from '../config/app';
 
 export const SettingsScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -155,17 +156,19 @@ export const SettingsScreen: React.FC = () => {
         </View>
 
         {/* 打赏开发者 */}
-        <TouchableOpacity
-          style={[styles.settingCard, styles.donateCard]}
-          onPress={() => setDonateModalVisible(true)}
-          activeOpacity={0.7}
-        >
-          <View style={styles.cardContent}>
-            <Text style={styles.cardIcon}>💝</Text>
-            <Text style={styles.cardTitle}>{t('settings.supportDeveloper')}</Text>
-            <Text style={styles.cardArrow}>›</Text>
-          </View>
-        </TouchableOpacity>
+        {AppConfig.enableDonation && (
+          <TouchableOpacity
+            style={[styles.settingCard, styles.donateCard]}
+            onPress={() => setDonateModalVisible(true)}
+            activeOpacity={0.7}
+          >
+            <View style={styles.cardContent}>
+              <Text style={styles.cardIcon}>💝</Text>
+              <Text style={styles.cardTitle}>{t('settings.supportDeveloper')}</Text>
+              <Text style={styles.cardArrow}>›</Text>
+            </View>
+          </TouchableOpacity>
+        )}
 
         {/* 开发者信息 */}
         <View style={styles.settingCard}>
@@ -173,8 +176,8 @@ export const SettingsScreen: React.FC = () => {
             <View style={styles.developerRow}>
               <Text style={styles.cardIcon}>👨‍💻</Text>
               <View style={styles.developerInfo}>
-                <Text style={styles.developerName}>sgao</Text>
-                <Text style={styles.developerEmail}>sgaoshang@outlook.com</Text>
+                <Text style={styles.developerName}>{AppConfig.developer.name}</Text>
+                <Text style={styles.developerEmail}>{AppConfig.developer.email}</Text>
               </View>
             </View>
             <Text style={styles.versionInCard}>{t('settings.version')}</Text>
