@@ -104,13 +104,21 @@ export const zh: Translations = {
       name: '平衡训练',
       description: '单腿站立保持平衡，每侧30秒',
     },
+    antiplateletMed: {
+      name: '抗血小板药',
+      description: '如阿司匹林，建议晚上睡前服用（遵医嘱）',
+    },
     bloodPressureMed: {
       name: '降压药',
-      description: '按医嘱服用降压药物',
+      description: '建议早上服用，控制全天血压（遵医嘱）',
+    },
+    lipidLoweringMed: {
+      name: '降脂药',
+      description: '如他汀类，建议晚上服用（遵医嘱）',
     },
     diabetesMed: {
       name: '降糖药',
-      description: '按医嘱服用降糖药物',
+      description: '根据药物类型，餐前或餐后服用（遵医嘱）',
     },
     vitaminSupplement: {
       name: '维生素补充',

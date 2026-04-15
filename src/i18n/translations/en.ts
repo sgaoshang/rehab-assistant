@@ -104,13 +104,21 @@ export const en: Translations = {
       name: 'Balance Training',
       description: 'Stand on one leg maintaining balance, 30 seconds each side',
     },
+    antiplateletMed: {
+      name: 'Antiplatelet Medicine',
+      description: 'e.g., Aspirin, recommended before bed (as prescribed)',
+    },
     bloodPressureMed: {
       name: 'Blood Pressure Medicine',
-      description: 'Take blood pressure medication as prescribed',
+      description: 'Recommended in the morning for all-day control (as prescribed)',
+    },
+    lipidLoweringMed: {
+      name: 'Lipid-Lowering Medicine',
+      description: 'e.g., Statins, recommended in the evening (as prescribed)',
     },
     diabetesMed: {
       name: 'Diabetes Medicine',
-      description: 'Take diabetes medication as prescribed',
+      description: 'Before or after meals depending on type (as prescribed)',
     },
     vitaminSupplement: {
       name: 'Vitamin Supplement',

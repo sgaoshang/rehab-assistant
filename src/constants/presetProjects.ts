@@ -12,7 +12,9 @@ export type PresetProjectId =
   | 'neckRotation'
   | 'deepBreathing'
   | 'balanceTraining'
+  | 'antiplateletMed'
   | 'bloodPressureMed'
+  | 'lipidLoweringMed'
   | 'diabetesMed'
   | 'vitaminSupplement'
   | 'calciumSupplement'
@@ -98,10 +100,24 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
 
   // Medication reminders
   {
+    name: t('presets.antiplateletMed.name'),
+    description: t('presets.antiplateletMed.description'),
+    isPreset: true,
+    presetId: 'antiplateletMed',
+    category: 'medication',
+  },
+  {
     name: t('presets.bloodPressureMed.name'),
     description: t('presets.bloodPressureMed.description'),
     isPreset: true,
     presetId: 'bloodPressureMed',
+    category: 'medication',
+  },
+  {
+    name: t('presets.lipidLoweringMed.name'),
+    description: t('presets.lipidLoweringMed.description'),
+    isPreset: true,
+    presetId: 'lipidLoweringMed',
     category: 'medication',
   },
   {
