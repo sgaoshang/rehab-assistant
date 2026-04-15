@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
   },
   projectItem: {
     backgroundColor: Colors.cardBackground,
-    borderRadius: 8,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
     padding: 14,
     paddingHorizontal: 16,
     marginBottom: 8,
