@@ -120,14 +120,6 @@ export const en: Translations = {
       name: 'Diabetes Medicine',
       description: 'Before or after meals depending on type (as prescribed)',
     },
-    vitaminSupplement: {
-      name: 'Vitamin Supplement',
-      description: 'Take vitamin supplement',
-    },
-    calciumSupplement: {
-      name: 'Calcium Supplement',
-      description: 'Take calcium supplement',
-    },
     checkBloodPressure: {
       name: 'Check Blood Pressure',
       description: 'Measure and record blood pressure',

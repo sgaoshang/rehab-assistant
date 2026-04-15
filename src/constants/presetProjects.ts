@@ -16,8 +16,6 @@ export type PresetProjectId =
   | 'bloodPressureMed'
   | 'lipidLoweringMed'
   | 'diabetesMed'
-  | 'vitaminSupplement'
-  | 'calciumSupplement'
   | 'checkBloodPressure'
   | 'checkBloodSugar'
   | 'drinkWater'
@@ -125,20 +123,6 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     description: t('presets.diabetesMed.description'),
     isPreset: true,
     presetId: 'diabetesMed',
-    category: 'medication',
-  },
-  {
-    name: t('presets.vitaminSupplement.name'),
-    description: t('presets.vitaminSupplement.description'),
-    isPreset: true,
-    presetId: 'vitaminSupplement',
-    category: 'medication',
-  },
-  {
-    name: t('presets.calciumSupplement.name'),
-    description: t('presets.calciumSupplement.description'),
-    isPreset: true,
-    presetId: 'calciumSupplement',
     category: 'medication',
   },
 

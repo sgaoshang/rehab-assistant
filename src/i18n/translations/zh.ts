@@ -120,14 +120,6 @@ export const zh: Translations = {
       name: '降糖药',
       description: '根据药物类型，餐前或餐后服用（遵医嘱）',
     },
-    vitaminSupplement: {
-      name: '维生素补充',
-      description: '服用维生素补充剂',
-    },
-    calciumSupplement: {
-      name: '钙片补充',
-      description: '服用钙片',
-    },
     checkBloodPressure: {
       name: '测量血压',
       description: '使用血压计测量并记录',
