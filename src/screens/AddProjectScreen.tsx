@@ -172,6 +172,7 @@ export const AddProjectScreen: React.FC = () => {
         isEnabled: true,
         reminderTimes: preset.suggestedTimes || [],
         presetId: preset.presetId,
+        completionHistory: [],
       });
 
       Alert.alert(
@@ -299,6 +300,7 @@ export const AddProjectScreen: React.FC = () => {
           isEnabled: true,
           reminderTimes,
           presetId,
+          completionHistory: [],
         });
 
         Alert.alert(t('addProject.success'), t('addProject.projectAdded'), [
