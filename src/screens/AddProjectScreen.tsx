@@ -305,126 +305,93 @@ export const AddProjectScreen: React.FC = () => {
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Section 1: Project Info */}
-        <View style={[styles.section, styles.firstSection]}>
-          {/* Section title with accent */}
-          <View style={styles.sectionTitleContainer}>
-            <View style={styles.sectionTitleAccent} />
-            <Text style={styles.sectionTitle}>{t('addProject.projectInfo')}</Text>
-          </View>
-
-          {/* First input - project name */}
-          <View style={[styles.inputContainer, styles.firstInputContainer]}>
-            <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
-            <TextInput
-              style={styles.input}
-              placeholder={t('addProject.projectNamePlaceholder')}
-              placeholderTextColor={Colors.textDisabled}
-              value={name}
-              onChangeText={handleNameChange}
-              maxLength={20}
-            />
-            <Text style={styles.hint}>{t('addProject.projectNameHint', { length: name.length })}</Text>
-          </View>
-
-          {/* Project description input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>{t('addProject.projectDescription')}</Text>
-            <TextInput
-              style={[styles.input, styles.textArea]}
-              placeholder={t('addProject.projectDescriptionPlaceholder')}
-              placeholderTextColor={Colors.textDisabled}
-              value={description}
-              onChangeText={handleDescriptionChange}
-              multiline
-              numberOfLines={3}
-              maxLength={100}
-              textAlignVertical="top"
-            />
-            <Text style={styles.hint}>{t('addProject.projectDescriptionHint', { length: description.length })}</Text>
-          </View>
+        {/* 项目名称 */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={t('addProject.projectNamePlaceholder')}
+            placeholderTextColor={Colors.textDisabled}
+            value={name}
+            onChangeText={handleNameChange}
+            maxLength={20}
+          />
+          <Text style={styles.hint}>{t('addProject.projectNameHint', { length: name.length })}</Text>
         </View>
 
-        {/* Section 2: Reminder Times */}
-        <View style={styles.section}>
-          {/* Section title with accent */}
-          <View style={styles.sectionTitleContainer}>
-            <View style={styles.sectionTitleAccent} />
-            <Text style={styles.sectionTitle}>{t('addProject.reminderTime')}</Text>
-          </View>
+        {/* 项目说明 */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{t('addProject.projectDescription')}</Text>
+          <TextInput
+            style={[styles.input, styles.textArea]}
+            placeholder={t('addProject.projectDescriptionPlaceholder')}
+            placeholderTextColor={Colors.textDisabled}
+            value={description}
+            onChangeText={handleDescriptionChange}
+            multiline
+            numberOfLines={3}
+            maxLength={100}
+            textAlignVertical="top"
+          />
+          <Text style={styles.hint}>{t('addProject.projectDescriptionHint', { length: description.length })}</Text>
+        </View>
 
-          {/* Template section card */}
-          <View style={styles.templateSectionCard}>
-            <Text style={styles.templateSectionLabel}>常用模板</Text>
+        {/* 提醒时间 */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
 
-            {/* Template selector button */}
+          {/* 常用模版和自定义按钮并排 */}
+          <View style={styles.buttonRow}>
             <TouchableOpacity
-              style={styles.templateSelectorButton}
+              style={styles.templateButton}
               onPress={() => setShowTemplateModal(true)}
               activeOpacity={0.7}
             >
-              <Text style={selectedTemplate ? styles.templateSelectorText : styles.templateSelectorPlaceholder}>
+              <Text style={styles.templateButtonText}>
                 {selectedTemplate
                   ? templates.find(t => t.value === selectedTemplate)?.label
-                  : t('addProject.selectTemplate')}
+                  : '常用模板'}
               </Text>
-              <Text style={styles.templateSelectorIcon}>▼</Text>
+              <Text style={styles.templateButtonIcon}>▼</Text>
             </TouchableOpacity>
 
-            <Text style={styles.templateHint}>
-              💡 {t('addProject.templateChangeHint')}
-            </Text>
+            <TouchableOpacity
+              style={styles.customButton}
+              onPress={() => {
+                if (Platform.OS === 'ios') {
+                  setShowTimeModal(true);
+                } else {
+                  setShowTimePicker(true);
+                }
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.customButtonText}>+ {t('addProject.customTimeShort')}</Text>
+            </TouchableOpacity>
           </View>
 
-          {/* Selected times card */}
-          <View style={styles.selectedTimesCard}>
-            {/* Card header */}
-            <View style={styles.selectedTimesCardHeader}>
-              <Text style={styles.selectedTimesLabel}>已选时间</Text>
-              <Text style={styles.timesCount}>({reminderTimes.length})</Text>
+          {/* 已选时间 */}
+          {reminderTimes.length === 0 ? (
+            <View style={styles.emptyTimesContainer}>
+              <Text style={styles.emptyTimesText}>
+                {t('addProject.noTimeSelectedHint')}
+              </Text>
             </View>
-
-            {/* Times content */}
-            {reminderTimes.length === 0 ? (
-              <View style={styles.emptyTimesContainer}>
-                <Text style={styles.emptyTimesText}>
-                  {t('addProject.noTimeSelectedHint')}
-                </Text>
-              </View>
-            ) : (
-              <View style={styles.selectedTimesList}>
-                {reminderTimes.map((time) => (
-                  <TouchableOpacity
-                    key={time}
-                    style={styles.selectedTimeChip}
-                    onPress={() => handleRemoveTime(time)}
-                  >
-                    <Text style={styles.selectedTimeText}>{time}</Text>
-                    <Text style={styles.removeChipIcon}>×</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
-
-          {/* Add Custom Time Button */}
-          <TouchableOpacity
-            style={styles.customTimeButton}
-            onPress={() => {
-              if (Platform.OS === 'ios') {
-                setShowTimeModal(true);
-              } else {
-                setShowTimePicker(true);
-              }
-            }}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.customTimeButtonText}>
-              + {t('addProject.customTimeShort')}
-            </Text>
-          </TouchableOpacity>
+          ) : (
+            <View style={styles.selectedTimesList}>
+              {reminderTimes.map((time) => (
+                <TouchableOpacity
+                  key={time}
+                  style={styles.selectedTimeChip}
+                  onPress={() => handleRemoveTime(time)}
+                >
+                  <Text style={styles.selectedTimeText}>{time}</Text>
+                  <Text style={styles.removeChipIcon}>×</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
-        {/* End Section 2 */}
 
         {/* Android 时间选择器 */}
         {showTimePicker && Platform.OS === 'android' && (
@@ -644,17 +611,48 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 12,
   },
-  firstInputContainer: {
-    marginTop: 24,
-    marginBottom: 20,
+  buttonRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
   },
-  section: {
-    marginBottom: 24,
+  templateButton: {
+    flex: 1,
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  firstSection: {
-    marginTop: 0,
+  templateButtonText: {
+    fontSize: 14,
+    color: Colors.textPrimary,
+    fontWeight: '500',
+  },
+  templateButtonIcon: {
+    fontSize: 16,
+    color: Colors.primary,
+  },
+  customButton: {
+    flex: 1,
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: Colors.primary,
+    padding: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  customButtonText: {
+    fontSize: 14,
+    color: Colors.primary,
+    fontWeight: '500',
   },
   label: {
     fontSize: 16,
