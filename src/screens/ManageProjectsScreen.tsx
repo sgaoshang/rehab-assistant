@@ -16,7 +16,25 @@ export const ManageProjectsScreen: React.FC = () => {
   const { state, toggleProjectEnabled, deleteProject } = useApp();
   const { t } = useTranslation();
 
-  const handleDelete = (id: string, name: string) => {
+  const handleDelete = async (id: string, name: string) => {
+    // On web, use window.confirm
+    if (Platform.OS === 'web') {
+      const confirmed = window.confirm(
+        `${t('manageProjects.confirmDelete')}\n\n${t('manageProjects.confirmDeleteMessage', { name })}`
+      );
+
+      if (confirmed) {
+        try {
+          await deleteProject(id);
+          // Project removed from list - no need for success alert
+        } catch (error) {
+          window.alert(`${t('addProject.error')}\n${t('manageProjects.deleteFailed')}`);
+        }
+      }
+      return;
+    }
+
+    // On native, use Alert.alert
     Alert.alert(
       t('manageProjects.confirmDelete'),
       t('manageProjects.confirmDeleteMessage', { name }),
