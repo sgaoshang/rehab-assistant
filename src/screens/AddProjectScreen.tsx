@@ -47,6 +47,15 @@ export const AddProjectScreen: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [presetId, setPresetId] = useState<PresetProjectId | undefined>(existingProject?.presetId as PresetProjectId);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
+  const [expandedCategories, setExpandedCategories] = useState<{
+    rehabilitation: boolean;
+    medication: boolean;
+    healthCheck: boolean;
+  }>({
+    rehabilitation: false,
+    medication: true,  // 默认展开用药提醒
+    healthCheck: false,
+  });
 
   // Get preset projects with translations
   const presetProjects = useMemo(() => getPresetProjects(t), [t]);
@@ -114,6 +123,13 @@ export const AddProjectScreen: React.FC = () => {
       times: ['20:00'],
     },
   ], [t]);
+
+  const toggleCategory = (category: keyof typeof expandedCategories) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
+  };
 
   const handleSelectPreset = (preset: typeof presetProjects[0]) => {
     setName(preset.name);
@@ -283,9 +299,9 @@ export const AddProjectScreen: React.FC = () => {
 
   if (mode === 'preset') {
     const categories: Array<{ key: keyof typeof groupedPresets; title: string }> = [
-      { key: 'rehabilitation', title: t('projects.categoryRehabilitation') },
       { key: 'medication', title: t('projects.categoryMedication') },
       { key: 'healthCheck', title: t('projects.categoryHealthCheck') },
+      { key: 'rehabilitation', title: t('projects.categoryRehabilitation') },
     ];
 
     return (
@@ -293,8 +309,18 @@ export const AddProjectScreen: React.FC = () => {
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
           {categories.map((category) => (
             <View key={category.key} style={styles.categoryGroup}>
-              <Text style={styles.categoryTitle}>{category.title}</Text>
-              {groupedPresets[category.key].map((preset, index) => (
+              <TouchableOpacity
+                style={styles.categoryHeader}
+                onPress={() => toggleCategory(category.key)}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.categoryTitle}>{category.title}</Text>
+                <Text style={styles.categoryIcon}>
+                  {expandedCategories[category.key] ? '▼' : '▶'}
+                </Text>
+              </TouchableOpacity>
+
+              {expandedCategories[category.key] && groupedPresets[category.key].map((preset, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.presetCard}
@@ -579,14 +605,26 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   categoryGroup: {
-    marginBottom: 20,
+    marginBottom: 16,
+  },
+  categoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    marginBottom: 4,
   },
   categoryTitle: {
     fontSize: 16,
     fontWeight: '700',
     color: Colors.textPrimary,
-    marginBottom: 8,
-    marginLeft: 4,
+    flex: 1,
+  },
+  categoryIcon: {
+    fontSize: 12,
+    color: Colors.textSecondary,
+    marginLeft: 8,
   },
   presetCard: {
     backgroundColor: Colors.cardBackground,
