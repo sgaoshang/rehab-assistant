@@ -760,13 +760,28 @@ const styles = StyleSheet.create({
   selectedTimesSection: {
     marginBottom: 12,
   },
+  selectedTimesCard: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  selectedTimesCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
   selectedTimesLabel: {
-    fontSize: 12,
-    color: Colors.textDisabled,
-    marginBottom: 8,
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.textSecondary,
   },
   timesCount: {
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '700',
     color: Colors.primary,
   },
   emptyTimesContainer: {
