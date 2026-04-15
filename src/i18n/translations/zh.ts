@@ -38,6 +38,11 @@ export const zh: Translations = {
     wechatPay: '微信支付',
     alipay: '支付宝',
     scanToPay: '扫码支付',
+    saveToAlbum: '保存到相册',
+    saveSuccess: '二维码已保存到相册',
+    saveSuccessHint: '请在微信/支付宝中使用"扫一扫"从相册识别',
+    saveError: '保存失败，请重试',
+    permissionDenied: '需要相册权限才能保存二维码',
   },
   projects: {
     reminderTimes: '提醒时间',

@@ -1,0 +1,158 @@
+<h2>自定义时间交互方式</h2>
+<p class="subtitle">用户点击"+ 添加自定义时间"后的交互方式</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>保留当前的模态框方式</h3>
+      <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 12px;">继续使用现有的时间选择器模态框</p>
+      <div class="mockup" style="margin-top: 16px;">
+        <div class="mockup-body" style="background: rgba(0,0,0,0.5); padding: 16px; position: relative;">
+          <div style="background: white; border-radius: 12px; padding: 0; overflow: hidden; max-width: 400px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #eee;">
+              <button style="background: none; border: none; color: #7f8c8d; font-size: 15px;">取消</button>
+              <span style="font-size: 17px; font-weight: 600; color: #2c3e50;">选择时间</span>
+              <button style="background: none; border: none; color: #2E5C8A; font-size: 15px; font-weight: 600;">确认</button>
+            </div>
+            <div style="padding: 20px; text-align: center;">
+              <div style="display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 32px; color: #2c3e50;">
+                <div style="border-bottom: 2px solid #2E5C8A; padding: 8px 16px;">14</div>
+                <span>:</span>
+                <div style="border-bottom: 2px solid #2E5C8A; padding: 8px 16px;">30</div>
+              </div>
+              <div style="margin-top: 16px; font-size: 12px; color: #95A5A6;">iOS 滚轮选择器样式</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>用户已熟悉的交互方式</li>
+            <li>无需修改现有代码</li>
+            <li>时间选择精确度高</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>需要额外的弹窗操作</li>
+            <li>打断当前流程</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>内联时间输入框</h3>
+      <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 12px;">点击按钮后，在页面上直接展开时间选择器</p>
+      <div class="mockup" style="margin-top: 16px;">
+        <div class="mockup-body" style="background: #f5f5f5; padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">已选时间</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; align-items: center;">
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">08:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">12:00 ×</span>
+            </div>
+          </div>
+
+          <div style="background: #E8F4FD; border: 1px solid #2E5C8A; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+            <div style="font-size: 13px; font-weight: 600; color: #2c3e50; margin-bottom: 12px;">添加自定义时间</div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="number" placeholder="时" min="0" max="23" style="width: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; text-align: center;" value="14">
+              <span style="font-size: 18px; color: #2c3e50;">:</span>
+              <input type="number" placeholder="分" min="0" max="59" step="15" style="width: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; text-align: center;" value="30">
+              <button style="background: #2E5C8A; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-size: 14px; font-weight: 500;">添加</button>
+              <button style="background: #ddd; color: #555; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px;">取消</button>
+            </div>
+            <div style="margin-top: 8px; font-size: 11px; color: #7f8c8d;">分钟会自动对齐到15分钟间隔（00、15、30、45）</div>
+          </div>
+
+          <button style="width: 100%; padding: 12px; background: white; border: 1px dashed #2E5C8A; border-radius: 8px; color: #2E5C8A; font-size: 14px; font-weight: 500;">+ 添加自定义时间</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>无需弹窗，流程更顺畅</li>
+            <li>操作在同一页面完成</li>
+            <li>可以快速连续添加多个时间</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>占用页面空间</li>
+            <li>需要数字输入，在移动端可能不够直观</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>快捷时间网格 + 自定义入口</h3>
+      <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 12px;">展开常用快捷时间按钮，仍保留自定义模态框</p>
+      <div class="mockup" style="margin-top: 16px;">
+        <div class="mockup-body" style="background: #f5f5f5; padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">已选时间</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; align-items: center;">
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">08:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">12:00 ×</span>
+            </div>
+          </div>
+
+          <div style="background: white; border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+            <div style="font-size: 13px; font-weight: 600; color: #2c3e50; margin-bottom: 10px;">快捷时间</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;">
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">08:00</button>
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">10:00</button>
+              <button style="background: #2E5C8A; border: 1px solid #2E5C8A; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: white;">12:00</button>
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">14:00</button>
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">16:00</button>
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">18:00</button>
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">20:00</button>
+              <button style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 4px; border-radius: 6px; font-size: 13px; color: #2c3e50;">22:00</button>
+            </div>
+            <button style="width: 100%; padding: 10px; background: white; border: 1px solid #2E5C8A; border-radius: 6px; color: #2E5C8A; font-size: 13px; font-weight: 500;">⏰ 选择其他时间</button>
+          </div>
+
+          <button style="width: 100%; padding: 12px; background: white; border: 1px dashed #2E5C8A; border-radius: 8px; color: #2E5C8A; font-size: 14px; font-weight: 500;">+ 添加自定义时间</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>快捷时间一键添加，效率高</li>
+            <li>覆盖大部分常用时间点</li>
+            <li>特殊时间仍可用模态框精确选择</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>占用较多空间</li>
+            <li>与模板功能可能有重叠</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px; padding: 16px; background: #fff3cd; border-left: 3px solid #ffc107; border-radius: 8px;">
+  <h3 style="font-size: 14px; margin-bottom: 8px; color: #856404;">💡 设计建议</h3>
+  <p style="font-size: 13px; color: #856404; line-height: 1.6;">
+    考虑到你已经有了常用模板功能，方案A（保留模态框）可能是最简洁的选择。如果大部分用户使用模板就能满足需求，自定义时间的使用频率会较低，模态框方式足够应对。
+  </p>
+</div>

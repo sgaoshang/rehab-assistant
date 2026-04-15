@@ -1,0 +1,281 @@
+<h2>时间选择交互方式</h2>
+<p class="subtitle">选择一种最适合康复助手的交互方式。当前使用的是芯片选择，我们来探索完全不同的交互模式。</p>
+
+<div class="options">
+  <div class="option" data-choice="timeline" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>时间轴滑块</h3>
+      <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 16px;">在一天的时间轴上添加标记点</p>
+      <div class="mockup" style="margin: 0;">
+        <div class="mockup-body" style="padding: 24px 16px; background: #F8F9FA;">
+          <!-- 时间轴示意 -->
+          <div style="position: relative; height: 80px; background: white; border-radius: 12px; padding: 16px;">
+            <div style="position: absolute; top: 50%; left: 10%; right: 10%; height: 4px; background: #E0E0E0; transform: translateY(-50%); border-radius: 2px;"></div>
+
+            <!-- 时间点 -->
+            <div style="position: absolute; top: 50%; left: 20%; transform: translate(-50%, -50%);">
+              <div style="width: 24px; height: 24px; background: #2E5C8A; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"></div>
+              <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: #2E5C8A; white-space: nowrap;">08:00</div>
+            </div>
+
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div style="width: 24px; height: 24px; background: #2E5C8A; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"></div>
+              <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: #2E5C8A; white-space: nowrap;">12:00</div>
+            </div>
+
+            <div style="position: absolute; top: 50%; left: 80%; transform: translate(-50%, -50%);">
+              <div style="width: 24px; height: 24px; background: #2E5C8A; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15);"></div>
+              <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 600; color: #2E5C8A; white-space: nowrap;">18:00</div>
+            </div>
+
+            <!-- 时间刻度 -->
+            <div style="position: absolute; bottom: 8px; left: 10%; font-size: 11px; color: #95a5a6;">00:00</div>
+            <div style="position: absolute; bottom: 8px; right: 10%; font-size: 11px; color: #95a5a6;">23:59</div>
+          </div>
+
+          <div style="margin-top: 16px; padding: 12px; background: #E8F4FD; border-radius: 8px; border-left: 3px solid #2E5C8A;">
+            <div style="font-size: 13px; color: #2c3e50; font-weight: 500; margin-bottom: 4px;">操作方式</div>
+            <div style="font-size: 12px; color: #7f8c8d;">点击时间轴添加提醒时间，拖动调整，点击标记点删除</div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px; font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>直观的时间分布可视化</li>
+            <li>拖动调整时间很方便</li>
+            <li>一眼看出时间间隔</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>需要拖动操作，精确度要求高</li>
+            <li>占用垂直空间较多</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="clock" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>时钟表盘</h3>
+      <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 16px;">类似时钟的圆形界面，点击选择时间</p>
+      <div class="mockup" style="margin: 0;">
+        <div class="mockup-body" style="padding: 24px 16px; background: #F8F9FA; display: flex; justify-content: center;">
+          <!-- 时钟表盘 -->
+          <div style="position: relative; width: 220px; height: 220px; background: white; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <!-- 中心点 -->
+            <div style="position: absolute; top: 50%; left: 50%; width: 12px; height: 12px; background: #2E5C8A; border-radius: 50%; transform: translate(-50%, -50%); z-index: 3;"></div>
+
+            <!-- 时间刻度 -->
+            <div style="position: absolute; top: 8%; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 600; color: #2c3e50;">12</div>
+            <div style="position: absolute; top: 50%; right: 8%; transform: translateY(-50%); font-size: 14px; font-weight: 600; color: #2c3e50;">6</div>
+            <div style="position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 600; color: #2c3e50;">18</div>
+            <div style="position: absolute; top: 50%; left: 8%; transform: translateY(-50%); font-size: 14px; font-weight: 600; color: #2c3e50;">0</div>
+
+            <!-- 选中的时间点 -->
+            <div style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);">
+              <div style="width: 32px; height: 32px; background: #2E5C8A; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(46,92,138,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 600;">08</div>
+            </div>
+
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div style="width: 32px; height: 32px; background: #2E5C8A; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(46,92,138,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 600;">12</div>
+            </div>
+
+            <div style="position: absolute; bottom: 20%; left: 50%; transform: translate(-50%, 50%);">
+              <div style="width: 32px; height: 32px; background: #2E5C8A; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(46,92,138,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 600;">18</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 16px; padding: 12px; background: #E8F4FD; border-radius: 8px; border-left: 3px solid #2E5C8A;">
+        <div style="font-size: 13px; color: #2c3e50; font-weight: 500; margin-bottom: 4px;">操作方式</div>
+        <div style="font-size: 12px; color: #7f8c8d;">点击圆盘上的位置添加时间，自动吸附到最近的整点或半点</div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px; font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>形象生动，符合时间概念</li>
+            <li>适合全天时间分布展示</li>
+            <li>有趣的交互体验</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>占用空间大（正方形区域）</li>
+            <li>精确选择时间较困难</li>
+            <li>不适合选择多个时间</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="schedule" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>日程表格</h3>
+      <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 16px;">类似日历的网格布局，点击格子选择时间段</p>
+      <div class="mockup" style="margin: 0;">
+        <div class="mockup-body" style="padding: 24px 16px; background: #F8F9FA;">
+          <!-- 日程表格 -->
+          <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            <!-- 表头 -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); background: #F8F9FA; border-bottom: 2px solid #E0E0E0;">
+              <div style="padding: 8px; text-align: center; font-size: 12px; font-weight: 600; color: #7f8c8d;">早上</div>
+              <div style="padding: 8px; text-align: center; font-size: 12px; font-weight: 600; color: #7f8c8d;">中午</div>
+              <div style="padding: 8px; text-align: center; font-size: 12px; font-weight: 600; color: #7f8c8d;">下午</div>
+              <div style="padding: 8px; text-align: center; font-size: 12px; font-weight: 600; color: #7f8c8d;">晚上</div>
+            </div>
+
+            <!-- 时间格子 -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr);">
+              <!-- 早上 -->
+              <div style="padding: 12px; border-right: 1px solid #E8EAED; border-bottom: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #2E5C8A; color: white; border-radius: 8px; padding: 8px 4px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 4px rgba(46,92,138,0.2);">08:00</div>
+              </div>
+              <div style="padding: 12px; border-right: 1px solid #E8EAED; border-bottom: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #F8F9FA; color: #95a5a6; border-radius: 8px; padding: 8px 4px; font-size: 13px; border: 1px dashed #D0D0D0;">10:00</div>
+              </div>
+              <div style="padding: 12px; border-right: 1px solid #E8EAED; border-bottom: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #2E5C8A; color: white; border-radius: 8px; padding: 8px 4px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 4px rgba(46,92,138,0.2);">12:00</div>
+              </div>
+              <div style="padding: 12px; border-bottom: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #F8F9FA; color: #95a5a6; border-radius: 8px; padding: 8px 4px; font-size: 13px; border: 1px dashed #D0D0D0;">14:00</div>
+              </div>
+
+              <!-- 下午 -->
+              <div style="padding: 12px; border-right: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #F8F9FA; color: #95a5a6; border-radius: 8px; padding: 8px 4px; font-size: 13px; border: 1px dashed #D0D0D0;">16:00</div>
+              </div>
+              <div style="padding: 12px; border-right: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #2E5C8A; color: white; border-radius: 8px; padding: 8px 4px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 4px rgba(46,92,138,0.2);">18:00</div>
+              </div>
+              <div style="padding: 12px; border-right: 1px solid #E8EAED; text-align: center;">
+                <div style="background: #F8F9FA; color: #95a5a6; border-radius: 8px; padding: 8px 4px; font-size: 13px; border: 1px dashed #D0D0D0;">20:00</div>
+              </div>
+              <div style="padding: 12px; text-align: center;">
+                <div style="background: #F8F9FA; color: #95a5a6; border-radius: 8px; padding: 8px 4px; font-size: 13px; border: 1px dashed #D0D0D0;">22:00</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px; padding: 12px; background: #E8F4FD; border-radius: 8px; border-left: 3px solid #2E5C8A;">
+            <div style="font-size: 13px; color: #2c3e50; font-weight: 500; margin-bottom: 4px;">操作方式</div>
+            <div style="font-size: 12px; color: #7f8c8d;">点击时间格子切换选中/未选中状态</div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px; font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>分类清晰（早中晚）</li>
+            <li>操作简单，点击即可</li>
+            <li>预设常用时间点</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>只能选择预设的时间</li>
+            <li>网格占用空间较大</li>
+            <li>不够灵活</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="picker" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>滚轮选择器</h3>
+      <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 16px;">iOS风格的滚轮，滚动选择小时和分钟</p>
+      <div class="mockup" style="margin: 0;">
+        <div class="mockup-body" style="padding: 24px 16px; background: #F8F9FA; display: flex; flex-direction: column; align-items: center;">
+          <!-- 已选时间列表 -->
+          <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center;">
+            <div style="background: #2E5C8A; color: white; border-radius: 12px; padding: 6px 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+              08:00
+              <span style="font-size: 16px; cursor: pointer;">×</span>
+            </div>
+            <div style="background: #2E5C8A; color: white; border-radius: 12px; padding: 6px 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+              12:00
+              <span style="font-size: 16px; cursor: pointer;">×</span>
+            </div>
+            <div style="background: #2E5C8A; color: white; border-radius: 12px; padding: 6px 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+              18:00
+              <span style="font-size: 16px; cursor: pointer;">×</span>
+            </div>
+          </div>
+
+          <!-- 滚轮选择器 -->
+          <div style="background: white; border-radius: 16px; padding: 16px 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 240px;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 12px;">
+              <!-- 小时滚轮 -->
+              <div style="width: 80px;">
+                <div style="text-align: center; color: #D0D0D0; font-size: 16px; padding: 8px 0;">07</div>
+                <div style="text-align: center; color: #2E5C8A; font-size: 24px; font-weight: 600; padding: 8px 0; background: #F0F4F8; border-radius: 8px;">08</div>
+                <div style="text-align: center; color: #D0D0D0; font-size: 16px; padding: 8px 0;">09</div>
+              </div>
+
+              <div style="font-size: 24px; font-weight: 600; color: #2E5C8A;">:</div>
+
+              <!-- 分钟滚轮 -->
+              <div style="width: 80px;">
+                <div style="text-align: center; color: #D0D0D0; font-size: 16px; padding: 8px 0;">45</div>
+                <div style="text-align: center; color: #2E5C8A; font-size: 24px; font-weight: 600; padding: 8px 0; background: #F0F4F8; border-radius: 8px;">00</div>
+                <div style="text-align: center; color: #D0D0D0; font-size: 16px; padding: 8px 0;">15</div>
+              </div>
+            </div>
+
+            <button style="width: 100%; margin-top: 16px; background: #2E5C8A; color: white; border: none; border-radius: 8px; padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">+ 添加时间</button>
+          </div>
+
+          <div style="margin-top: 20px; padding: 12px; background: #E8F4FD; border-radius: 8px; border-left: 3px solid #2E5C8A; width: 100%;">
+            <div style="font-size: 13px; color: #2c3e50; font-weight: 500; margin-bottom: 4px;">操作方式</div>
+            <div style="font-size: 12px; color: #7f8c8d;">滚动选择小时和分钟，点击"添加时间"按钮确认</div>
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px; font-size: 13px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>精确选择任意时间</li>
+            <li>iOS用户熟悉的操作</li>
+            <li>可以选择分钟级精度</li>
+            <li>已选时间清晰展示</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>每次添加需要额外步骤</li>
+            <li>不能一眼看出所有选项</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 32px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+  <h3>设计考虑</h3>
+  <p>康复助手的时间选择场景：</p>
+  <ul>
+    <li><strong>使用频率：</strong>添加项目时使用，不是高频操作</li>
+    <li><strong>典型用例：</strong>每天 2-4 个提醒时间</li>
+    <li><strong>用户群体：</strong>可能包括老年人，需要简单易用</li>
+    <li><strong>时间精度：</strong>通常是整点或半点，极少需要分钟级精度</li>
+  </ul>
+  <p style="margin-top: 16px; color: #666;">您更倾向于哪种交互方式？或者希望结合多种方式的优点？</p>
+</div>

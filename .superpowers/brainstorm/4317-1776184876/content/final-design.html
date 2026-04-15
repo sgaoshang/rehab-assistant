@@ -1,0 +1,146 @@
+<h2>提醒时间设置 - 最终设计方案</h2>
+<p class="subtitle">确认设计细节</p>
+
+<div class="section" style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <h3 style="font-size: 18px; margin-bottom: 16px; color: #2c3e50;">设计总览</h3>
+
+  <div style="display: grid; gap: 12px;">
+    <div style="display: flex; align-items: start; gap: 12px;">
+      <div style="background: #2E5C8A; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0;">1</div>
+      <div style="flex: 1;">
+        <strong style="display: block; font-size: 14px; color: #2c3e50; margin-bottom: 4px;">界面布局</strong>
+        <p style="font-size: 13px; color: #7f8c8d; margin: 0;">下拉框 + 已选时间chips + 添加自定义时间按钮</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: start; gap: 12px;">
+      <div style="background: #2E5C8A; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0;">2</div>
+      <div style="flex: 1;">
+        <strong style="display: block; font-size: 14px; color: #2c3e50; margin-bottom: 4px;">默认行为</strong>
+        <p style="font-size: 13px; color: #7f8c8d; margin: 0;">新建项目时，自动填充"每日三次 - 早中晚"（08:00, 12:00, 18:00）</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: start; gap: 12px;">
+      <div style="background: #2E5C8A; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0;">3</div>
+      <div style="flex: 1;">
+        <strong style="display: block; font-size: 14px; color: #2c3e50; margin-bottom: 4px;">切换模板</strong>
+        <p style="font-size: 13px; color: #7f8c8d; margin: 0;">追加去重 - 保留已有时间，新时间追加进去，自动去重</p>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: start; gap: 12px;">
+      <div style="background: #2E5C8A; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0;">4</div>
+      <div style="flex: 1;">
+        <strong style="display: block; font-size: 14px; color: #2c3e50; margin-bottom: 4px;">自定义时间</strong>
+        <p style="font-size: 13px; color: #7f8c8d; margin: 0;">保留现有模态框（iOS滚轮选择器）</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mockup" style="margin-bottom: 24px;">
+  <div class="mockup-header">新建项目 - 提醒时间设置（初始状态）</div>
+  <div class="mockup-body" style="background: #f5f5f5; padding: 20px;">
+
+    <!-- 项目名称 -->
+    <div style="margin-bottom: 20px;">
+      <label style="font-size: 14px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 8px;">项目名称 <span style="color: #e74c3c;">*</span></label>
+      <input type="text" placeholder="例如：手指康复训练" style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; background: white;">
+      <div style="font-size: 12px; color: #95A5A6; margin-top: 4px; text-align: right;">0/20</div>
+    </div>
+
+    <!-- 项目描述 -->
+    <div style="margin-bottom: 20px;">
+      <label style="font-size: 14px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 8px;">项目描述</label>
+      <textarea placeholder="描述这个康复项目的具体内容" style="width: 100%; min-height: 90px; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; background: white; resize: vertical;"></textarea>
+      <div style="font-size: 12px; color: #95A5A6; margin-top: 4px; text-align: right;">0/100</div>
+    </div>
+
+    <!-- 提醒时间 -->
+    <div style="margin-bottom: 20px;">
+      <label style="font-size: 14px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 8px;">提醒时间 <span style="color: #e74c3c;">*</span></label>
+
+      <!-- 常用模板下拉框 -->
+      <div style="margin-bottom: 12px;">
+        <select style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: white; color: #2c3e50;">
+          <option selected>每日三次 - 早中晚 (08:00, 12:00, 18:00)</option>
+          <option>每日三次 - 饭前 (07:30, 11:30, 17:30)</option>
+          <option>每日三次 - 饭后 (08:30, 12:30, 18:30)</option>
+          <option>每日两次 - 早晚 (08:00, 20:00)</option>
+          <option>每日一次 - 早晨 (08:00)</option>
+          <option>每日一次 - 晚上 (20:00)</option>
+        </select>
+        <div style="font-size: 12px; color: #7f8c8d; margin-top: 6px;">💡 切换模板会追加新时间（自动去重）</div>
+      </div>
+
+      <!-- 已选时间 -->
+      <div style="margin-bottom: 12px;">
+        <div style="font-size: 13px; color: #7f8c8d; margin-bottom: 8px;">
+          已选时间 <span style="font-weight: 600; color: #2E5C8A;">(3个)</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; align-items: center;">
+          <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+            08:00
+            <span style="font-size: 16px; font-weight: 600; cursor: pointer;">×</span>
+          </span>
+          <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+            12:00
+            <span style="font-size: 16px; font-weight: 600; cursor: pointer;">×</span>
+          </span>
+          <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+            18:00
+            <span style="font-size: 16px; font-weight: 600; cursor: pointer;">×</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 添加自定义时间按钮 -->
+      <button style="width: 100%; padding: 12px; background: white; border: 1px dashed #2E5C8A; border-radius: 8px; color: #2E5C8A; font-size: 14px; font-weight: 500; cursor: pointer;">
+        + 添加自定义时间
+      </button>
+    </div>
+
+    <!-- 保存按钮 -->
+    <button style="width: 100%; padding: 16px; background: #2E5C8A; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;">
+      保存项目
+    </button>
+  </div>
+</div>
+
+<div class="section" style="background: #E8F4FD; border-left: 3px solid #2E5C8A; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+  <h3 style="font-size: 14px; margin-bottom: 12px; color: #2c3e50;">交互流程示例</h3>
+  <div style="font-size: 13px; color: #555; line-height: 1.8;">
+    <div style="margin-bottom: 8px;">
+      <strong>场景1：用户直接使用默认</strong><br>
+      → 页面打开，已有 08:00, 12:00, 18:00<br>
+      → 填写项目名称和描述<br>
+      → 点击"保存项目"完成
+    </div>
+    <div style="margin-bottom: 8px;">
+      <strong>场景2：用户切换到饭前模板</strong><br>
+      → 初始有 08:00, 12:00, 18:00<br>
+      → 切换到"每日三次 - 饭前"<br>
+      → 时间变为 07:30, 08:00, 11:30, 12:00, 17:30, 18:00（追加去重）<br>
+      → 用户手动删除不需要的时间
+    </div>
+    <div>
+      <strong>场景3：用户添加自定义时间</strong><br>
+      → 初始有 08:00, 12:00, 18:00<br>
+      → 点击"+ 添加自定义时间"<br>
+      → 弹出模态框，选择时间（例如 15:30）<br>
+      → 确认后，时间变为 08:00, 12:00, 15:30, 18:00（自动排序）
+    </div>
+  </div>
+</div>
+
+<div class="section" style="background: #f8f9fa; padding: 16px; border-radius: 8px;">
+  <h3 style="font-size: 14px; margin-bottom: 12px; color: #2c3e50;">需要移除的功能</h3>
+  <ul style="font-size: 13px; color: #555; line-height: 1.8; margin: 0; padding-left: 20px;">
+    <li>快捷时间网格（早晨、中午、下午等按钮）</li>
+    <li>时间模板卡片（当前的模板展示方式）</li>
+  </ul>
+  <div style="margin-top: 12px; font-size: 12px; color: #7f8c8d;">
+    这些功能将被统一整合到下拉框的常用模板中
+  </div>
+</div>

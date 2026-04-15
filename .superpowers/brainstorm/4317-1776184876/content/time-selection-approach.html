@@ -1,0 +1,184 @@
+<h2>提醒时间设置 - 设计方向</h2>
+<p class="subtitle">只保留常用模板（下拉选择）和自定义时间</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>下拉框 + 时间选择器按钮</h3>
+      <div class="mockup" style="margin-top: 16px;">
+        <div class="mockup-body" style="background: #f5f5f5; padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">常用模板</label>
+            <select style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+              <option>选择常用模板（可选）</option>
+              <option>每日三次 - 早中晚 (08:00, 12:00, 18:00)</option>
+              <option>每日三次 - 饭前 (07:30, 11:30, 17:30)</option>
+              <option>每日三次 - 饭后 (08:30, 12:30, 18:30)</option>
+              <option>每日两次 - 早晚 (08:00, 20:00)</option>
+              <option>每日一次 - 早晨 (08:00)</option>
+              <option>每日一次 - 晚上 (20:00)</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">已选时间</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; align-items: center;">
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">08:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">12:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">18:00 ×</span>
+            </div>
+          </div>
+
+          <button style="width: 100%; padding: 12px; background: white; border: 1px dashed #2E5C8A; border-radius: 8px; color: #2E5C8A; font-size: 14px; font-weight: 500;">+ 添加自定义时间</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>界面简洁，占用空间少</li>
+            <li>下拉框节省屏幕空间</li>
+            <li>模板名称描述清晰</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>需要点击才能看到所有模板</li>
+            <li>模板时间不够直观</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>可折叠模板列表</h3>
+      <div class="mockup" style="margin-top: 16px;">
+        <div class="mockup-body" style="background: #f5f5f5; padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">已选时间</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; align-items: center;">
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">08:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">12:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">18:00 ×</span>
+            </div>
+          </div>
+
+          <div style="background: white; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; padding: 12px; cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 14px; font-weight: 500; color: #2c3e50;">常用模板</span>
+              <span style="color: #95A5A6;">▼</span>
+            </div>
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee;">
+              <div style="padding: 8px; margin-bottom: 4px; background: #f8f9fa; border-radius: 6px; cursor: pointer;">
+                <div style="font-size: 13px; font-weight: 500; color: #2c3e50; margin-bottom: 4px;">每日三次 - 早中晚</div>
+                <div style="font-size: 12px; color: #7f8c8d;">08:00 · 12:00 · 18:00</div>
+              </div>
+              <div style="padding: 8px; margin-bottom: 4px; background: #f8f9fa; border-radius: 6px; cursor: pointer;">
+                <div style="font-size: 13px; font-weight: 500; color: #2c3e50; margin-bottom: 4px;">每日三次 - 饭前</div>
+                <div style="font-size: 12px; color: #7f8c8d;">07:30 · 11:30 · 17:30</div>
+              </div>
+              <div style="padding: 8px; background: #f8f9fa; border-radius: 6px; cursor: pointer;">
+                <div style="font-size: 13px; font-weight: 500; color: #2c3e50; margin-bottom: 4px;">每日两次 - 早晚</div>
+                <div style="font-size: 12px; color: #7f8c8d;">08:00 · 20:00</div>
+              </div>
+              <div style="text-align: center; padding: 8px; color: #95A5A6; font-size: 12px;">...更多</div>
+            </div>
+          </div>
+
+          <button style="width: 100%; padding: 12px; background: white; border: 1px dashed #2E5C8A; border-radius: 8px; color: #2E5C8A; font-size: 14px; font-weight: 500;">+ 添加自定义时间</button>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>时间显示直观清晰</li>
+            <li>可折叠，不占空间时能完全收起</li>
+            <li>每个模板都有名称和时间</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>展开时占用较多空间</li>
+            <li>需要额外的折叠/展开交互</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>两按钮模式（模板/自定义二选一）</h3>
+      <div class="mockup" style="margin-top: 16px;">
+        <div class="mockup-body" style="background: #f5f5f5; padding: 16px;">
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">选择方式</label>
+            <div style="display: flex; gap: 8px;">
+              <button style="flex: 1; padding: 10px; background: #2E5C8A; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 500;">使用模板</button>
+              <button style="flex: 1; padding: 10px; background: white; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; font-weight: 500; color: #2c3e50;">自定义时间</button>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">常用模板</label>
+            <select style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+              <option>每日三次 - 早中晚 (08:00, 12:00, 18:00)</option>
+              <option>每日三次 - 饭前 (07:30, 11:30, 17:30)</option>
+              <option>每日三次 - 饭后 (08:30, 12:30, 18:30)</option>
+              <option>每日两次 - 早晚 (08:00, 20:00)</option>
+              <option>每日一次 - 早晨 (08:00)</option>
+              <option>每日一次 - 晚上 (20:00)</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 13px; font-weight: 600; color: #2c3e50; display: block; margin-bottom: 6px;">已选时间</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; align-items: center;">
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">08:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">12:00 ×</span>
+              <span style="background: #2E5C8A; color: white; padding: 6px 12px; border-radius: 12px; font-size: 13px;">18:00 ×</span>
+            </div>
+          </div>
+
+          <div style="background: #E8F4FD; border-left: 3px solid #2E5C8A; padding: 10px; border-radius: 6px; font-size: 12px; color: #7f8c8d;">
+            选择模板后，时间会自动填充。点击"自定义时间"可以手动添加。
+          </div>
+        </div>
+      </div>
+      <div class="pros-cons" style="margin-top: 16px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>两种模式切换清晰</li>
+            <li>提示信息明确使用方式</li>
+            <li>模板和自定义不混淆</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>增加了额外的交互步骤</li>
+            <li>无法模板+自定义混合使用</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
+  <h3 style="font-size: 16px; margin-bottom: 8px;">关键设计决策</h3>
+  <ul style="font-size: 14px; color: #555; line-height: 1.8;">
+    <li><strong>选择模板后的行为</strong>：是替换所有时间，还是追加到已有时间？</li>
+    <li><strong>自定义时间方式</strong>：继续使用当前的时间选择器模态框？</li>
+    <li><strong>已选时间的编辑</strong>：只能删除，还是可以编辑修改？</li>
+  </ul>
+</div>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
@@ -30,6 +32,41 @@ export const SettingsScreen: React.FC = () => {
         },
       ]
     );
+  };
+
+  const handleSaveQRCode = async () => {
+    try {
+      // 请求相册权限
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(t('addProject.error'), t('settings.permissionDenied'));
+        return;
+      }
+
+      // 获取图片路径
+      const imageModule = selectedPayMethod === 'wechat'
+        ? require('../../assets/images/wechat-qr.png')
+        : require('../../assets/images/alipay-qr.png');
+
+      // 解析asset路径
+      const asset = Image.resolveAssetSource(imageModule);
+      const fileName = selectedPayMethod === 'wechat' ? 'wechat-qr.png' : 'alipay-qr.png';
+      const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
+
+      // 下载到本地缓存
+      const downloadResult = await FileSystem.downloadAsync(asset.uri, fileUri);
+
+      // 保存到相册
+      const assetResult = await MediaLibrary.createAssetAsync(downloadResult.uri);
+
+      Alert.alert(
+        t('settings.saveSuccess'),
+        t('settings.saveSuccessHint')
+      );
+    } catch (error) {
+      console.error('保存二维码失败:', error);
+      Alert.alert(t('addProject.error'), t('settings.saveError'));
+    }
   };
 
   return (
@@ -167,6 +204,13 @@ export const SettingsScreen: React.FC = () => {
               />
               <Text style={styles.scanToPayText}>{t('settings.scanToPay')}</Text>
             </View>
+
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={handleSaveQRCode}
+            >
+              <Text style={styles.saveButtonText}>{t('settings.saveToAlbum')}</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.closeButton}
@@ -363,6 +407,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textSecondary,
     fontWeight: '500',
+  },
+  saveButton: {
+    backgroundColor: Colors.primary,
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  saveButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
   closeButton: {
     backgroundColor: Colors.background,

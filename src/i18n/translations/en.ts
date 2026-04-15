@@ -38,6 +38,11 @@ export const en: Translations = {
     wechatPay: 'WeChat Pay',
     alipay: 'Alipay',
     scanToPay: 'Scan to Pay',
+    saveToAlbum: 'Save to Album',
+    saveSuccess: 'QR code saved to album',
+    saveSuccessHint: 'Please use "Scan" in WeChat/Alipay to recognize from album',
+    saveError: 'Failed to save, please try again',
+    permissionDenied: 'Album permission is required to save QR code',
   },
   projects: {
     reminderTimes: 'Reminder Times',
