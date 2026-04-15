@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert, Animated } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert, Animated, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -98,14 +98,8 @@ export const ManageProjectsScreen: React.FC = () => {
             </Text>
           </View>
         ) : (
-          state.projects.map((project) => (
-            <Swipeable
-              key={project.id}
-              renderRightActions={renderRightActions(project.id, getDisplayName(project))}
-              overshootRight={false}
-              friction={2}
-              rightThreshold={40}
-            >
+          state.projects.map((project) => {
+            const projectContent = (
               <View style={[
                 styles.projectItem,
                 {
@@ -131,16 +125,52 @@ export const ManageProjectsScreen: React.FC = () => {
                       </Text>
                     )}
                   </View>
-                  <Switch
-                    value={project.isEnabled}
-                    onValueChange={() => toggleProjectEnabled(project.id)}
-                    trackColor={{ false: Colors.border, true: Colors.primary }}
-                    thumbColor={Colors.cardBackground}
-                  />
+                  <View style={styles.projectControls}>
+                    <Switch
+                      value={project.isEnabled}
+                      onValueChange={() => toggleProjectEnabled(project.id)}
+                      trackColor={{ false: Colors.border, true: Colors.primary }}
+                      thumbColor={Colors.cardBackground}
+                    />
+                    {Platform.OS === 'web' && (
+                      <View style={styles.webButtons}>
+                        <TouchableOpacity
+                          style={styles.webEditButton}
+                          onPress={() => navigation.navigate('AddProject', { projectId: project.id })}
+                        >
+                          <Text style={styles.webButtonText}>{t('manageProjects.edit')}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.webDeleteButton}
+                          onPress={() => handleDelete(project.id, getDisplayName(project))}
+                        >
+                          <Text style={styles.webButtonText}>{t('common.delete')}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
+                  </View>
                 </View>
               </View>
-            </Swipeable>
-          ))
+            );
+
+            // On web, render without Swipeable
+            if (Platform.OS === 'web') {
+              return <View key={project.id}>{projectContent}</View>;
+            }
+
+            // On native, use Swipeable
+            return (
+              <Swipeable
+                key={project.id}
+                renderRightActions={renderRightActions(project.id, getDisplayName(project))}
+                overshootRight={false}
+                friction={2}
+                rightThreshold={40}
+              >
+                {projectContent}
+              </Swipeable>
+            );
+          })
         )}
       </ScrollView>
     </View>
@@ -193,6 +223,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
+  projectControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   projectInfo: {
     flex: 1,
     minWidth: 0,
@@ -238,6 +273,27 @@ const styles = StyleSheet.create({
   swipeDeleteText: {
     color: Colors.textWhite,
     fontSize: 14,
+    fontWeight: '500',
+  },
+  webButtons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  webEditButton: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  webDeleteButton: {
+    backgroundColor: Colors.error,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+  },
+  webButtonText: {
+    color: Colors.textWhite,
+    fontSize: 13,
     fontWeight: '500',
   },
 });

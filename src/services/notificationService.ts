@@ -4,21 +4,28 @@ import { Platform } from 'react-native';
 import { Project } from '../types';
 import { TranslationFunction } from '../i18n/types';
 
-// 配置通知处理器
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
+// 配置通知处理器（仅在原生平台）
+if (Platform.OS !== 'web') {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
+  });
+}
 
 /**
  * 请求通知权限
  */
 export const requestNotificationPermission = async (): Promise<boolean> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return false;
+  }
+
   try {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -48,6 +55,11 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
  * 检查通知权限状态
  */
 export const checkNotificationPermission = async (): Promise<boolean> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return false;
+  }
+
   try {
     const { status } = await Notifications.getPermissionsAsync();
     return status === 'granted';
@@ -83,6 +95,11 @@ export const scheduleProjectNotifications = async (
   project: Project,
   t: TranslationFunction
 ): Promise<void> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   if (!project.isEnabled || project.reminderTimes.length === 0) {
     return;
   }
@@ -132,6 +149,11 @@ export const scheduleProjectNotifications = async (
  * 取消训练的所有通知
  */
 export const cancelProjectNotifications = async (projectId: string): Promise<void> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
     const notificationIds = scheduledNotifications
@@ -150,6 +172,11 @@ export const cancelProjectNotifications = async (projectId: string): Promise<voi
  * 取消所有通知
  */
 export const cancelAllNotifications = async (): Promise<void> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     await Notifications.cancelAllScheduledNotificationsAsync();
   } catch (error) {
@@ -164,6 +191,11 @@ export const rescheduleAllNotifications = async (
   projects: Project[],
   t: TranslationFunction
 ): Promise<void> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     await cancelAllNotifications();
 
@@ -181,6 +213,11 @@ export const rescheduleAllNotifications = async (
  * 发送测试通知
  */
 export const sendTestNotification = async (t: TranslationFunction): Promise<void> => {
+  // Notifications are not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     const now = new Date();
     const timeString = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;

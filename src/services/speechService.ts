@@ -1,4 +1,5 @@
 import * as Speech from 'expo-speech';
+import { Platform } from 'react-native';
 import { Project } from '../types';
 import { Locale, TranslationFunction } from '../i18n/types';
 
@@ -36,6 +37,11 @@ export const speakProject = async (
   t: TranslationFunction,
   locale: Locale
 ): Promise<void> => {
+  // Speech is not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     // 停止当前播报
     await Speech.stop();
@@ -77,6 +83,11 @@ export const speakTodayProjects = async (
   t: TranslationFunction,
   locale: Locale
 ): Promise<void> => {
+  // Speech is not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     const languageCode = getLanguageCode(locale);
 
@@ -155,6 +166,11 @@ export const speakEncouragement = async (
   message: string,
   locale: Locale
 ): Promise<void> => {
+  // Speech is not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     await Speech.stop();
     const languageCode = getLanguageCode(locale);
@@ -173,6 +189,11 @@ export const speakEncouragement = async (
  * 停止播报
  */
 export const stopSpeaking = async (): Promise<void> => {
+  // Speech is not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     await Speech.stop();
   } catch (error) {
@@ -184,6 +205,11 @@ export const stopSpeaking = async (): Promise<void> => {
  * 检查语音是否正在播放
  */
 export const isSpeaking = async (): Promise<boolean> => {
+  // Speech is not supported on web
+  if (Platform.OS === 'web') {
+    return false;
+  }
+
   try {
     return await Speech.isSpeakingAsync();
   } catch (error) {
@@ -200,6 +226,11 @@ export const speakProjectNotification = async (
   description: string | undefined,
   locale: Locale
 ): Promise<void> => {
+  // Speech is not supported on web
+  if (Platform.OS === 'web') {
+    return;
+  }
+
   try {
     // 停止当前播报
     await Speech.stop();

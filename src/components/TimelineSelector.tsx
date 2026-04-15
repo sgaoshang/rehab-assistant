@@ -8,6 +8,7 @@ import {
   PanResponder,
   Alert,
   LayoutChangeEvent,
+  Platform,
 } from 'react-native';
 import { Colors } from '../constants/colors';
 import { useTranslation } from '../i18n';
@@ -221,6 +222,30 @@ export const TimelineSelector: React.FC<TimelineSelectorProps> = ({
             const isDragging = draggingTime === time;
             const panResponder = createMarkerPanResponder(time);
 
+            // On web, use TouchableOpacity instead of PanResponder
+            if (Platform.OS === 'web') {
+              return (
+                <TouchableOpacity
+                  key={time}
+                  onPress={() => handleDeleteTime(time)}
+                  style={[
+                    styles.marker,
+                    {
+                      left: position,
+                      transform: [
+                        { translateX: -10 },
+                        { translateY: -10 },
+                      ],
+                    },
+                  ]}
+                >
+                  <Text style={styles.markerLabel}>{time}</Text>
+                  <View style={styles.markerCircle} />
+                </TouchableOpacity>
+              );
+            }
+
+            // On native, use PanResponder for drag
             return (
               <Animated.View
                 key={time}

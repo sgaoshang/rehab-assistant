@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../context/AppContext';
 import { ProjectCard } from '../components/ProjectCard';
@@ -29,9 +29,14 @@ export const HomeScreen: React.FC = () => {
   const totalProjects = enabledProjects.length;
   const completedCount = enabledProjects.filter((proj) => isCompletedToday(proj.completionHistory)).length;
 
-  // 自动播报项目
+  // 自动播报项目（仅在原生平台）
   useFocusEffect(
     React.useCallback(() => {
+      // Speech is not supported on web
+      if (Platform.OS === 'web') {
+        return;
+      }
+
       const today = new Date().toDateString();
 
       // 如果今天还没播报过，且数据已加载完成

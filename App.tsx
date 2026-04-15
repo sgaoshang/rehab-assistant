@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { registerRootComponent } from 'expo';
@@ -16,6 +17,11 @@ function NotificationHandler() {
   const { locale, t } = useTranslation();
 
   useEffect(() => {
+    // Notifications are not supported on web
+    if (Platform.OS === 'web') {
+      return;
+    }
+
     // 监听前台通知（app打开时收到通知）
     const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
       const projectName = notification.request.content.data?.projectName as string;
