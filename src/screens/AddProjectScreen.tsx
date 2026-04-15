@@ -671,6 +671,30 @@ const styles = StyleSheet.create({
     color: Colors.textDisabled,
     marginTop: 6,
   },
+  templateSelectorButton: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 8,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: Colors.primary,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  templateSelectorText: {
+    fontSize: 15,
+    color: Colors.textPrimary,
+    fontWeight: '500',
+  },
+  templateSelectorPlaceholder: {
+    fontSize: 15,
+    color: Colors.textDisabled,
+  },
+  templateSelectorIcon: {
+    fontSize: 20,
+    color: Colors.primary,
+  },
   selectedTimesSection: {
     marginBottom: 12,
   },
