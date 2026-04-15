@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
 import { downloadAsync, cacheDirectory } from 'expo-file-system/legacy';
@@ -17,7 +17,14 @@ export const SettingsScreen: React.FC = () => {
   const [donateModalVisible, setDonateModalVisible] = useState(false);
   const [selectedPayMethod, setSelectedPayMethod] = useState<'wechat' | 'alipay'>('wechat');
 
-  const handleLanguageChange = (newLocale: Locale) => {
+  const handleLanguageChange = async (newLocale: Locale) => {
+    // On web, directly change language without confirmation
+    if (Platform.OS === 'web') {
+      await setLocale(newLocale);
+      return;
+    }
+
+    // On native, show confirmation dialog
     Alert.alert(
       t('common.confirm'),
       t('settings.languageSettings'),
