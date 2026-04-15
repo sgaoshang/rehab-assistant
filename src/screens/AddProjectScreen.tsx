@@ -668,7 +668,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
   },
   emptyTimesText: {
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.textDisabled,
     fontStyle: 'italic',
   },
