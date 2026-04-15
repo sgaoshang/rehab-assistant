@@ -11,7 +11,6 @@ import {
   Platform,
   Modal,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useApp } from '../context/AppContext';
@@ -713,15 +712,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  templateDropdownContainer: {
-    marginBottom: 12,
-  },
-  templatePicker: {
-    backgroundColor: Colors.cardBackground,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
   templateHint: {
     fontSize: 12,
     color: Colors.textDisabled,
@@ -811,9 +801,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: Colors.textSecondary,
-    marginBottom: 12,
-  },
-  selectedTimesSection: {
     marginBottom: 12,
   },
   selectedTimesCard: {
