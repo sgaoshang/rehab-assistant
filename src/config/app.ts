@@ -11,7 +11,7 @@ export const AppConfig = {
    * true: 在设置页面显示"打赏开发者"入口
    * false: 隐藏打赏功能
    */
-  enableDonation: true,
+  enableDonation: false,
 
   /**
    * 开发者信息
