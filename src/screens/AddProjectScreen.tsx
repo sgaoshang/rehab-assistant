@@ -47,13 +47,15 @@ export const AddProjectScreen: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [presetId, setPresetId] = useState<PresetProjectId | undefined>(existingProject?.presetId as PresetProjectId);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
+  const [showPresets, setShowPresets] = useState(false);
+
   const [expandedCategories, setExpandedCategories] = useState<{
     rehabilitation: boolean;
     medication: boolean;
     healthCheck: boolean;
   }>({
     rehabilitation: false,
-    medication: true,  // 默认展开用药提醒
+    medication: false,
     healthCheck: false,
   });
 
@@ -62,7 +64,7 @@ export const AddProjectScreen: React.FC = () => {
     mid: boolean;
     late: boolean;
   }>({
-    early: true,  // 默认展开早期康复
+    early: false,
     mid: false,
     late: false,
   });
@@ -283,24 +285,16 @@ export const AddProjectScreen: React.FC = () => {
   };
 
   if (mode === 'select') {
+    const categories: Array<{ key: keyof typeof groupedPresets; title: string }> = [
+      { key: 'medication', title: t('projects.categoryMedication') },
+      { key: 'healthCheck', title: t('projects.categoryHealthCheck') },
+      { key: 'rehabilitation', title: t('projects.categoryRehabilitation') },
+    ];
+
     return (
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-          <TouchableOpacity
-            style={styles.modeCard}
-            onPress={() => setMode('preset')}
-            activeOpacity={0.7}
-          >
-            <View style={styles.modeCardContent}>
-              <Text style={styles.modeCardIcon}>📚</Text>
-              <View style={styles.modeCardText}>
-                <Text style={styles.modeCardTitle}>{t('addProject.selectPreset')}</Text>
-                <Text style={styles.modeCardDescription}>{t('addProject.selectPresetDesc')}</Text>
-              </View>
-              <Text style={styles.modeCardArrow}>›</Text>
-            </View>
-          </TouchableOpacity>
-
+          {/* 自定义项目 */}
           <TouchableOpacity
             style={styles.modeCard}
             onPress={() => setMode('custom')}
@@ -315,6 +309,109 @@ export const AddProjectScreen: React.FC = () => {
               <Text style={styles.modeCardArrow}>›</Text>
             </View>
           </TouchableOpacity>
+
+          {/* 预设项目 */}
+          <View style={styles.presetSection}>
+            <TouchableOpacity
+              style={styles.presetHeader}
+              onPress={() => setShowPresets(!showPresets)}
+              activeOpacity={0.7}
+            >
+              <View style={styles.presetHeaderContent}>
+                <Text style={styles.presetHeaderIcon}>📚</Text>
+                <View style={styles.presetHeaderText}>
+                  <Text style={styles.presetHeaderTitle}>{t('addProject.selectPreset')}</Text>
+                  <Text style={styles.presetHeaderDescription}>{t('addProject.selectPresetDesc')}</Text>
+                </View>
+                <Text style={styles.presetHeaderArrow}>
+                  {showPresets ? '▼' : '▶'}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            {showPresets && (
+              <View style={styles.presetContent}>
+                {categories.map((category) => (
+                  <View key={category.key} style={styles.categoryGroup}>
+                    <TouchableOpacity
+                      style={styles.categoryHeader}
+                      onPress={() => toggleCategory(category.key)}
+                      activeOpacity={0.7}
+                    >
+                      <Text style={styles.categoryTitle}>{category.title}</Text>
+                      <Text style={styles.categoryIcon}>
+                        {expandedCategories[category.key] ? '▼' : '▶'}
+                      </Text>
+                    </TouchableOpacity>
+
+                    {expandedCategories[category.key] && (
+                      category.key === 'rehabilitation' ? (
+                        // Rehabilitation category with stage sub-groups
+                        <>
+                          {(['early', 'mid', 'late'] as const).map((stage) => {
+                            const stagePresets = groupedPresets[category.key].filter(p => p.rehabilitationStage === stage);
+                            if (stagePresets.length === 0) return null;
+
+                            return (
+                              <View key={stage} style={styles.stageGroup}>
+                                <TouchableOpacity
+                                  style={styles.stageHeader}
+                                  onPress={() => toggleRehabStage(stage)}
+                                  activeOpacity={0.7}
+                                >
+                                  <Text style={styles.stageTitle}>
+                                    {t(`projects.stage${stage.charAt(0).toUpperCase() + stage.slice(1)}` as any)}
+                                  </Text>
+                                  <Text style={styles.stageIcon}>
+                                    {expandedRehabStages[stage] ? '▼' : '▶'}
+                                  </Text>
+                                </TouchableOpacity>
+
+                                {expandedRehabStages[stage] && stagePresets.map((preset, index) => (
+                                  <TouchableOpacity
+                                    key={index}
+                                    style={styles.presetCard}
+                                    onPress={() => handleSelectPreset(preset)}
+                                    activeOpacity={0.7}
+                                  >
+                                    <View style={styles.presetCardContent}>
+                                      <View style={styles.presetCardText}>
+                                        <Text style={styles.presetName}>{preset.name}</Text>
+                                        <Text style={styles.presetDescription}>{preset.description}</Text>
+                                      </View>
+                                      <Text style={styles.presetCardArrow}>›</Text>
+                                    </View>
+                                  </TouchableOpacity>
+                                ))}
+                              </View>
+                            );
+                          })}
+                        </>
+                      ) : (
+                        // Other categories without sub-groups
+                        groupedPresets[category.key].map((preset, index) => (
+                          <TouchableOpacity
+                            key={index}
+                            style={styles.presetCard}
+                            onPress={() => handleSelectPreset(preset)}
+                            activeOpacity={0.7}
+                          >
+                            <View style={styles.presetCardContent}>
+                              <View style={styles.presetCardText}>
+                                <Text style={styles.presetName}>{preset.name}</Text>
+                                <Text style={styles.presetDescription}>{preset.description}</Text>
+                              </View>
+                              <Text style={styles.presetCardArrow}>›</Text>
+                            </View>
+                          </TouchableOpacity>
+                        ))
+                      )
+                    )}
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
         </ScrollView>
       </View>
     );
@@ -673,6 +770,52 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.textDisabled,
     fontWeight: '300',
+  },
+  presetSection: {
+    marginTop: 8,
+  },
+  presetHeader: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 8,
+    padding: 14,
+    paddingHorizontal: 16,
+    marginVertical: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  presetHeaderContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  presetHeaderIcon: {
+    fontSize: 28,
+    width: 36,
+    textAlign: 'center',
+  },
+  presetHeaderText: {
+    flex: 1,
+  },
+  presetHeaderTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    marginBottom: 2,
+  },
+  presetHeaderDescription: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+  },
+  presetHeaderArrow: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    fontWeight: '500',
+  },
+  presetContent: {
+    marginTop: 8,
   },
   categoryGroup: {
     marginBottom: 16,
