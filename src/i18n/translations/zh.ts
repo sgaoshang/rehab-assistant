@@ -62,11 +62,35 @@ export const zh: Translations = {
     categoryRehabilitation: '康复训练',
     categoryMedication: '用药提醒',
     categoryHealthCheck: '健康测量',
-    stageEarly: '早期康复（床上训练）',
+    stageEarly: '早期康复（软瘫期/床上训练）',
     stageMid: '中期康复（坐立训练）',
     stageLate: '后期康复（步行平衡）',
   },
   presets: {
+    positionChange: {
+      name: '定时翻身',
+      description: '每2-3小时翻身一次，左右侧卧位交替，预防褥疮和肺部感染',
+    },
+    properPositioning: {
+      name: '良肢位摆放',
+      description: '患侧肢体正确摆放，使用枕头支撑，防止关节挛缩和变形',
+    },
+    passiveROM: {
+      name: '被动关节活动',
+      description: '由他人辅助活动各关节，动作轻柔缓慢，保持关节活动度',
+    },
+    limbMassage: {
+      name: '患肢按摩',
+      description: '从远端向近端轻柔按摩，每次10-15分钟，促进血液循环',
+    },
+    skinCare: {
+      name: '皮肤护理',
+      description: '检查受压部位皮肤，保持清洁干燥，发现红肿及时处理',
+    },
+    swallowingTraining: {
+      name: '吞咽功能训练',
+      description: '空吞咽、冰刺激等，进食时坐位或半卧位，防止误吸',
+    },
     fistExercise: {
       name: '手部握拳训练',
       description: '患侧手缓慢握拳再张开，每组10次，早期可健手辅助',

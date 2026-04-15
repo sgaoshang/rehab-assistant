@@ -18,14 +18,74 @@ export type PresetProjectId =
   | 'diabetesMed'
   | 'checkBloodPressure'
   | 'checkBloodSugar'
-  | 'drinkWater';
+  | 'drinkWater'
+  | 'positionChange'
+  | 'properPositioning'
+  | 'passiveROM'
+  | 'limbMassage'
+  | 'skinCare'
+  | 'swallowingTraining';
 
 export type PresetCategory = 'rehabilitation' | 'medication' | 'healthCheck';
 
 export type RehabilitationStage = 'early' | 'mid' | 'late';
 
 export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId; category: PresetCategory; suggestedTimes?: string[]; rehabilitationStage?: RehabilitationStage }> => [
-  // Rehabilitation exercises - Early stage
+  // Rehabilitation exercises - Early stage (Flaccid/Bed stage)
+  {
+    name: t('presets.positionChange.name'),
+    description: t('presets.positionChange.description'),
+    isPreset: true,
+    presetId: 'positionChange',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+  },
+  {
+    name: t('presets.properPositioning.name'),
+    description: t('presets.properPositioning.description'),
+    isPreset: true,
+    presetId: 'properPositioning',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['08:00', '14:00', '20:00'],
+  },
+  {
+    name: t('presets.passiveROM.name'),
+    description: t('presets.passiveROM.description'),
+    isPreset: true,
+    presetId: 'passiveROM',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['09:00', '15:00', '21:00'],
+  },
+  {
+    name: t('presets.limbMassage.name'),
+    description: t('presets.limbMassage.description'),
+    isPreset: true,
+    presetId: 'limbMassage',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['10:00', '16:00'],
+  },
+  {
+    name: t('presets.skinCare.name'),
+    description: t('presets.skinCare.description'),
+    isPreset: true,
+    presetId: 'skinCare',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['08:00', '20:00'],
+  },
+  {
+    name: t('presets.swallowingTraining.name'),
+    description: t('presets.swallowingTraining.description'),
+    isPreset: true,
+    presetId: 'swallowingTraining',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['09:00', '15:00'],
+  },
   {
     name: t('presets.ankleExercise.name'),
     description: t('presets.ankleExercise.description'),

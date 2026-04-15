@@ -62,11 +62,35 @@ export const en: Translations = {
     categoryRehabilitation: 'Rehabilitation Exercise',
     categoryMedication: 'Medication Reminder',
     categoryHealthCheck: 'Health Measurement',
-    stageEarly: 'Early Stage (Bed Training)',
+    stageEarly: 'Early Stage (Flaccid/Bed Training)',
     stageMid: 'Mid Stage (Sitting Training)',
     stageLate: 'Late Stage (Gait & Balance)',
   },
   presets: {
+    positionChange: {
+      name: 'Position Change',
+      description: 'Turn patient every 2-3 hours, alternate left/right side-lying, prevents pressure sores and pneumonia',
+    },
+    properPositioning: {
+      name: 'Proper Positioning',
+      description: 'Correctly position affected limbs with pillow support, prevents joint contracture and deformity',
+    },
+    passiveROM: {
+      name: 'Passive Range of Motion',
+      description: 'Caregiver-assisted joint movement, gentle and slow, maintains joint mobility',
+    },
+    limbMassage: {
+      name: 'Limb Massage',
+      description: 'Gentle massage from distal to proximal, 10-15 min each time, promotes circulation',
+    },
+    skinCare: {
+      name: 'Skin Care',
+      description: 'Check pressure points, keep skin clean and dry, treat redness promptly',
+    },
+    swallowingTraining: {
+      name: 'Swallowing Training',
+      description: 'Dry swallow, ice stimulation, sit or semi-recline while eating, prevents aspiration',
+    },
     fistExercise: {
       name: 'Hand Grip Training',
       description: 'Affected hand slowly grip and release, 10 reps, unaffected hand may assist in early stage',
