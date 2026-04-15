@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
+import { downloadAsync, cacheDirectory } from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
@@ -43,10 +43,10 @@ export const SettingsScreen: React.FC = () => {
     // 解析asset路径
     const asset = Image.resolveAssetSource(imageModule);
     const fileName = selectedPayMethod === 'wechat' ? 'wechat-qr.png' : 'alipay-qr.png';
-    const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
+    const fileUri = `${cacheDirectory}${fileName}`;
 
     // 下载到本地缓存
-    const downloadResult = await FileSystem.downloadAsync(asset.uri, fileUri);
+    const downloadResult = await downloadAsync(asset.uri, fileUri);
     return downloadResult.uri;
   };
 
