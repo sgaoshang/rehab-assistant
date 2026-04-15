@@ -32,18 +32,26 @@ export const HomeScreen: React.FC = () => {
   // 自动播报项目
   useFocusEffect(
     React.useCallback(() => {
+      console.log('[HomeScreen] useFocusEffect triggered');
       const today = new Date().toDateString();
+      console.log('[HomeScreen] Today:', today, 'Last spoken:', hasSpokenToday.current);
+      console.log('[HomeScreen] Loading:', loading, 'Initialized:', state.initialized);
+      console.log('[HomeScreen] Enabled projects count:', enabledProjects.length);
 
       // 如果今天还没播报过，且数据已加载完成
       if (!loading && state.initialized && hasSpokenToday.current !== today) {
+        console.log('[HomeScreen] Conditions met, will speak after 1 second');
         hasSpokenToday.current = today;
 
         // 延迟1秒播报，等页面加载完成
         const timer = setTimeout(() => {
+          console.log('[HomeScreen] Calling speakTodayProjects now');
           speakTodayProjects(enabledProjects, t, locale);
         }, 1000);
 
         return () => clearTimeout(timer);
+      } else {
+        console.log('[HomeScreen] Conditions NOT met, skipping speech');
       }
     }, [loading, state.initialized, enabledProjects, t, locale])
   );

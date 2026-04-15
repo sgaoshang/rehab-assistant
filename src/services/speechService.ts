@@ -33,6 +33,10 @@ const getTranslatedProject = (
  * Web Speech API helper
  */
 const speakWeb = (text: string, languageCode: string): void => {
+  console.log('[Speech] speakWeb called with text:', text, 'lang:', languageCode);
+  console.log('[Speech] window exists:', typeof window !== 'undefined');
+  console.log('[Speech] speechSynthesis exists:', typeof window !== 'undefined' && !!window.speechSynthesis);
+
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
@@ -43,7 +47,11 @@ const speakWeb = (text: string, languageCode: string): void => {
     utterance.rate = 0.8;
     utterance.volume = 1.0;
 
+    console.log('[Speech] About to call speechSynthesis.speak()');
     window.speechSynthesis.speak(utterance);
+    console.log('[Speech] speechSynthesis.speak() called successfully');
+  } else {
+    console.log('[Speech] Web Speech API not available');
   }
 };
 
@@ -98,6 +106,10 @@ export const speakTodayProjects = async (
   t: TranslationFunction,
   locale: Locale
 ): Promise<void> => {
+  console.log('[Speech] speakTodayProjects called, Platform.OS:', Platform.OS);
+  console.log('[Speech] Projects count:', projects.length);
+  console.log('[Speech] Locale:', locale);
+
   try {
     const languageCode = getLanguageCode(locale);
 
