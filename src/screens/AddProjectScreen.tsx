@@ -310,7 +310,7 @@ export const AddProjectScreen: React.FC = () => {
           {/* Section title with accent */}
           <View style={styles.sectionTitleContainer}>
             <View style={styles.sectionTitleAccent} />
-            <Text style={styles.sectionTitle}>项目信息</Text>
+            <Text style={styles.sectionTitle}>{t('addProject.projectInfo')}</Text>
           </View>
 
           {/* First input - project name */}
