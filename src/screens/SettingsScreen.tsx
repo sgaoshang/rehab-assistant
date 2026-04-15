@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
@@ -10,6 +10,8 @@ import { Locale } from '../i18n/types';
 export const SettingsScreen: React.FC = () => {
   const navigation = useNavigation();
   const { t, locale, setLocale } = useTranslation();
+  const [donateModalVisible, setDonateModalVisible] = useState(false);
+  const [selectedPayMethod, setSelectedPayMethod] = useState<'wechat' | 'alipay'>('wechat');
 
   const handleLanguageChange = (newLocale: Locale) => {
     Alert.alert(
@@ -86,15 +88,91 @@ export const SettingsScreen: React.FC = () => {
           </View>
         </View>
 
+        {/* 打赏开发者 */}
+        <TouchableOpacity
+          style={[styles.settingCard, styles.donateCard]}
+          onPress={() => setDonateModalVisible(true)}
+          activeOpacity={0.7}
+        >
+          <View style={styles.cardContent}>
+            <Text style={styles.cardIcon}>💝</Text>
+            <Text style={styles.cardTitle}>{t('settings.supportDeveloper')}</Text>
+            <Text style={styles.cardArrow}>›</Text>
+          </View>
+        </TouchableOpacity>
+
         {/* 开发者信息 */}
-        <View style={styles.footer}>
-          <Text style={styles.footerTitle}>{t('settings.developerInfo')}</Text>
-          <Text style={styles.footerText}>sgao</Text>
-          <Text style={styles.footerText}>📱 13552276232</Text>
-          <Text style={styles.footerText}>✉️ sgaoshang@outlook.com</Text>
-          <Text style={styles.version}>{t('settings.version')}</Text>
+        <View style={styles.settingCard}>
+          <View style={styles.developerContent}>
+            <View style={styles.developerHeader}>
+              <Text style={styles.cardIcon}>👨‍💻</Text>
+              <Text style={styles.cardTitle}>{t('settings.developerInfo')}</Text>
+            </View>
+            <View style={styles.developerDetails}>
+              <Text style={styles.developerName}>sgao</Text>
+              <Text style={styles.developerContact}>📱 13552276232</Text>
+              <Text style={styles.developerContact}>✉️ sgaoshang@outlook.com</Text>
+              <Text style={styles.version}>{t('settings.version')}</Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
+
+      {/* 打赏Modal */}
+      <Modal
+        visible={donateModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDonateModalVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setDonateModalVisible(false)}
+        >
+          <TouchableOpacity
+            style={styles.modalContent}
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}
+          >
+            <Text style={styles.modalTitle}>{t('settings.donateTitle')}</Text>
+            <Text style={styles.modalDesc}>{t('settings.donateDesc')}</Text>
+
+            <View style={styles.payMethodTabs}>
+              <TouchableOpacity
+                style={[styles.payTab, selectedPayMethod === 'wechat' && styles.payTabActive]}
+                onPress={() => setSelectedPayMethod('wechat')}
+              >
+                <Text style={[styles.payTabText, selectedPayMethod === 'wechat' && styles.payTabTextActive]}>
+                  {t('settings.wechatPay')}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.payTab, selectedPayMethod === 'alipay' && styles.payTabActive]}
+                onPress={() => setSelectedPayMethod('alipay')}
+              >
+                <Text style={[styles.payTabText, selectedPayMethod === 'alipay' && styles.payTabTextActive]}>
+                  {t('settings.alipay')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.qrCodeContainer}>
+              <Text style={styles.qrCodePlaceholder}>
+                {selectedPayMethod === 'wechat' ? '微信' : '支付宝'}收款码
+              </Text>
+              <Text style={styles.qrCodeHint}>请添加收款二维码图片</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setDonateModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>{t('common.cancel')}</Text>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
@@ -175,27 +253,121 @@ const styles = StyleSheet.create({
   languageButtonTextActive: {
     color: '#FFFFFF',
   },
-  footer: {
+  donateCard: {
+    marginTop: 16,
+  },
+  developerContent: {
+    gap: 12,
+  },
+  developerHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 32,
-    paddingTop: 24,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
+    gap: 12,
   },
-  footerTitle: {
-    fontSize: 14,
+  developerDetails: {
+    paddingLeft: 40,
+    gap: 6,
+  },
+  developerName: {
+    fontSize: 15,
     fontWeight: '600',
-    color: Colors.textSecondary,
-    marginBottom: 12,
+    color: Colors.textPrimary,
+    marginBottom: 4,
   },
-  footerText: {
+  developerContact: {
     fontSize: 13,
     color: Colors.textSecondary,
-    marginBottom: 6,
   },
   version: {
     fontSize: 12,
     color: Colors.textDisabled,
-    marginTop: 16,
+    marginTop: 8,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 16,
+    padding: 24,
+    width: '85%',
+    maxWidth: 400,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: Colors.textPrimary,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  modalDesc: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  payMethodTabs: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 20,
+  },
+  payTab: {
+    flex: 1,
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+    borderWidth: 1.5,
+    borderColor: Colors.border,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  payTabActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  payTabText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+  },
+  payTabTextActive: {
+    color: '#FFFFFF',
+  },
+  qrCodeContainer: {
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+    padding: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    minHeight: 200,
+  },
+  qrCodePlaceholder: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+    marginBottom: 8,
+  },
+  qrCodeHint: {
+    fontSize: 13,
+    color: Colors.textDisabled,
+  },
+  closeButton: {
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.textPrimary,
   },
 });
