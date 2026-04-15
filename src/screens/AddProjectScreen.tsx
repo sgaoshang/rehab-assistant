@@ -43,6 +43,7 @@ export const AddProjectScreen: React.FC = () => {
   const [reminderTimes, setReminderTimes] = useState<string[]>(existingProject?.reminderTimes || []);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showTimeModal, setShowTimeModal] = useState(false);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [tempTime, setTempTime] = useState(new Date());
   const [submitting, setSubmitting] = useState(false);
   const [presetId, setPresetId] = useState<PresetProjectId | undefined>(existingProject?.presetId as PresetProjectId);
