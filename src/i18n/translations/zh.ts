@@ -107,6 +107,22 @@ export const zh: Translations = {
       name: '肩关节活动训练',
       description: '肩部前后、内外旋转，各方向5次，预防肩关节粘连',
     },
+    bridgeExercise: {
+      name: '桥式运动（腰桥）',
+      description: '仰卧屈膝，臀部抬起保持3-5秒，每组5-10次，增强核心肌群',
+    },
+    bedMobility: {
+      name: '床上移动训练',
+      description: '练习床上翻身、移动身体，从被动到主动，提高床上活动能力',
+    },
+    bedToSit: {
+      name: '床边坐起训练',
+      description: '从卧位到坐位转换，早期需辅助，逐步独立完成，预防体位性低血压',
+    },
+    passiveTrunkRotation: {
+      name: '躯干旋转训练（被动）',
+      description: '辅助患者躯干左右旋转，保持脊柱灵活性，预防躯干僵硬',
+    },
     ankleExercise: {
       name: '踝关节屈伸训练',
       description: '脚尖上勾、下压，左右各10次，早期床上即可进行',
@@ -130,6 +146,86 @@ export const zh: Translations = {
     balanceTraining: {
       name: '平衡协调训练',
       description: '扶物单腿站立或闭眼站立，每侧30秒，恢复后期进行',
+    },
+    sittingBalance: {
+      name: '坐位平衡训练',
+      description: '床边或椅子上坐稳，逐步减少支撑，左右摆动躯干，提高坐位稳定性',
+    },
+    trunkControl: {
+      name: '躯干控制训练',
+      description: '坐位下躯干前后左右移动，转体练习，增强核心稳定性',
+    },
+    standingBalance: {
+      name: '站立平衡训练',
+      description: '扶物站立保持平衡，逐渐减少支撑，单脚站立，提高站立稳定性',
+    },
+    weightShift: {
+      name: '重心转移训练',
+      description: '站立位左右前后转移重心，为步行做准备，改善动态平衡',
+    },
+    reachingTraining: {
+      name: '伸手取物训练',
+      description: '坐位或站位向不同方向伸手取物，提高上肢控制和平衡协调',
+    },
+    handEyeCoordination: {
+      name: '手眼协调训练',
+      description: '拼图、串珠、投球等活动，改善视觉运动协调能力',
+    },
+    fineMotor: {
+      name: '精细动作训练',
+      description: '练习扣扣子、拿筷子、写字等，恢复手部精细动作功能',
+    },
+    sitToStand: {
+      name: '坐站转移训练',
+      description: '从坐到站反复练习，早期需辅助，逐步独立完成，每组5-10次',
+    },
+    standingEndurance: {
+      name: '站立耐力训练',
+      description: '扶物站立，逐步延长时间，从1分钟到5-10分钟，增强下肢肌力',
+    },
+    upperLimbFunction: {
+      name: '上肢功能训练',
+      description: '模拟日常活动，如梳头、洗脸、穿衣等，提高上肢实用功能',
+    },
+    gaitTraining: {
+      name: '步态训练',
+      description: '平地行走训练，纠正异常步态，使用助行器或独立行走，逐步提高速度和距离',
+    },
+    stairClimbing: {
+      name: '上下楼梯训练',
+      description: '扶栏杆上下楼梯，健侧先上患侧先下，提高日常活动能力',
+    },
+    squatExercise: {
+      name: '下蹲训练（蹲起）',
+      description: '扶物半蹲或全蹲，每组5-10次，增强下肢力量和关节活动度',
+    },
+    lateralWalking: {
+      name: '侧方行走训练',
+      description: '身体侧向行走，左右交替，改善侧向平衡和协调能力',
+    },
+    backwardWalking: {
+      name: '后退行走训练',
+      description: '向后缓慢行走，注意安全，提高平衡控制和空间感知',
+    },
+    turningTraining: {
+      name: '转身训练',
+      description: '原地或行走中转身，分步转身，预防跌倒，提高转向控制',
+    },
+    obstacleWalking: {
+      name: '跨越障碍训练',
+      description: '跨过障碍物（如门槛、台阶），提高下肢控制和动态平衡',
+    },
+    tandemWalking: {
+      name: '一字步行走',
+      description: '脚跟接脚尖直线行走，高难度平衡训练，提高稳定性',
+    },
+    adlTraining: {
+      name: '日常生活活动训练',
+      description: '练习穿衣、洗漱、如厕、进食等，恢复生活自理能力',
+    },
+    dualTaskTraining: {
+      name: '双任务训练',
+      description: '边走边说话、边走边数数等，提高注意力分配和认知功能',
     },
     antiplateletMed: {
       name: '抗血小板药',

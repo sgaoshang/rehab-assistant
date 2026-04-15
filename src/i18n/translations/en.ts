@@ -107,6 +107,22 @@ export const en: Translations = {
       name: 'Shoulder Mobility Training',
       description: 'Rotate shoulder forward, backward, inward, outward, 5 reps each, prevents shoulder adhesion',
     },
+    bridgeExercise: {
+      name: 'Bridge Exercise',
+      description: 'Lie on back with knees bent, lift buttocks and hold 3-5 sec, 5-10 reps, strengthens core muscles',
+    },
+    bedMobility: {
+      name: 'Bed Mobility Training',
+      description: 'Practice rolling and moving in bed, from passive to active, improves bed mobility',
+    },
+    bedToSit: {
+      name: 'Bed-to-Sit Training',
+      description: 'Transition from lying to sitting, requires assistance initially, prevents orthostatic hypotension',
+    },
+    passiveTrunkRotation: {
+      name: 'Passive Trunk Rotation',
+      description: 'Caregiver assists trunk rotation left and right, maintains spine flexibility',
+    },
     ankleExercise: {
       name: 'Ankle Dorsiflexion Training',
       description: 'Flex toes up and down, 10 reps each side, can be done in bed during early stage',
@@ -130,6 +146,86 @@ export const en: Translations = {
     balanceTraining: {
       name: 'Balance Coordination Training',
       description: 'Stand on one leg with support or eyes closed, 30 sec each side, for late recovery stage',
+    },
+    sittingBalance: {
+      name: 'Sitting Balance Training',
+      description: 'Sit on bed edge or chair, gradually reduce support, sway trunk side to side, improves sitting stability',
+    },
+    trunkControl: {
+      name: 'Trunk Control Training',
+      description: 'Move trunk forward, backward, left, right while sitting, rotation exercises, strengthens core stability',
+    },
+    standingBalance: {
+      name: 'Standing Balance Training',
+      description: 'Stand with support, gradually reduce assistance, single-leg stance, improves standing stability',
+    },
+    weightShift: {
+      name: 'Weight Shift Training',
+      description: 'Shift weight left-right, forward-backward while standing, prepares for walking, improves dynamic balance',
+    },
+    reachingTraining: {
+      name: 'Reaching Training',
+      description: 'Reach for objects in different directions while sitting or standing, improves upper limb control and balance',
+    },
+    handEyeCoordination: {
+      name: 'Hand-Eye Coordination Training',
+      description: 'Activities like puzzles, beading, ball toss, improves visual-motor coordination',
+    },
+    fineMotor: {
+      name: 'Fine Motor Training',
+      description: 'Practice buttoning, using chopsticks, writing, recovers hand dexterity and precision',
+    },
+    sitToStand: {
+      name: 'Sit-to-Stand Training',
+      description: 'Repeatedly practice sitting to standing, requires assistance initially, 5-10 reps per set',
+    },
+    standingEndurance: {
+      name: 'Standing Endurance Training',
+      description: 'Stand with support, gradually increase duration from 1 min to 5-10 min, strengthens leg muscles',
+    },
+    upperLimbFunction: {
+      name: 'Upper Limb Function Training',
+      description: 'Simulate daily activities like combing hair, washing face, dressing, improves practical function',
+    },
+    gaitTraining: {
+      name: 'Gait Training',
+      description: 'Walk on level ground, correct abnormal gait, use walker or walk independently, gradually increase speed and distance',
+    },
+    stairClimbing: {
+      name: 'Stair Climbing Training',
+      description: 'Climb stairs with handrail support, unaffected leg up first, affected leg down first, improves daily function',
+    },
+    squatExercise: {
+      name: 'Squat Exercise',
+      description: 'Half or full squat with support, 5-10 reps per set, strengthens lower limbs and joint mobility',
+    },
+    lateralWalking: {
+      name: 'Lateral Walking Training',
+      description: 'Side-step walking, alternate left and right, improves lateral balance and coordination',
+    },
+    backwardWalking: {
+      name: 'Backward Walking Training',
+      description: 'Walk backward slowly with caution, improves balance control and spatial awareness',
+    },
+    turningTraining: {
+      name: 'Turning Training',
+      description: 'Turn in place or while walking, step-by-step turns, prevents falls, improves turning control',
+    },
+    obstacleWalking: {
+      name: 'Obstacle Walking Training',
+      description: 'Step over obstacles like thresholds or steps, improves lower limb control and dynamic balance',
+    },
+    tandemWalking: {
+      name: 'Tandem Walking',
+      description: 'Walk heel-to-toe in straight line, advanced balance training, improves stability',
+    },
+    adlTraining: {
+      name: 'ADL Training',
+      description: 'Practice dressing, bathing, toileting, eating, recovers independent living skills',
+    },
+    dualTaskTraining: {
+      name: 'Dual-Task Training',
+      description: 'Walk while talking or counting, improves attention allocation and cognitive function',
     },
     antiplateletMed: {
       name: 'Antiplatelet Medicine',
