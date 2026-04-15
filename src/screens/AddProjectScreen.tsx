@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     gap: 8,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   templateButton: {
     flex: 1,
@@ -641,7 +641,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: Colors.textPrimary,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   input: {
     backgroundColor: Colors.cardBackground,
@@ -660,7 +660,7 @@ const styles = StyleSheet.create({
   hint: {
     fontSize: 12,
     color: Colors.textDisabled,
-    marginTop: 4,
+    marginTop: 3,
     textAlign: 'right',
   },
   hintTop: {
@@ -747,14 +747,14 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
   },
   emptyTimesContainer: {
-    minHeight: 48,
+    minHeight: 40,
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: Colors.border,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 12,
+    padding: 10,
     backgroundColor: '#fafafa',
   },
   emptyTimesText: {
