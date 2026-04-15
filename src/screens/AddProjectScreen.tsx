@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   selectedTimesLabel: {
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.textDisabled,
     marginBottom: 8,
   },
