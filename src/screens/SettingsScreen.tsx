@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Ima
 import { useNavigation } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
@@ -34,6 +35,44 @@ export const SettingsScreen: React.FC = () => {
     );
   };
 
+  const getQRCodeFileUri = async () => {
+    const imageModule = selectedPayMethod === 'wechat'
+      ? require('../../assets/images/wechat-qr.png')
+      : require('../../assets/images/alipay-qr.png');
+
+    // 解析asset路径
+    const asset = Image.resolveAssetSource(imageModule);
+    const fileName = selectedPayMethod === 'wechat' ? 'wechat-qr.png' : 'alipay-qr.png';
+    const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
+
+    // 下载到本地缓存
+    const downloadResult = await FileSystem.downloadAsync(asset.uri, fileUri);
+    return downloadResult.uri;
+  };
+
+  const handleRecognizeQRCode = async () => {
+    try {
+      // 检查是否支持分享
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        Alert.alert(t('addProject.error'), t('settings.shareNotSupported'));
+        return;
+      }
+
+      // 获取二维码文件
+      const fileUri = await getQRCodeFileUri();
+
+      // 分享二维码
+      await Sharing.shareAsync(fileUri, {
+        mimeType: 'image/png',
+        dialogTitle: t('settings.recognizeQRCode'),
+      });
+    } catch (error) {
+      console.error('识别二维码失败:', error);
+      Alert.alert(t('addProject.error'), t('settings.recognizeError'));
+    }
+  };
+
   const handleSaveQRCode = async () => {
     try {
       // 请求相册权限
@@ -43,21 +82,11 @@ export const SettingsScreen: React.FC = () => {
         return;
       }
 
-      // 获取图片路径
-      const imageModule = selectedPayMethod === 'wechat'
-        ? require('../../assets/images/wechat-qr.png')
-        : require('../../assets/images/alipay-qr.png');
-
-      // 解析asset路径
-      const asset = Image.resolveAssetSource(imageModule);
-      const fileName = selectedPayMethod === 'wechat' ? 'wechat-qr.png' : 'alipay-qr.png';
-      const fileUri = `${FileSystem.cacheDirectory}${fileName}`;
-
-      // 下载到本地缓存
-      const downloadResult = await FileSystem.downloadAsync(asset.uri, fileUri);
+      // 获取二维码文件
+      const fileUri = await getQRCodeFileUri();
 
       // 保存到相册
-      const assetResult = await MediaLibrary.createAssetAsync(downloadResult.uri);
+      const assetResult = await MediaLibrary.createAssetAsync(fileUri);
 
       Alert.alert(
         t('settings.saveSuccess'),
@@ -202,8 +231,14 @@ export const SettingsScreen: React.FC = () => {
                 style={styles.qrCodeImage}
                 resizeMode="contain"
               />
-              <Text style={styles.scanToPayText}>{t('settings.scanToPay')}</Text>
             </View>
+
+            <TouchableOpacity
+              style={styles.recognizeButton}
+              onPress={handleRecognizeQRCode}
+            >
+              <Text style={styles.recognizeButtonText}>{t('settings.recognizeQRCode')}</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.saveButton}
@@ -408,17 +443,31 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontWeight: '500',
   },
-  saveButton: {
+  recognizeButton: {
     backgroundColor: Colors.primary,
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  recognizeButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  saveButton: {
+    backgroundColor: 'transparent',
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   saveButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: Colors.textPrimary,
   },
   closeButton: {
     backgroundColor: Colors.background,
