@@ -59,6 +59,9 @@ export const en: Translations = {
     markCompleted: 'Mark Completed',
     markIncomplete: 'Mark Incomplete',
     completionStats: 'Completed {{thisWeek}}/Week · {{total}}/Total',
+    categoryRehabilitation: 'Rehabilitation Exercise',
+    categoryMedication: 'Medication Reminder',
+    categoryHealthCheck: 'Health Measurement',
   },
   presets: {
     fistExercise: {

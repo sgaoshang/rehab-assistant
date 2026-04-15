@@ -51,6 +51,25 @@ export const AddProjectScreen: React.FC = () => {
   // Get preset projects with translations
   const presetProjects = useMemo(() => getPresetProjects(t), [t]);
 
+  // Group preset projects by category
+  const groupedPresets = useMemo(() => {
+    const groups: {
+      rehabilitation: typeof presetProjects;
+      medication: typeof presetProjects;
+      healthCheck: typeof presetProjects;
+    } = {
+      rehabilitation: [],
+      medication: [],
+      healthCheck: [],
+    };
+
+    presetProjects.forEach(preset => {
+      groups[preset.category].push(preset);
+    });
+
+    return groups;
+  }, [presetProjects]);
+
   // Load existing project data when in edit mode
   useEffect(() => {
     if (isEditMode && existingProject) {
@@ -263,24 +282,35 @@ export const AddProjectScreen: React.FC = () => {
   }
 
   if (mode === 'preset') {
+    const categories: Array<{ key: keyof typeof groupedPresets; title: string }> = [
+      { key: 'rehabilitation', title: t('projects.categoryRehabilitation') },
+      { key: 'medication', title: t('projects.categoryMedication') },
+      { key: 'healthCheck', title: t('projects.categoryHealthCheck') },
+    ];
+
     return (
       <View style={CommonStyles.container}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-          {presetProjects.map((preset, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.presetCard}
-              onPress={() => handleSelectPreset(preset)}
-              activeOpacity={0.7}
-            >
-              <View style={styles.presetCardContent}>
-                <View style={styles.presetCardText}>
-                  <Text style={styles.presetName}>{preset.name}</Text>
-                  <Text style={styles.presetDescription}>{preset.description}</Text>
-                </View>
-                <Text style={styles.presetCardArrow}>›</Text>
-              </View>
-            </TouchableOpacity>
+          {categories.map((category) => (
+            <View key={category.key} style={styles.categoryGroup}>
+              <Text style={styles.categoryTitle}>{category.title}</Text>
+              {groupedPresets[category.key].map((preset, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.presetCard}
+                  onPress={() => handleSelectPreset(preset)}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.presetCardContent}>
+                    <View style={styles.presetCardText}>
+                      <Text style={styles.presetName}>{preset.name}</Text>
+                      <Text style={styles.presetDescription}>{preset.description}</Text>
+                    </View>
+                    <Text style={styles.presetCardArrow}>›</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
           ))}
 
           <TouchableOpacity
@@ -547,6 +577,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.textDisabled,
     fontWeight: '300',
+  },
+  categoryGroup: {
+    marginBottom: 20,
+  },
+  categoryTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.textPrimary,
+    marginBottom: 8,
+    marginLeft: 4,
   },
   presetCard: {
     backgroundColor: Colors.cardBackground,

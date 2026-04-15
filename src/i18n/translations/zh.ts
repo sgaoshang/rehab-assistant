@@ -59,6 +59,9 @@ export const zh: Translations = {
     markCompleted: '标记完成',
     markIncomplete: '标记未完成',
     completionStats: '完成 {{thisWeek}}/本周 · {{total}}/总计',
+    categoryRehabilitation: '康复训练',
+    categoryMedication: '用药提醒',
+    categoryHealthCheck: '健康测量',
   },
   presets: {
     fistExercise: {
