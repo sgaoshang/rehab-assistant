@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as MediaLibrary from 'expo-media-library';
 import { downloadAsync, cacheDirectory } from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 import { LargeButton } from '../components/LargeButton';
@@ -36,12 +37,12 @@ export const SettingsScreen: React.FC = () => {
 
   const getQRCodeFileUri = async () => {
     const imageModule = selectedPayMethod === 'wechat'
-      ? require('../../assets/images/wechat-qr.png')
+      ? require('../../assets/images/wechat-reward-qr.png')
       : require('../../assets/images/alipay-qr.png');
 
     // 解析asset路径
     const asset = Image.resolveAssetSource(imageModule);
-    const fileName = selectedPayMethod === 'wechat' ? 'wechat-qr.png' : 'alipay-qr.png';
+    const fileName = selectedPayMethod === 'wechat' ? 'wechat-reward-qr.png' : 'alipay-qr.png';
     const fileUri = `${cacheDirectory}${fileName}`;
 
     // 下载到本地缓存
@@ -69,6 +70,31 @@ export const SettingsScreen: React.FC = () => {
     } catch (error) {
       console.error('识别二维码失败:', error);
       Alert.alert(t('addProject.error'), t('settings.recognizeError'));
+    }
+  };
+
+  const handleSaveQRCode = async () => {
+    try {
+      // 请求相册权限
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(t('addProject.error'), t('settings.permissionDenied'));
+        return;
+      }
+
+      // 获取二维码文件
+      const fileUri = await getQRCodeFileUri();
+
+      // 保存到相册
+      await MediaLibrary.createAssetAsync(fileUri);
+
+      Alert.alert(
+        t('settings.saveSuccess'),
+        t('settings.saveSuccessHint')
+      );
+    } catch (error) {
+      console.error('保存二维码失败:', error);
+      Alert.alert(t('addProject.error'), t('settings.saveError'));
     }
   };
 
@@ -199,7 +225,7 @@ export const SettingsScreen: React.FC = () => {
               <Image
                 source={
                   selectedPayMethod === 'wechat'
-                    ? require('../../assets/images/wechat-qr.png')
+                    ? require('../../assets/images/wechat-reward-qr.png')
                     : require('../../assets/images/alipay-qr.png')
                 }
                 style={styles.qrCodeImage}
@@ -207,12 +233,21 @@ export const SettingsScreen: React.FC = () => {
               />
             </View>
 
-            <TouchableOpacity
-              style={styles.recognizeButton}
-              onPress={handleRecognizeQRCode}
-            >
-              <Text style={styles.recognizeButtonText}>{t('settings.recognizeQRCode')}</Text>
-            </TouchableOpacity>
+            <View style={styles.actionButtons}>
+              <TouchableOpacity
+                style={styles.recognizeButton}
+                onPress={handleRecognizeQRCode}
+              >
+                <Text style={styles.recognizeButtonText}>{t('settings.recognizeQRCode')}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={handleSaveQRCode}
+              >
+                <Text style={styles.saveButtonText}>{t('settings.saveToAlbum')}</Text>
+              </TouchableOpacity>
+            </View>
 
             <TouchableOpacity
               style={styles.closeButton}
@@ -410,17 +445,36 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     fontWeight: '500',
   },
+  actionButtons: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 12,
+  },
   recognizeButton: {
+    flex: 1,
     backgroundColor: Colors.primary,
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
-    marginBottom: 12,
   },
   recognizeButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
+  },
+  saveButton: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+  },
+  saveButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: Colors.primary,
   },
   closeButton: {
     backgroundColor: Colors.background,
