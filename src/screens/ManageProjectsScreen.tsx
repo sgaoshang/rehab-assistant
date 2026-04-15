@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useApp } from '../context/AppContext';
 import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
@@ -40,6 +41,25 @@ export const ManageProjectsScreen: React.FC = () => {
     );
   };
 
+  const renderRightActions = (projectId: string, projectName: string) => {
+    return (
+      <View style={styles.swipeActions}>
+        <TouchableOpacity
+          style={styles.swipeEditButton}
+          onPress={() => navigation.navigate('AddProject', { projectId })}
+        >
+          <Text style={styles.swipeEditText}>{t('manageProjects.edit')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.swipeDeleteButton}
+          onPress={() => handleDelete(projectId, projectName)}
+        >
+          <Text style={styles.swipeDeleteText}>{t('common.delete')}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
@@ -47,38 +67,30 @@ export const ManageProjectsScreen: React.FC = () => {
           <Text style={[CommonStyles.body, styles.emptyText]}>{t('manageProjects.noProjects')}</Text>
         ) : (
           state.projects.map((project) => (
-            <View key={project.id} style={styles.projectItem}>
-              <View style={styles.projectInfo}>
-                <Text style={styles.projectName}>{project.name}</Text>
-                <Text style={styles.projectDescription} numberOfLines={1}>
-                  {project.description}
-                </Text>
-                {project.reminderTimes.length > 0 && (
-                  <Text style={styles.reminderText}>
-                    {t('projects.reminderTimes')}: {project.reminderTimes.join(', ')}
+            <Swipeable
+              key={project.id}
+              renderRightActions={() => renderRightActions(project.id, project.name)}
+              overshootRight={false}
+            >
+              <View style={styles.projectItem}>
+                <View style={styles.projectInfo}>
+                  <Text style={styles.projectName}>{project.name}</Text>
+                  <Text style={styles.projectDescription} numberOfLines={1}>
+                    {project.description}
                   </Text>
-                )}
-              </View>
-              <View style={styles.actions}>
+                  {project.reminderTimes.length > 0 && (
+                    <Text style={styles.reminderText}>
+                      {t('projects.reminderTimes')}: {project.reminderTimes.join(', ')}
+                    </Text>
+                  )}
+                </View>
                 <Switch
                   value={project.isEnabled}
                   onValueChange={() => toggleProjectEnabled(project.id)}
                   trackColor={{ false: Colors.neutral, true: Colors.success }}
                 />
-                <TouchableOpacity
-                  style={styles.editButton}
-                  onPress={() => navigation.navigate('AddProject', { projectId: project.id })}
-                >
-                  <Text style={styles.editText}>{t('manageProjects.edit')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.deleteButton}
-                  onPress={() => handleDelete(project.id, project.name)}
-                >
-                  <Text style={styles.deleteText}>{t('common.delete')}</Text>
-                </TouchableOpacity>
               </View>
-            </View>
+            </Swipeable>
           ))
         )}
       </ScrollView>
@@ -133,27 +145,30 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     marginTop: 3,
   },
-  actions: {
+  swipeActions: {
+    flexDirection: 'row',
+    height: '100%',
+  },
+  swipeEditButton: {
+    backgroundColor: Colors.primary,
+    justifyContent: 'center',
     alignItems: 'center',
+    width: 75,
   },
-  editButton: {
-    marginTop: 6,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-  },
-  editText: {
-    fontSize: 13,
-    color: Colors.primary,
+  swipeEditText: {
+    color: '#FFFFFF',
+    fontSize: 14,
     fontWeight: '500',
   },
-  deleteButton: {
-    marginTop: 6,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+  swipeDeleteButton: {
+    backgroundColor: Colors.error,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 75,
   },
-  deleteText: {
-    fontSize: 13,
-    color: Colors.error,
+  swipeDeleteText: {
+    color: '#FFFFFF',
+    fontSize: 14,
     fontWeight: '500',
   },
 });
