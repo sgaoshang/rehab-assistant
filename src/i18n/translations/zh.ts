@@ -338,6 +338,10 @@ export const zh: Translations = {
     templateChangeHint: '选择模板后会自动添加时间，切换模板会追加新时间（自动去重）',
     timesCount: '({{count}}个)',
     timeRequiredError: '请至少添加一个提醒时间',
+    enterTime: '请输入时间',
+    hour: '时',
+    minute: '分',
+    invalidTime: '无效的时间格式，请输入正确的小时(0-23)和分钟(0-59)',
   },
   manageProjects: {
     title: '管理项目',

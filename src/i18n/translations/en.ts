@@ -338,6 +338,10 @@ export const en: Translations = {
     templateChangeHint: 'Times will be added automatically when selecting template. Switching templates will append new times (auto-dedup)',
     timesCount: '({{count}})',
     timeRequiredError: 'Please add at least one reminder time',
+    enterTime: 'Enter Time',
+    hour: 'Hour',
+    minute: 'Minute',
+    invalidTime: 'Invalid time format, please enter correct hour (0-23) and minute (0-59)',
   },
   manageProjects: {
     title: 'Manage Projects',

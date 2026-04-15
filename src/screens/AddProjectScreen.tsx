@@ -49,6 +49,10 @@ export const AddProjectScreen: React.FC = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
   const [showPresets, setShowPresets] = useState(false);
 
+  // Web time picker state
+  const [webTimeHour, setWebTimeHour] = useState('08');
+  const [webTimeMinute, setWebTimeMinute] = useState('00');
+
   const [expandedCategories, setExpandedCategories] = useState<{
     rehabilitation: boolean;
     medication: boolean;
@@ -656,7 +660,7 @@ export const AddProjectScreen: React.FC = () => {
             <TouchableOpacity
               style={styles.customButton}
               onPress={() => {
-                if (Platform.OS === 'ios') {
+                if (Platform.OS === 'ios' || Platform.OS === 'web') {
                   setShowTimeModal(true);
                 } else {
                   setShowTimePicker(true);
@@ -743,8 +747,8 @@ export const AddProjectScreen: React.FC = () => {
           </TouchableOpacity>
         </Modal>
 
-        {/* iOS 时间选择器 Modal */}
-        {showTimeModal && Platform.OS === 'ios' && (
+        {/* iOS/Web 时间选择器 Modal */}
+        {showTimeModal && (Platform.OS === 'ios' || Platform.OS === 'web') && (
           <Modal
             visible={showTimeModal}
             transparent={true}
@@ -758,18 +762,81 @@ export const AddProjectScreen: React.FC = () => {
                     <Text style={styles.modalCancelButton}>{t('common.cancel')}</Text>
                   </TouchableOpacity>
                   <Text style={styles.modalTitle}>{t('addProject.selectTime')}</Text>
-                  <TouchableOpacity onPress={() => handleAddCustomTime(null, tempTime)}>
+                  <TouchableOpacity onPress={() => {
+                    if (Platform.OS === 'web') {
+                      // Web: construct time from hour and minute inputs
+                      const hour = parseInt(webTimeHour) || 0;
+                      const minute = parseInt(webTimeMinute) || 0;
+                      if (hour >= 0 && hour < 24 && minute >= 0 && minute < 60) {
+                        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                        if (!reminderTimes.includes(timeString)) {
+                          setReminderTimes([...reminderTimes, timeString].sort());
+                        }
+                        setShowTimeModal(false);
+                      } else {
+                        if (Platform.OS === 'web') {
+                          window.alert(t('addProject.error') + '\n\n' + t('addProject.invalidTime'));
+                        }
+                      }
+                    } else {
+                      // iOS: use DateTimePicker
+                      handleAddCustomTime(null, tempTime);
+                    }
+                  }}>
                     <Text style={styles.modalConfirmButton}>{t('common.confirm')}</Text>
                   </TouchableOpacity>
                 </View>
-                <DateTimePicker
-                  value={tempTime}
-                  mode="time"
-                  is24Hour={true}
-                  display="spinner"
-                  onChange={(event, date) => date && setTempTime(date)}
-                  style={styles.timePicker}
-                />
+                {Platform.OS === 'ios' ? (
+                  <DateTimePicker
+                    value={tempTime}
+                    mode="time"
+                    is24Hour={true}
+                    display="spinner"
+                    onChange={(event, date) => date && setTempTime(date)}
+                    style={styles.timePicker}
+                  />
+                ) : (
+                  <View style={styles.webTimePickerContainer}>
+                    <Text style={styles.webTimePickerLabel}>{t('addProject.enterTime')}</Text>
+                    <View style={styles.webTimePickerInputs}>
+                      <View style={styles.webTimeInputGroup}>
+                        <TextInput
+                          style={styles.webTimeInput}
+                          value={webTimeHour}
+                          onChangeText={(text) => {
+                            const num = text.replace(/[^0-9]/g, '');
+                            if (num === '' || (parseInt(num) >= 0 && parseInt(num) < 24)) {
+                              setWebTimeHour(num);
+                            }
+                          }}
+                          keyboardType="number-pad"
+                          maxLength={2}
+                          placeholder="08"
+                          placeholderTextColor={Colors.textDisabled}
+                        />
+                        <Text style={styles.webTimeInputLabel}>{t('addProject.hour')}</Text>
+                      </View>
+                      <Text style={styles.webTimeSeparator}>:</Text>
+                      <View style={styles.webTimeInputGroup}>
+                        <TextInput
+                          style={styles.webTimeInput}
+                          value={webTimeMinute}
+                          onChangeText={(text) => {
+                            const num = text.replace(/[^0-9]/g, '');
+                            if (num === '' || (parseInt(num) >= 0 && parseInt(num) < 60)) {
+                              setWebTimeMinute(num);
+                            }
+                          }}
+                          keyboardType="number-pad"
+                          maxLength={2}
+                          placeholder="00"
+                          placeholderTextColor={Colors.textDisabled}
+                        />
+                        <Text style={styles.webTimeInputLabel}>{t('addProject.minute')}</Text>
+                      </View>
+                    </View>
+                  </View>
+                )}
               </View>
             </View>
           </Modal>
@@ -1200,5 +1267,47 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 16,
+  },
+  webTimePickerContainer: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  webTimePickerLabel: {
+    fontSize: 16,
+    color: Colors.textPrimary,
+    marginBottom: 20,
+    fontWeight: '500',
+  },
+  webTimePickerInputs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  webTimeInputGroup: {
+    alignItems: 'center',
+    gap: 8,
+  },
+  webTimeInput: {
+    backgroundColor: Colors.cardBackground,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    width: 70,
+    height: 60,
+    fontSize: 24,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    textAlign: 'center',
+    paddingHorizontal: 8,
+  },
+  webTimeInputLabel: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+  webTimeSeparator: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: Colors.textPrimary,
+    marginTop: -20,
   },
 });
