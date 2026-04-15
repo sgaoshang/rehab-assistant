@@ -18,8 +18,7 @@ export type PresetProjectId =
   | 'diabetesMed'
   | 'checkBloodPressure'
   | 'checkBloodSugar'
-  | 'drinkWater'
-  | 'afternoonNap';
+  | 'drinkWater';
 
 export type PresetCategory = 'rehabilitation' | 'medication' | 'healthCheck';
 
@@ -137,6 +136,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'checkBloodPressure',
     category: 'healthCheck',
+    suggestedTimes: ['07:00', '21:00'],
   },
   {
     name: t('presets.checkBloodSugar.name'),
@@ -144,6 +144,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'checkBloodSugar',
     category: 'healthCheck',
+    suggestedTimes: ['07:00', '09:30', '14:00', '20:00'],
   },
   {
     name: t('presets.drinkWater.name'),
@@ -151,12 +152,6 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'drinkWater',
     category: 'healthCheck',
-  },
-  {
-    name: t('presets.afternoonNap.name'),
-    description: t('presets.afternoonNap.description'),
-    isPreset: true,
-    presetId: 'afternoonNap',
-    category: 'healthCheck',
+    suggestedTimes: ['08:00', '10:00', '14:00', '16:00', '19:00'],
   },
 ];

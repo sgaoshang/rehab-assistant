@@ -122,19 +122,15 @@ export const en: Translations = {
     },
     checkBloodPressure: {
       name: 'Check Blood Pressure',
-      description: 'Measure and record blood pressure',
+      description: 'Measure after waking and before bed, rest 5 min before measuring',
     },
     checkBloodSugar: {
       name: 'Check Blood Sugar',
-      description: 'Measure and record blood sugar',
+      description: 'Measure fasting and 2 hours after meals, record values',
     },
     drinkWater: {
       name: 'Drink Water',
-      description: 'Drink a glass of water (about 200ml)',
-    },
-    afternoonNap: {
-      name: 'Afternoon Nap',
-      description: 'Take a 30-60 minute nap',
+      description: 'About 200ml each time, maintain 1500-2000ml daily intake',
     },
   },
   speech: {

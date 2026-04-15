@@ -122,19 +122,15 @@ export const zh: Translations = {
     },
     checkBloodPressure: {
       name: '测量血压',
-      description: '使用血压计测量并记录',
+      description: '建议早起后和睡前测量，坐位休息5分钟后进行',
     },
     checkBloodSugar: {
       name: '测量血糖',
-      description: '使用血糖仪测量并记录',
+      description: '建议空腹及餐后2小时测量，并记录数值',
     },
     drinkWater: {
       name: '喝水提醒',
-      description: '喝一杯水（约200ml）',
-    },
-    afternoonNap: {
-      name: '午休提醒',
-      description: '午休30-60分钟',
+      description: '每次约200ml，保持全天饮水量1500-2000ml',
     },
   },
   speech: {
