@@ -150,17 +150,47 @@ export const AddProjectScreen: React.FC = () => {
     }));
   };
 
-  const handleSelectPreset = (preset: typeof presetProjects[0]) => {
-    setName(preset.name);
-    setDescription(preset.description);
-    setPresetId(preset.presetId);
-
-    // If preset has suggested times, use them
-    if (preset.suggestedTimes && preset.suggestedTimes.length > 0) {
-      setReminderTimes(preset.suggestedTimes);
+  const handleSelectPreset = async (preset: typeof presetProjects[0]) => {
+    // Check if this preset already exists
+    const existingPreset = state.projects.find(p => p.presetId === preset.presetId);
+    if (existingPreset) {
+      Alert.alert(
+        t('addProject.error'),
+        `"${preset.name}" ${t('addProject.alreadyAdded')}`,
+        [{ text: t('common.confirm') }]
+      );
+      return;
     }
 
-    setMode('custom');
+    // Directly add preset project without going to edit mode
+    setSubmitting(true);
+    try {
+      await addProject({
+        name: preset.name,
+        description: preset.description,
+        isPreset: true,
+        isEnabled: true,
+        reminderTimes: preset.suggestedTimes || [],
+        presetId: preset.presetId,
+      });
+
+      Alert.alert(
+        '✓ ' + t('addProject.success'),
+        `"${preset.name}" ` + t('addProject.projectAdded'),
+        [
+          {
+            text: t('common.confirm'),
+            onPress: () => {
+              // Stay on select mode to allow adding more presets
+            },
+          },
+        ]
+      );
+    } catch (error) {
+      Alert.alert(t('addProject.error'), t('addProject.addFailed'));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Clear presetId if user manually edits name or description

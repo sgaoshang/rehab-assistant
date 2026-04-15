@@ -310,6 +310,7 @@ export const zh: Translations = {
     nameTooLong: '项目名称不能超过20个字',
     descriptionTooLong: '项目说明不能超过100个字',
     timeRequired: '请至少添加一个提醒时间',
+    alreadyAdded: '已经添加过了',
     morning: '早上',
     midMorning: '上午',
     noon: '中午',

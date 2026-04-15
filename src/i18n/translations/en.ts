@@ -310,6 +310,7 @@ export const en: Translations = {
     nameTooLong: 'Project name cannot exceed 20 characters',
     descriptionTooLong: 'Project description cannot exceed 100 characters',
     timeRequired: 'Please add at least one reminder time',
+    alreadyAdded: 'Already added',
     morning: 'Morning',
     midMorning: 'Mid-Morning',
     noon: 'Noon',
