@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
     height: 28,
   },
   selectedTimeText: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#FFFFFF',
     marginRight: 4,
     fontWeight: '500',
