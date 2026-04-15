@@ -106,7 +106,7 @@ export const en: Translations = {
     },
     antiplateletMed: {
       name: 'Antiplatelet Medicine',
-      description: 'e.g., Aspirin, recommended before bed (as prescribed)',
+      description: 'e.g., Aspirin enteric-coated, take on empty stomach in morning (as prescribed)',
     },
     bloodPressureMed: {
       name: 'Blood Pressure Medicine',

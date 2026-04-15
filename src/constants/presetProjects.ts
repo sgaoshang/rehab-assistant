@@ -23,7 +23,7 @@ export type PresetProjectId =
 
 export type PresetCategory = 'rehabilitation' | 'medication' | 'healthCheck';
 
-export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId; category: PresetCategory }> => [
+export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId; category: PresetCategory; suggestedTimes?: string[] }> => [
   // Rehabilitation exercises
   {
     name: t('presets.fistExercise.name'),
@@ -103,6 +103,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'antiplateletMed',
     category: 'medication',
+    suggestedTimes: ['07:00'],
   },
   {
     name: t('presets.bloodPressureMed.name'),
@@ -110,6 +111,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'bloodPressureMed',
     category: 'medication',
+    suggestedTimes: ['08:00'],
   },
   {
     name: t('presets.lipidLoweringMed.name'),
@@ -117,6 +119,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'lipidLoweringMed',
     category: 'medication',
+    suggestedTimes: ['20:00'],
   },
   {
     name: t('presets.diabetesMed.name'),
@@ -124,6 +127,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'diabetesMed',
     category: 'medication',
+    suggestedTimes: ['07:30', '11:30', '17:30'],
   },
 
   // Health check reminders

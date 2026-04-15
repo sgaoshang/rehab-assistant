@@ -135,6 +135,12 @@ export const AddProjectScreen: React.FC = () => {
     setName(preset.name);
     setDescription(preset.description);
     setPresetId(preset.presetId);
+
+    // If preset has suggested times, use them
+    if (preset.suggestedTimes && preset.suggestedTimes.length > 0) {
+      setReminderTimes(preset.suggestedTimes);
+    }
+
     setMode('custom');
   };
 

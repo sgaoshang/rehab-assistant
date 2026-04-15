@@ -106,7 +106,7 @@ export const zh: Translations = {
     },
     antiplateletMed: {
       name: '抗血小板药',
-      description: '如阿司匹林，建议晚上睡前服用（遵医嘱）',
+      description: '如阿司匹林肠溶片，建议早上空腹服用（遵医嘱）',
     },
     bloodPressureMed: {
       name: '降压药',
