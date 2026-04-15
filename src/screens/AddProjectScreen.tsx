@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   pageTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '600',
     color: Colors.textPrimary,
     marginBottom: 16,
