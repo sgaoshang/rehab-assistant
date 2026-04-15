@@ -104,16 +104,14 @@ export const SettingsScreen: React.FC = () => {
         {/* 开发者信息 */}
         <View style={styles.settingCard}>
           <View style={styles.developerContent}>
-            <View style={styles.developerHeader}>
+            <View style={styles.developerRow}>
               <Text style={styles.cardIcon}>👨‍💻</Text>
-              <Text style={styles.cardTitle}>{t('settings.developerInfo')}</Text>
+              <View style={styles.developerInfo}>
+                <Text style={styles.developerName}>sgao</Text>
+                <Text style={styles.developerEmail}>sgaoshang@outlook.com</Text>
+              </View>
             </View>
-            <View style={styles.developerDetails}>
-              <Text style={styles.developerName}>sgao</Text>
-              <Text style={styles.developerContact}>📱 13552276232</Text>
-              <Text style={styles.developerContact}>✉️ sgaoshang@outlook.com</Text>
-              <Text style={styles.version}>{t('settings.version')}</Text>
-            </View>
+            <Text style={styles.versionInCard}>{t('settings.version')}</Text>
           </View>
         </View>
       </ScrollView>
@@ -257,31 +255,33 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   developerContent: {
-    gap: 12,
+    gap: 16,
   },
-  developerHeader: {
+  developerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
   },
-  developerDetails: {
-    paddingLeft: 40,
-    gap: 6,
+  developerInfo: {
+    flex: 1,
+    gap: 4,
   },
   developerName: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     color: Colors.textPrimary,
-    marginBottom: 4,
   },
-  developerContact: {
+  developerEmail: {
     fontSize: 13,
     color: Colors.textSecondary,
   },
-  version: {
+  versionInCard: {
     fontSize: 12,
     color: Colors.textDisabled,
-    marginTop: 8,
+    textAlign: 'center',
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
   },
   modalOverlay: {
     flex: 1,
