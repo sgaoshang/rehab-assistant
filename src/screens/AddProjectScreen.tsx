@@ -575,9 +575,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '600',
-    color: Colors.textPrimary,
+    color: Colors.textSecondary,
     marginBottom: 8,
   },
   input: {
