@@ -31,7 +31,7 @@ export const ManageProjectsScreen: React.FC = () => {
           onPress: async () => {
             try {
               await deleteProject(id);
-              Alert.alert(t('manageProjects.deleteSuccess'), t('manageProjects.projectDeleted'));
+              // Project removed from list - no need for success alert
             } catch (error) {
               Alert.alert(t('addProject.error'), t('manageProjects.deleteFailed'));
             }
