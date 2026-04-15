@@ -306,36 +306,49 @@ export const AddProjectScreen: React.FC = () => {
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={t('addProject.projectNamePlaceholder')}
-            placeholderTextColor={Colors.textDisabled}
-            value={name}
-            onChangeText={handleNameChange}
-            maxLength={20}
-          />
-          <Text style={styles.hint}>{t('addProject.projectNameHint', { length: name.length })}</Text>
+        {/* Section 1: Project Info */}
+        <View style={[styles.section, styles.firstSection]}>
+          {/* Section title with accent */}
+          <View style={styles.sectionTitleContainer}>
+            <View style={styles.sectionTitleAccent} />
+            <Text style={styles.sectionTitle}>项目信息</Text>
+          </View>
+
+          {/* First input - project name */}
+          <View style={[styles.inputContainer, styles.firstInputContainer]}>
+            <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
+            <TextInput
+              style={styles.input}
+              placeholder={t('addProject.projectNamePlaceholder')}
+              placeholderTextColor={Colors.textDisabled}
+              value={name}
+              onChangeText={handleNameChange}
+              maxLength={20}
+            />
+            <Text style={styles.hint}>{t('addProject.projectNameHint', { length: name.length })}</Text>
+          </View>
+
+          {/* Project description input */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>{t('addProject.projectDescription')}</Text>
+            <TextInput
+              style={[styles.input, styles.textArea]}
+              placeholder={t('addProject.projectDescriptionPlaceholder')}
+              placeholderTextColor={Colors.textDisabled}
+              value={description}
+              onChangeText={handleDescriptionChange}
+              multiline
+              numberOfLines={3}
+              maxLength={100}
+              textAlignVertical="top"
+            />
+            <Text style={styles.hint}>{t('addProject.projectDescriptionHint', { length: description.length })}</Text>
+          </View>
         </View>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{t('addProject.projectDescription')}</Text>
-          <TextInput
-            style={[styles.input, styles.textArea]}
-            placeholder={t('addProject.projectDescriptionPlaceholder')}
-            placeholderTextColor={Colors.textDisabled}
-            value={description}
-            onChangeText={handleDescriptionChange}
-            multiline
-            numberOfLines={3}
-            maxLength={100}
-            textAlignVertical="top"
-          />
-          <Text style={styles.hint}>{t('addProject.projectDescriptionHint', { length: description.length })}</Text>
-        </View>
-
-        <View style={styles.inputContainer}>
+        {/* Section 2: Reminder Times */}
+        <View style={styles.section}>
+          <View style={styles.inputContainer}>
           <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
           <Text style={[styles.hint, styles.hintTop]}>{t('addProject.reminderTimeHint')}</Text>
 
