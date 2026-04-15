@@ -377,15 +377,15 @@ export const AddProjectScreen: React.FC = () => {
             </Text>
           </View>
 
-          {/* Selected Times */}
-          <View style={styles.selectedTimesSection}>
-            <Text style={styles.selectedTimesLabel}>
-              {t('addProject.reminderTime')}
-              <Text style={styles.timesCount}>
-                {t('addProject.timesCount', { count: reminderTimes.length })}
-              </Text>
-            </Text>
+          {/* Selected times card */}
+          <View style={styles.selectedTimesCard}>
+            {/* Card header */}
+            <View style={styles.selectedTimesCardHeader}>
+              <Text style={styles.selectedTimesLabel}>已选时间</Text>
+              <Text style={styles.timesCount}>({reminderTimes.length})</Text>
+            </View>
 
+            {/* Times content */}
             {reminderTimes.length === 0 ? (
               <View style={styles.emptyTimesContainer}>
                 <Text style={styles.emptyTimesText}>
@@ -425,6 +425,7 @@ export const AddProjectScreen: React.FC = () => {
             </Text>
           </TouchableOpacity>
         </View>
+        {/* End Section 2 */}
 
         {/* Android 时间选择器 */}
         {showTimePicker && Platform.OS === 'android' && (
