@@ -605,7 +605,7 @@ export const AddProjectScreen: React.FC = () => {
               <Text style={styles.templateButtonText}>
                 {selectedTemplate
                   ? templates.find(t => t.value === selectedTemplate)?.label
-                  : '常用模板'}
+                  : t('addProject.commonTemplates')}
               </Text>
               <Text style={styles.templateButtonIcon}>▼</Text>
             </TouchableOpacity>
@@ -673,7 +673,7 @@ export const AddProjectScreen: React.FC = () => {
           >
             <View style={styles.templateModalContent}>
               <View style={styles.templateModalHeader}>
-                <Text style={styles.templateModalTitle}>选择常用模板</Text>
+                <Text style={styles.templateModalTitle}>{t('addProject.selectTemplateTitle')}</Text>
               </View>
 
               <ScrollView>
@@ -769,7 +769,7 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingHorizontal: 16,
     marginVertical: 4,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
@@ -812,7 +812,7 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingHorizontal: 16,
     marginVertical: 4,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
@@ -902,7 +902,7 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingHorizontal: 16,
     marginVertical: 4,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
@@ -1035,13 +1035,13 @@ const styles = StyleSheet.create({
   },
   selectedTimeText: {
     fontSize: 14,
-    color: '#FFFFFF',
+    color: Colors.textWhite,
     marginRight: 4,
     fontWeight: '500',
   },
   removeChipIcon: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: Colors.textWhite,
     fontWeight: 'bold',
   },
   templateHint: {
@@ -1051,7 +1051,7 @@ const styles = StyleSheet.create({
   },
   templateModalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: Colors.modalOverlay,
     justifyContent: 'flex-end',
   },
   templateModalContent: {
@@ -1084,7 +1084,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   templateOptionCardSelected: {
-    backgroundColor: '#E8F0F8',
+    backgroundColor: Colors.primaryLight,
     borderColor: Colors.primary,
   },
   templateOptionTitle: {
@@ -1106,7 +1106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#fafafa',
+    backgroundColor: Colors.backgroundLight,
   },
   emptyTimesText: {
     fontSize: 12,
@@ -1115,7 +1115,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: Colors.modalOverlay,
     justifyContent: 'flex-end',
   },
   modalContent: {

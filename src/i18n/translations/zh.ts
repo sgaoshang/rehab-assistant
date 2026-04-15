@@ -21,6 +21,7 @@ export const zh: Translations = {
     showAll: '显示全部',
     hideCompleted: '隐藏已完成',
     allCompletedToday: '今天所有项目都已完成！',
+    stats: '今天有 {{total}} 个项目 · 已完成 {{completed}} 个',
   },
   settings: {
     title: '项目管理',
@@ -28,6 +29,8 @@ export const zh: Translations = {
     manageProjects: '管理项目',
     languageSettings: '语言设置',
     language: '语言',
+    chinese: '中文',
+    english: 'English',
     developerInfo: '开发者信息',
     supportDeveloper: '打赏开发者',
     version: '提醒助手 v1.0.0',
@@ -311,6 +314,8 @@ export const zh: Translations = {
     descriptionTooLong: '项目说明不能超过100个字',
     timeRequired: '请至少添加一个提醒时间',
     alreadyAdded: '已经添加过了',
+    commonTemplates: '常用模板',
+    selectTemplateTitle: '选择常用模板',
     morning: '早上',
     midMorning: '上午',
     noon: '中午',
@@ -343,6 +348,7 @@ export const zh: Translations = {
     deleteSuccess: '成功',
     projectDeleted: '项目已删除',
     deleteFailed: '删除失败，请重试',
+    stats: '共 {{total}} 个项目 · 已启用 {{enabled}} 个',
   },
   notifications: {
     title: '提醒通知',

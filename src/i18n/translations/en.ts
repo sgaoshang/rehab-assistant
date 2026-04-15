@@ -21,6 +21,7 @@ export const en: Translations = {
     showAll: 'Show All',
     hideCompleted: 'Hide Completed',
     allCompletedToday: 'All projects completed today!',
+    stats: '{{total}} projects today · {{completed}} completed',
   },
   settings: {
     title: 'Project Management',
@@ -28,6 +29,8 @@ export const en: Translations = {
     manageProjects: 'Manage Projects',
     languageSettings: 'Language Settings',
     language: 'Language',
+    chinese: '中文',
+    english: 'English',
     developerInfo: 'Developer Info',
     supportDeveloper: 'Support Developer',
     version: 'Reminder Assistant v1.0.0',
@@ -311,6 +314,8 @@ export const en: Translations = {
     descriptionTooLong: 'Project description cannot exceed 100 characters',
     timeRequired: 'Please add at least one reminder time',
     alreadyAdded: 'Already added',
+    commonTemplates: 'Common Templates',
+    selectTemplateTitle: 'Select Template',
     morning: 'Morning',
     midMorning: 'Mid-Morning',
     noon: 'Noon',
@@ -343,6 +348,7 @@ export const en: Translations = {
     deleteSuccess: 'Success',
     projectDeleted: 'Project deleted',
     deleteFailed: 'Failed to delete, please try again',
+    stats: '{{total}} projects · {{enabled}} enabled',
   },
   notifications: {
     title: 'Reminder',

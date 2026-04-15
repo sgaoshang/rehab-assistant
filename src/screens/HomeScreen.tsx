@@ -60,7 +60,7 @@ export const HomeScreen: React.FC = () => {
 
           <View style={styles.statsRow}>
             <Text style={styles.statsText}>
-              今天有 {totalProjects} 个项目 · 已完成 {completedCount} 个
+              {t('home.stats', { total: totalProjects, completed: completedCount })}
             </Text>
 
             {enabledProjects.length > 0 && (

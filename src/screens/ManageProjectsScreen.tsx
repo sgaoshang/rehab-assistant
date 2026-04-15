@@ -85,7 +85,7 @@ export const ManageProjectsScreen: React.FC = () => {
         {totalProjects > 0 && (
           <View style={styles.header}>
             <Text style={styles.statsText}>
-              共 {totalProjects} 个项目 · 已启用 {enabledCount} 个
+              {t('manageProjects.stats', { total: totalProjects, enabled: enabledCount })}
             </Text>
           </View>
         )}
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingHorizontal: 16,
     marginVertical: 4,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     width: 75,
   },
   swipeEditText: {
-    color: '#FFFFFF',
+    color: Colors.textWhite,
     fontSize: 14,
     fontWeight: '500',
   },
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
   },
   swipeDeleteText: {
-    color: '#FFFFFF',
+    color: Colors.textWhite,
     fontSize: 14,
     fontWeight: '500',
   },

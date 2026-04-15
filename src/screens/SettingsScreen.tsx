@@ -140,7 +140,7 @@ export const SettingsScreen: React.FC = () => {
                 onPress={() => locale !== 'zh' && handleLanguageChange('zh')}
               >
                 <Text style={[styles.languageButtonText, locale === 'zh' && styles.languageButtonTextActive]}>
-                  中文
+                  {t('settings.chinese')}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -148,7 +148,7 @@ export const SettingsScreen: React.FC = () => {
                 onPress={() => locale !== 'en' && handleLanguageChange('en')}
               >
                 <Text style={[styles.languageButtonText, locale === 'en' && styles.languageButtonTextActive]}>
-                  English
+                  {t('settings.english')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     padding: 14,
     paddingHorizontal: 16,
     marginVertical: 4,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 3,
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
   },
   languageButtonTextActive: {
-    color: '#FFFFFF',
+    color: Colors.textWhite,
   },
   donateCard: {
     marginTop: 16,
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: Colors.modalOverlay,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     padding: 24,
     width: '85%',
     maxWidth: 400,
-    shadowColor: '#000',
+    shadowColor: Colors.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.25,
     shadowRadius: 8,
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
   },
   payTabTextActive: {
-    color: '#FFFFFF',
+    color: Colors.textWhite,
   },
   qrCodeContainer: {
     backgroundColor: Colors.background,
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
   recognizeButtonText: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: Colors.textWhite,
   },
   saveButton: {
     flex: 1,
