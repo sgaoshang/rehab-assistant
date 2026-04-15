@@ -595,7 +595,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
   },
   hint: {
-    fontSize: 13,
+    fontSize: 12,
     color: Colors.textDisabled,
     marginTop: 4,
     textAlign: 'right',
