@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { registerRootComponent } from 'expo';
 import * as Notifications from 'expo-notifications';
 
@@ -67,15 +68,17 @@ function App() {
   }, []);
 
   return (
-    <LocaleProvider>
-      <SafeAreaProvider>
-        <AppProvider>
-          <NotificationHandler />
-          <AppNavigator />
-          <StatusBar style="auto" />
-        </AppProvider>
-      </SafeAreaProvider>
-    </LocaleProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <LocaleProvider>
+        <SafeAreaProvider>
+          <AppProvider>
+            <NotificationHandler />
+            <AppNavigator />
+            <StatusBar style="auto" />
+          </AppProvider>
+        </SafeAreaProvider>
+      </LocaleProvider>
+    </GestureHandlerRootView>
   );
 }
 
