@@ -486,6 +486,23 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
     marginBottom: 16,
   },
+  sectionTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sectionTitleAccent: {
+    width: 4,
+    height: 20,
+    backgroundColor: Colors.primary,
+    borderRadius: 2,
+    marginRight: 12,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.textPrimary,
+  },
   modeCard: {
     backgroundColor: Colors.cardBackground,
     borderRadius: 8,
