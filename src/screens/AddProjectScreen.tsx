@@ -306,7 +306,7 @@ export const AddProjectScreen: React.FC = () => {
         keyboardShouldPersistTaps="handled"
       >
         {/* 项目名称 */}
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, styles.firstInputContainer]}>
           <Text style={styles.label}>{t('addProject.projectName')} {t('addProject.projectNameRequired')}</Text>
           <TextInput
             style={styles.input}
@@ -595,6 +595,9 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 12,
+  },
+  firstInputContainer: {
+    marginTop: 20,
   },
   buttonRow: {
     flexDirection: 'row',
