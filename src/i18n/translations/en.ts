@@ -146,8 +146,8 @@ export const en: Translations = {
       description: 'Bend and extend knee in sitting or lying position, 10-15 reps, strengthens leg muscles',
     },
     marchingInPlace: {
-      name: 'Gait Training',
-      description: 'March in place with support, 1-2 min, for mid to late recovery stage',
+      name: 'Marching in Place',
+      description: 'March in place with support, 1-2 min, prepares for gait training',
     },
     neckRotation: {
       name: 'Neck Mobility Training',

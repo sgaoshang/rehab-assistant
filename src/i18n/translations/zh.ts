@@ -146,8 +146,8 @@ export const zh: Translations = {
       description: '坐位或卧位屈伸膝盖，10-15次，增强下肢肌力',
     },
     marchingInPlace: {
-      name: '步行能力训练',
-      description: '扶物站立原地踏步，1-2分钟，恢复中后期进行',
+      name: '原地踏步训练',
+      description: '扶物站立原地踏步，1-2分钟，为步行训练打基础',
     },
     neckRotation: {
       name: '颈部功能训练',
