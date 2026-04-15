@@ -617,6 +617,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 10,
     paddingVertical: 4,
+    height: 28,
   },
   selectedTimeText: {
     fontSize: 13,
