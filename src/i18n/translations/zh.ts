@@ -65,6 +65,20 @@ export const zh: Translations = {
     stageEarly: '早期康复（软瘫期/床上训练）',
     stageMid: '中期康复（坐立训练）',
     stageLate: '后期康复（步行平衡）',
+    stageAdvanced: '进阶康复（回归社会）',
+    // Functional domains
+    domainBedCare: '床上护理与体位管理',
+    domainPassiveROM: '被动关节活动',
+    domainActiveROM: '主动关节活动',
+    domainStrengthening: '肌力训练',
+    domainBalance: '平衡与姿势控制',
+    domainMobility: '移动能力',
+    domainUpperLimb: '上肢功能',
+    domainLowerLimb: '下肢功能',
+    domainHandFunction: '手部精细功能',
+    domainGaitTraining: '步态训练',
+    domainAdl: '日常生活活动',
+    domainCognitive: '认知与双任务',
   },
   presets: {
     positionChange: {

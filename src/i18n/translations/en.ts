@@ -65,6 +65,20 @@ export const en: Translations = {
     stageEarly: 'Early Stage (Flaccid/Bed Training)',
     stageMid: 'Mid Stage (Sitting Training)',
     stageLate: 'Late Stage (Gait & Balance)',
+    stageAdvanced: 'Advanced Stage (Community Reintegration)',
+    // Functional domains
+    domainBedCare: 'Bed Care & Positioning',
+    domainPassiveROM: 'Passive Range of Motion',
+    domainActiveROM: 'Active Range of Motion',
+    domainStrengthening: 'Strength Training',
+    domainBalance: 'Balance & Postural Control',
+    domainMobility: 'Mobility Training',
+    domainUpperLimb: 'Upper Limb Function',
+    domainLowerLimb: 'Lower Limb Function',
+    domainHandFunction: 'Hand Dexterity & Fine Motor',
+    domainGaitTraining: 'Gait Training',
+    domainAdl: 'Activities of Daily Living',
+    domainCognitive: 'Cognitive & Dual-Task',
   },
   presets: {
     positionChange: {

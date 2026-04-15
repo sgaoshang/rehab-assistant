@@ -57,10 +57,32 @@ export type PresetProjectId =
 
 export type PresetCategory = 'rehabilitation' | 'medication' | 'healthCheck';
 
-export type RehabilitationStage = 'early' | 'mid' | 'late';
+export type RehabilitationStage = 'early' | 'mid' | 'late' | 'advanced';
 
-export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId; category: PresetCategory; suggestedTimes?: string[]; rehabilitationStage?: RehabilitationStage }> => [
-  // Rehabilitation exercises - Early stage (Flaccid/Bed stage)
+export type FunctionalDomain =
+  | 'bedCare'           // 床上护理与体位管理
+  | 'passiveROM'        // 被动关节活动
+  | 'activeROM'         // 主动关节活动
+  | 'strengthening'     // 肌力训练
+  | 'balance'           // 平衡与姿势控制
+  | 'mobility'          // 移动能力
+  | 'upperLimb'         // 上肢功能
+  | 'lowerLimb'         // 下肢功能
+  | 'handFunction'      // 手部精细功能
+  | 'gaitTraining'      // 步态训练
+  | 'adl'               // 日常生活活动
+  | 'cognitive';        // 认知与双任务
+
+export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & {
+  presetId: PresetProjectId;
+  category: PresetCategory;
+  suggestedTimes?: string[];
+  rehabilitationStage?: RehabilitationStage;
+  functionalDomain?: FunctionalDomain;
+}> => [
+  // ========== 早期康复（软瘫期/床上训练，0-2周）==========
+
+  // 床上护理与体位管理
   {
     name: t('presets.positionChange.name'),
     description: t('presets.positionChange.description'),
@@ -68,6 +90,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'positionChange',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'bedCare',
     suggestedTimes: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
   },
   {
@@ -77,8 +100,21 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'properPositioning',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'bedCare',
     suggestedTimes: ['08:00', '14:00', '20:00'],
   },
+  {
+    name: t('presets.skinCare.name'),
+    description: t('presets.skinCare.description'),
+    isPreset: true,
+    presetId: 'skinCare',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    functionalDomain: 'bedCare',
+    suggestedTimes: ['08:00', '20:00'],
+  },
+
+  // 被动关节活动训练
   {
     name: t('presets.passiveROM.name'),
     description: t('presets.passiveROM.description'),
@@ -86,6 +122,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'passiveROM',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'passiveROM',
     suggestedTimes: ['09:00', '15:00', '21:00'],
   },
   {
@@ -95,26 +132,21 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'limbMassage',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'passiveROM',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
-    name: t('presets.skinCare.name'),
-    description: t('presets.skinCare.description'),
+    name: t('presets.passiveTrunkRotation.name'),
+    description: t('presets.passiveTrunkRotation.description'),
     isPreset: true,
-    presetId: 'skinCare',
+    presetId: 'passiveTrunkRotation',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
-    suggestedTimes: ['08:00', '20:00'],
+    functionalDomain: 'passiveROM',
+    suggestedTimes: ['10:00', '16:00'],
   },
-  {
-    name: t('presets.swallowingTraining.name'),
-    description: t('presets.swallowingTraining.description'),
-    isPreset: true,
-    presetId: 'swallowingTraining',
-    category: 'rehabilitation',
-    rehabilitationStage: 'early',
-    suggestedTimes: ['09:00', '15:00'],
-  },
+
+  // 主动关节活动训练（床上）
   {
     name: t('presets.ankleExercise.name'),
     description: t('presets.ankleExercise.description'),
@@ -122,6 +154,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'ankleExercise',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'activeROM',
     suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
@@ -131,16 +164,8 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'kneeFlexion',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'activeROM',
     suggestedTimes: ['09:00', '14:00', '19:00'],
-  },
-  {
-    name: t('presets.deepBreathing.name'),
-    description: t('presets.deepBreathing.description'),
-    isPreset: true,
-    presetId: 'deepBreathing',
-    category: 'rehabilitation',
-    rehabilitationStage: 'early',
-    suggestedTimes: ['08:00', '14:00', '20:00'],
   },
   {
     name: t('presets.neckRotation.name'),
@@ -149,6 +174,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'neckRotation',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'activeROM',
     suggestedTimes: ['09:00', '15:00', '21:00'],
   },
   {
@@ -158,8 +184,21 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'shoulderRotation',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'activeROM',
     suggestedTimes: ['09:00', '14:00', '19:00'],
   },
+  {
+    name: t('presets.deepBreathing.name'),
+    description: t('presets.deepBreathing.description'),
+    isPreset: true,
+    presetId: 'deepBreathing',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    functionalDomain: 'activeROM',
+    suggestedTimes: ['08:00', '14:00', '20:00'],
+  },
+
+  // 床上肌力训练
   {
     name: t('presets.bridgeExercise.name'),
     description: t('presets.bridgeExercise.description'),
@@ -167,8 +206,11 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'bridgeExercise',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'strengthening',
     suggestedTimes: ['10:00', '16:00'],
   },
+
+  // 床上移动能力
   {
     name: t('presets.bedMobility.name'),
     description: t('presets.bedMobility.description'),
@@ -176,6 +218,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'bedMobility',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'mobility',
     suggestedTimes: ['09:00', '15:00'],
   },
   {
@@ -185,46 +228,25 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'bedToSit',
     category: 'rehabilitation',
     rehabilitationStage: 'early',
+    functionalDomain: 'mobility',
     suggestedTimes: ['09:00', '14:00', '19:00'],
-  },
-  {
-    name: t('presets.passiveTrunkRotation.name'),
-    description: t('presets.passiveTrunkRotation.description'),
-    isPreset: true,
-    presetId: 'passiveTrunkRotation',
-    category: 'rehabilitation',
-    rehabilitationStage: 'early',
-    suggestedTimes: ['10:00', '16:00'],
   },
 
-  // Rehabilitation exercises - Mid stage
+  // 吞咽与ADL准备
   {
-    name: t('presets.fistExercise.name'),
-    description: t('presets.fistExercise.description'),
+    name: t('presets.swallowingTraining.name'),
+    description: t('presets.swallowingTraining.description'),
     isPreset: true,
-    presetId: 'fistExercise',
+    presetId: 'swallowingTraining',
     category: 'rehabilitation',
-    rehabilitationStage: 'mid',
-    suggestedTimes: ['10:00', '15:00', '20:00'],
+    rehabilitationStage: 'early',
+    functionalDomain: 'adl',
+    suggestedTimes: ['09:00', '15:00'],
   },
-  {
-    name: t('presets.fingerStretch.name'),
-    description: t('presets.fingerStretch.description'),
-    isPreset: true,
-    presetId: 'fingerStretch',
-    category: 'rehabilitation',
-    rehabilitationStage: 'mid',
-    suggestedTimes: ['10:00', '15:00', '20:00'],
-  },
-  {
-    name: t('presets.armRaise.name'),
-    description: t('presets.armRaise.description'),
-    isPreset: true,
-    presetId: 'armRaise',
-    category: 'rehabilitation',
-    rehabilitationStage: 'mid',
-    suggestedTimes: ['09:00', '14:00', '19:00'],
-  },
+
+  // ========== 中期康复（痉挛期/坐立训练，2周-3个月）==========
+
+  // 平衡与姿势控制
   {
     name: t('presets.sittingBalance.name'),
     description: t('presets.sittingBalance.description'),
@@ -232,6 +254,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'sittingBalance',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'balance',
     suggestedTimes: ['09:00', '15:00'],
   },
   {
@@ -241,6 +264,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'trunkControl',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'balance',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -250,6 +274,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'standingBalance',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'balance',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -259,7 +284,20 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'weightShift',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'balance',
     suggestedTimes: ['10:00', '16:00'],
+  },
+
+  // 上肢功能训练
+  {
+    name: t('presets.armRaise.name'),
+    description: t('presets.armRaise.description'),
+    isPreset: true,
+    presetId: 'armRaise',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    functionalDomain: 'upperLimb',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
     name: t('presets.reachingTraining.name'),
@@ -268,6 +306,39 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'reachingTraining',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'upperLimb',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
+  },
+  {
+    name: t('presets.upperLimbFunction.name'),
+    description: t('presets.upperLimbFunction.description'),
+    isPreset: true,
+    presetId: 'upperLimbFunction',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    functionalDomain: 'upperLimb',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
+  },
+
+  // 手部精细功能训练
+  {
+    name: t('presets.fistExercise.name'),
+    description: t('presets.fistExercise.description'),
+    isPreset: true,
+    presetId: 'fistExercise',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    functionalDomain: 'handFunction',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
+  },
+  {
+    name: t('presets.fingerStretch.name'),
+    description: t('presets.fingerStretch.description'),
+    isPreset: true,
+    presetId: 'fingerStretch',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    functionalDomain: 'handFunction',
     suggestedTimes: ['10:00', '15:00', '20:00'],
   },
   {
@@ -277,6 +348,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'handEyeCoordination',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'handFunction',
     suggestedTimes: ['10:00', '15:00'],
   },
   {
@@ -286,8 +358,11 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'fineMotor',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'handFunction',
     suggestedTimes: ['10:00', '15:00'],
   },
+
+  // 下肢功能与肌力训练
   {
     name: t('presets.sitToStand.name'),
     description: t('presets.sitToStand.description'),
@@ -295,6 +370,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'sitToStand',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'lowerLimb',
     suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
@@ -304,28 +380,13 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'standingEndurance',
     category: 'rehabilitation',
     rehabilitationStage: 'mid',
+    functionalDomain: 'lowerLimb',
     suggestedTimes: ['10:00', '16:00'],
-  },
-  {
-    name: t('presets.upperLimbFunction.name'),
-    description: t('presets.upperLimbFunction.description'),
-    isPreset: true,
-    presetId: 'upperLimbFunction',
-    category: 'rehabilitation',
-    rehabilitationStage: 'mid',
-    suggestedTimes: ['10:00', '15:00', '20:00'],
   },
 
-  // Rehabilitation exercises - Late stage
-  {
-    name: t('presets.marchingInPlace.name'),
-    description: t('presets.marchingInPlace.description'),
-    isPreset: true,
-    presetId: 'marchingInPlace',
-    category: 'rehabilitation',
-    rehabilitationStage: 'late',
-    suggestedTimes: ['10:00', '16:00'],
-  },
+  // ========== 后期康复（分离运动期/步行训练，3-6个月）==========
+
+  // 高级平衡训练
   {
     name: t('presets.balanceTraining.name'),
     description: t('presets.balanceTraining.description'),
@@ -333,6 +394,19 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'balanceTraining',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'balance',
+    suggestedTimes: ['10:00', '16:00'],
+  },
+
+  // 步态训练
+  {
+    name: t('presets.marchingInPlace.name'),
+    description: t('presets.marchingInPlace.description'),
+    isPreset: true,
+    presetId: 'marchingInPlace',
+    category: 'rehabilitation',
+    rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -342,24 +416,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'gaitTraining',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
-    suggestedTimes: ['10:00', '16:00'],
-  },
-  {
-    name: t('presets.stairClimbing.name'),
-    description: t('presets.stairClimbing.description'),
-    isPreset: true,
-    presetId: 'stairClimbing',
-    category: 'rehabilitation',
-    rehabilitationStage: 'late',
-    suggestedTimes: ['10:00', '16:00'],
-  },
-  {
-    name: t('presets.squatExercise.name'),
-    description: t('presets.squatExercise.description'),
-    isPreset: true,
-    presetId: 'squatExercise',
-    category: 'rehabilitation',
-    rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -369,6 +426,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'lateralWalking',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -378,6 +436,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'backwardWalking',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -387,6 +446,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'turningTraining',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -396,6 +456,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'obstacleWalking',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
   {
@@ -405,8 +466,33 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'tandemWalking',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
     suggestedTimes: ['10:00', '16:00'],
   },
+  {
+    name: t('presets.stairClimbing.name'),
+    description: t('presets.stairClimbing.description'),
+    isPreset: true,
+    presetId: 'stairClimbing',
+    category: 'rehabilitation',
+    rehabilitationStage: 'late',
+    functionalDomain: 'gaitTraining',
+    suggestedTimes: ['10:00', '16:00'],
+  },
+
+  // 下肢肌力强化
+  {
+    name: t('presets.squatExercise.name'),
+    description: t('presets.squatExercise.description'),
+    isPreset: true,
+    presetId: 'squatExercise',
+    category: 'rehabilitation',
+    rehabilitationStage: 'late',
+    functionalDomain: 'lowerLimb',
+    suggestedTimes: ['10:00', '16:00'],
+  },
+
+  // 日常生活活动训练
   {
     name: t('presets.adlTraining.name'),
     description: t('presets.adlTraining.description'),
@@ -414,8 +500,11 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'adlTraining',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'adl',
     suggestedTimes: ['09:00', '15:00'],
   },
+
+  // 认知与双任务训练
   {
     name: t('presets.dualTaskTraining.name'),
     description: t('presets.dualTaskTraining.description'),
@@ -423,6 +512,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     presetId: 'dualTaskTraining',
     category: 'rehabilitation',
     rehabilitationStage: 'late',
+    functionalDomain: 'cognitive',
     suggestedTimes: ['10:00', '16:00'],
   },
 
