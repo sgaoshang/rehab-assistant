@@ -348,30 +348,30 @@ export const AddProjectScreen: React.FC = () => {
 
         {/* Section 2: Reminder Times */}
         <View style={styles.section}>
-          <View style={styles.inputContainer}>
-          <Text style={styles.label}>{t('addProject.reminderTime')} {t('addProject.reminderTimeRequired')}</Text>
-          <Text style={[styles.hint, styles.hintTop]}>{t('addProject.reminderTimeHint')}</Text>
+          {/* Section title with accent */}
+          <View style={styles.sectionTitleContainer}>
+            <View style={styles.sectionTitleAccent} />
+            <Text style={styles.sectionTitle}>{t('addProject.reminderTime')}</Text>
+          </View>
 
-          {/* Template Dropdown */}
-          <View style={styles.templateDropdownContainer}>
-            <Picker
-              selectedValue={selectedTemplate}
-              onValueChange={handleTemplateChange}
-              style={styles.templatePicker}
+          {/* Template section card */}
+          <View style={styles.templateSectionCard}>
+            <Text style={styles.templateSectionLabel}>常用模板</Text>
+
+            {/* Template selector button */}
+            <TouchableOpacity
+              style={styles.templateSelectorButton}
+              onPress={() => setShowTemplateModal(true)}
+              activeOpacity={0.7}
             >
-              <Picker.Item
-                label={t('addProject.selectTemplate')}
-                value=""
-                color={Platform.OS === 'ios' ? Colors.textDisabled : undefined}
-              />
-              {templates.map((template) => (
-                <Picker.Item
-                  key={template.value}
-                  label={template.label}
-                  value={template.value}
-                />
-              ))}
-            </Picker>
+              <Text style={selectedTemplate ? styles.templateSelectorText : styles.templateSelectorPlaceholder}>
+                {selectedTemplate
+                  ? templates.find(t => t.value === selectedTemplate)?.label
+                  : t('addProject.selectTemplate')}
+              </Text>
+              <Text style={styles.templateSelectorIcon}>▼</Text>
+            </TouchableOpacity>
+
             <Text style={styles.templateHint}>
               💡 {t('addProject.templateChangeHint')}
             </Text>
