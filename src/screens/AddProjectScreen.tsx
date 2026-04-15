@@ -589,12 +589,22 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   inputContainer: {
-    marginBottom: 16,
+    marginBottom: 20,
+  },
+  firstInputContainer: {
+    marginTop: 24,
+    marginBottom: 20,
+  },
+  section: {
+    marginBottom: 24,
+  },
+  firstSection: {
+    marginTop: 0,
   },
   label: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: Colors.textSecondary,
+    fontSize: 16,
+    fontWeight: '500',
+    color: Colors.textPrimary,
     marginBottom: 8,
   },
   input: {
