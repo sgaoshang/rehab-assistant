@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   label: {
     fontSize: 15,
