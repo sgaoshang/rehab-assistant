@@ -154,11 +154,15 @@ export const AddProjectScreen: React.FC = () => {
     // Check if this preset already exists
     const existingPreset = state.projects.find(p => p.presetId === preset.presetId);
     if (existingPreset) {
-      Alert.alert(
-        t('addProject.error'),
-        `"${preset.name}" ${t('addProject.alreadyAdded')}`,
-        [{ text: t('common.confirm') }]
-      );
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n"${preset.name}" ${t('addProject.alreadyAdded')}`);
+      } else {
+        Alert.alert(
+          t('addProject.error'),
+          `"${preset.name}" ${t('addProject.alreadyAdded')}`,
+          [{ text: t('common.confirm') }]
+        );
+      }
       return;
     }
 
@@ -175,20 +179,29 @@ export const AddProjectScreen: React.FC = () => {
         completionHistory: [],
       });
 
-      Alert.alert(
-        '✓ ' + t('addProject.success'),
-        `"${preset.name}" ` + t('addProject.projectAdded'),
-        [
-          {
-            text: t('common.confirm'),
-            onPress: () => {
-              // Stay on select mode to allow adding more presets
+      if (Platform.OS === 'web') {
+        window.alert(`✓ ${t('addProject.success')}\n\n"${preset.name}" ${t('addProject.projectAdded')}`);
+        // Stay on select mode to allow adding more presets
+      } else {
+        Alert.alert(
+          '✓ ' + t('addProject.success'),
+          `"${preset.name}" ` + t('addProject.projectAdded'),
+          [
+            {
+              text: t('common.confirm'),
+              onPress: () => {
+                // Stay on select mode to allow adding more presets
+              },
             },
-          },
-        ]
-      );
+          ]
+        );
+      }
     } catch (error) {
-      Alert.alert(t('addProject.error'), t('addProject.addFailed'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n${t('addProject.addFailed')}`);
+      } else {
+        Alert.alert(t('addProject.error'), t('addProject.addFailed'));
+      }
     } finally {
       setSubmitting(false);
     }
@@ -255,22 +268,38 @@ export const AddProjectScreen: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      Alert.alert(t('addProject.error'), t('addProject.nameRequired'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n${t('addProject.nameRequired')}`);
+      } else {
+        Alert.alert(t('addProject.error'), t('addProject.nameRequired'));
+      }
       return;
     }
 
     if (name.length > 20) {
-      Alert.alert(t('addProject.error'), t('addProject.nameTooLong'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n${t('addProject.nameTooLong')}`);
+      } else {
+        Alert.alert(t('addProject.error'), t('addProject.nameTooLong'));
+      }
       return;
     }
 
     if (description.length > 100) {
-      Alert.alert(t('addProject.error'), t('addProject.descriptionTooLong'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n${t('addProject.descriptionTooLong')}`);
+      } else {
+        Alert.alert(t('addProject.error'), t('addProject.descriptionTooLong'));
+      }
       return;
     }
 
     if (reminderTimes.length === 0) {
-      Alert.alert(t('addProject.error'), t('addProject.timeRequired'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n${t('addProject.timeRequired')}`);
+      } else {
+        Alert.alert(t('addProject.error'), t('addProject.timeRequired'));
+      }
       return;
     }
 
@@ -285,12 +314,17 @@ export const AddProjectScreen: React.FC = () => {
           presetId,
         });
 
-        Alert.alert(t('addProject.success'), t('addProject.projectUpdated'), [
-          {
-            text: t('common.confirm'),
-            onPress: () => navigation.goBack(),
-          },
-        ]);
+        if (Platform.OS === 'web') {
+          window.alert(`${t('addProject.success')}\n\n${t('addProject.projectUpdated')}`);
+          navigation.goBack();
+        } else {
+          Alert.alert(t('addProject.success'), t('addProject.projectUpdated'), [
+            {
+              text: t('common.confirm'),
+              onPress: () => navigation.goBack(),
+            },
+          ]);
+        }
       } else {
         // Add new project
         await addProject({
@@ -303,15 +337,24 @@ export const AddProjectScreen: React.FC = () => {
           completionHistory: [],
         });
 
-        Alert.alert(t('addProject.success'), t('addProject.projectAdded'), [
-          {
-            text: t('common.confirm'),
-            onPress: () => navigation.goBack(),
-          },
-        ]);
+        if (Platform.OS === 'web') {
+          window.alert(`${t('addProject.success')}\n\n${t('addProject.projectAdded')}`);
+          navigation.goBack();
+        } else {
+          Alert.alert(t('addProject.success'), t('addProject.projectAdded'), [
+            {
+              text: t('common.confirm'),
+              onPress: () => navigation.goBack(),
+            },
+          ]);
+        }
       }
     } catch (error) {
-      Alert.alert(t('addProject.error'), isEditMode ? t('addProject.updateFailed') : t('addProject.addFailed'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('addProject.error')}\n\n${isEditMode ? t('addProject.updateFailed') : t('addProject.addFailed')}`);
+      } else {
+        Alert.alert(t('addProject.error'), isEditMode ? t('addProject.updateFailed') : t('addProject.addFailed'));
+      }
       setSubmitting(false);
     }
   };
