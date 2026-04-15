@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   swipeActions: {
     flexDirection: 'row',
-    height: '100%',
+    marginBottom: 8,
   },
   swipeEditButton: {
     backgroundColor: Colors.primary,
@@ -176,6 +176,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 75,
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
   },
   swipeDeleteText: {
     color: '#FFFFFF',
