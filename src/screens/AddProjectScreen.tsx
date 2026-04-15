@@ -57,6 +57,16 @@ export const AddProjectScreen: React.FC = () => {
     healthCheck: false,
   });
 
+  const [expandedRehabStages, setExpandedRehabStages] = useState<{
+    early: boolean;
+    mid: boolean;
+    late: boolean;
+  }>({
+    early: true,  // 默认展开早期康复
+    mid: false,
+    late: false,
+  });
+
   // Get preset projects with translations
   const presetProjects = useMemo(() => getPresetProjects(t), [t]);
 
@@ -128,6 +138,13 @@ export const AddProjectScreen: React.FC = () => {
     setExpandedCategories(prev => ({
       ...prev,
       [category]: !prev[category],
+    }));
+  };
+
+  const toggleRehabStage = (stage: keyof typeof expandedRehabStages) => {
+    setExpandedRehabStages(prev => ({
+      ...prev,
+      [stage]: !prev[stage],
     }));
   };
 
@@ -326,22 +343,69 @@ export const AddProjectScreen: React.FC = () => {
                 </Text>
               </TouchableOpacity>
 
-              {expandedCategories[category.key] && groupedPresets[category.key].map((preset, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.presetCard}
-                  onPress={() => handleSelectPreset(preset)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.presetCardContent}>
-                    <View style={styles.presetCardText}>
-                      <Text style={styles.presetName}>{preset.name}</Text>
-                      <Text style={styles.presetDescription}>{preset.description}</Text>
-                    </View>
-                    <Text style={styles.presetCardArrow}>›</Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
+              {expandedCategories[category.key] && (
+                category.key === 'rehabilitation' ? (
+                  // Rehabilitation category with stage sub-groups
+                  <>
+                    {(['early', 'mid', 'late'] as const).map((stage) => {
+                      const stagePresets = groupedPresets[category.key].filter(p => p.rehabilitationStage === stage);
+                      if (stagePresets.length === 0) return null;
+
+                      return (
+                        <View key={stage} style={styles.stageGroup}>
+                          <TouchableOpacity
+                            style={styles.stageHeader}
+                            onPress={() => toggleRehabStage(stage)}
+                            activeOpacity={0.7}
+                          >
+                            <Text style={styles.stageTitle}>
+                              {t(`projects.stage${stage.charAt(0).toUpperCase() + stage.slice(1)}` as any)}
+                            </Text>
+                            <Text style={styles.stageIcon}>
+                              {expandedRehabStages[stage] ? '▼' : '▶'}
+                            </Text>
+                          </TouchableOpacity>
+
+                          {expandedRehabStages[stage] && stagePresets.map((preset, index) => (
+                            <TouchableOpacity
+                              key={index}
+                              style={styles.presetCard}
+                              onPress={() => handleSelectPreset(preset)}
+                              activeOpacity={0.7}
+                            >
+                              <View style={styles.presetCardContent}>
+                                <View style={styles.presetCardText}>
+                                  <Text style={styles.presetName}>{preset.name}</Text>
+                                  <Text style={styles.presetDescription}>{preset.description}</Text>
+                                </View>
+                                <Text style={styles.presetCardArrow}>›</Text>
+                              </View>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                      );
+                    })}
+                  </>
+                ) : (
+                  // Other categories without sub-groups
+                  groupedPresets[category.key].map((preset, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.presetCard}
+                      onPress={() => handleSelectPreset(preset)}
+                      activeOpacity={0.7}
+                    >
+                      <View style={styles.presetCardContent}>
+                        <View style={styles.presetCardText}>
+                          <Text style={styles.presetName}>{preset.name}</Text>
+                          <Text style={styles.presetDescription}>{preset.description}</Text>
+                        </View>
+                        <Text style={styles.presetCardArrow}>›</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))
+                )
+              )}
             </View>
           ))}
 
@@ -629,6 +693,31 @@ const styles = StyleSheet.create({
   },
   categoryIcon: {
     fontSize: 12,
+    color: Colors.textSecondary,
+    marginLeft: 8,
+  },
+  stageGroup: {
+    marginLeft: 12,
+    marginBottom: 12,
+  },
+  stageHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    marginBottom: 4,
+    backgroundColor: Colors.background,
+    borderRadius: 6,
+  },
+  stageTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+    flex: 1,
+  },
+  stageIcon: {
+    fontSize: 10,
     color: Colors.textSecondary,
     marginLeft: 8,
   },

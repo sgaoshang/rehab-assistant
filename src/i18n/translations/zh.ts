@@ -62,6 +62,9 @@ export const zh: Translations = {
     categoryRehabilitation: '康复训练',
     categoryMedication: '用药提醒',
     categoryHealthCheck: '健康测量',
+    stageEarly: '早期康复（床上训练）',
+    stageMid: '中期康复（坐立训练）',
+    stageLate: '后期康复（步行平衡）',
   },
   presets: {
     fistExercise: {

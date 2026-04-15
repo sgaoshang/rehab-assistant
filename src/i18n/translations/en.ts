@@ -62,6 +62,9 @@ export const en: Translations = {
     categoryRehabilitation: 'Rehabilitation Exercise',
     categoryMedication: 'Medication Reminder',
     categoryHealthCheck: 'Health Measurement',
+    stageEarly: 'Early Stage (Bed Training)',
+    stageMid: 'Mid Stage (Sitting Training)',
+    stageLate: 'Late Stage (Gait & Balance)',
   },
   presets: {
     fistExercise: {

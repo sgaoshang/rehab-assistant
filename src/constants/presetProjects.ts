@@ -22,46 +22,17 @@ export type PresetProjectId =
 
 export type PresetCategory = 'rehabilitation' | 'medication' | 'healthCheck';
 
-export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId; category: PresetCategory; suggestedTimes?: string[] }> => [
-  // Rehabilitation exercises
-  {
-    name: t('presets.fistExercise.name'),
-    description: t('presets.fistExercise.description'),
-    isPreset: true,
-    presetId: 'fistExercise',
-    category: 'rehabilitation',
-    suggestedTimes: ['10:00', '15:00', '20:00'],
-  },
-  {
-    name: t('presets.fingerStretch.name'),
-    description: t('presets.fingerStretch.description'),
-    isPreset: true,
-    presetId: 'fingerStretch',
-    category: 'rehabilitation',
-    suggestedTimes: ['10:00', '15:00', '20:00'],
-  },
-  {
-    name: t('presets.armRaise.name'),
-    description: t('presets.armRaise.description'),
-    isPreset: true,
-    presetId: 'armRaise',
-    category: 'rehabilitation',
-    suggestedTimes: ['09:00', '14:00', '19:00'],
-  },
-  {
-    name: t('presets.shoulderRotation.name'),
-    description: t('presets.shoulderRotation.description'),
-    isPreset: true,
-    presetId: 'shoulderRotation',
-    category: 'rehabilitation',
-    suggestedTimes: ['09:00', '14:00', '19:00'],
-  },
+export type RehabilitationStage = 'early' | 'mid' | 'late';
+
+export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & { presetId: PresetProjectId; category: PresetCategory; suggestedTimes?: string[]; rehabilitationStage?: RehabilitationStage }> => [
+  // Rehabilitation exercises - Early stage
   {
     name: t('presets.ankleExercise.name'),
     description: t('presets.ankleExercise.description'),
     isPreset: true,
     presetId: 'ankleExercise',
     category: 'rehabilitation',
+    rehabilitationStage: 'early',
     suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
@@ -70,23 +41,8 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'kneeFlexion',
     category: 'rehabilitation',
+    rehabilitationStage: 'early',
     suggestedTimes: ['09:00', '14:00', '19:00'],
-  },
-  {
-    name: t('presets.marchingInPlace.name'),
-    description: t('presets.marchingInPlace.description'),
-    isPreset: true,
-    presetId: 'marchingInPlace',
-    category: 'rehabilitation',
-    suggestedTimes: ['10:00', '16:00'],
-  },
-  {
-    name: t('presets.neckRotation.name'),
-    description: t('presets.neckRotation.description'),
-    isPreset: true,
-    presetId: 'neckRotation',
-    category: 'rehabilitation',
-    suggestedTimes: ['09:00', '15:00', '21:00'],
   },
   {
     name: t('presets.deepBreathing.name'),
@@ -94,7 +50,66 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'deepBreathing',
     category: 'rehabilitation',
+    rehabilitationStage: 'early',
     suggestedTimes: ['08:00', '14:00', '20:00'],
+  },
+  {
+    name: t('presets.neckRotation.name'),
+    description: t('presets.neckRotation.description'),
+    isPreset: true,
+    presetId: 'neckRotation',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['09:00', '15:00', '21:00'],
+  },
+  {
+    name: t('presets.shoulderRotation.name'),
+    description: t('presets.shoulderRotation.description'),
+    isPreset: true,
+    presetId: 'shoulderRotation',
+    category: 'rehabilitation',
+    rehabilitationStage: 'early',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
+  },
+
+  // Rehabilitation exercises - Mid stage
+  {
+    name: t('presets.fistExercise.name'),
+    description: t('presets.fistExercise.description'),
+    isPreset: true,
+    presetId: 'fistExercise',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
+  },
+  {
+    name: t('presets.fingerStretch.name'),
+    description: t('presets.fingerStretch.description'),
+    isPreset: true,
+    presetId: 'fingerStretch',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
+  },
+  {
+    name: t('presets.armRaise.name'),
+    description: t('presets.armRaise.description'),
+    isPreset: true,
+    presetId: 'armRaise',
+    category: 'rehabilitation',
+    rehabilitationStage: 'mid',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
+  },
+
+  // Rehabilitation exercises - Late stage
+  {
+    name: t('presets.marchingInPlace.name'),
+    description: t('presets.marchingInPlace.description'),
+    isPreset: true,
+    presetId: 'marchingInPlace',
+    category: 'rehabilitation',
+    rehabilitationStage: 'late',
+    suggestedTimes: ['10:00', '16:00'],
   },
   {
     name: t('presets.balanceTraining.name'),
@@ -102,6 +117,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'balanceTraining',
     category: 'rehabilitation',
+    rehabilitationStage: 'late',
     suggestedTimes: ['10:00', '16:00'],
   },
 
