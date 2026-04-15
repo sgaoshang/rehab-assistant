@@ -30,6 +30,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'fistExercise',
     category: 'rehabilitation',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
   },
   {
     name: t('presets.fingerStretch.name'),
@@ -37,6 +38,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'fingerStretch',
     category: 'rehabilitation',
+    suggestedTimes: ['10:00', '15:00', '20:00'],
   },
   {
     name: t('presets.armRaise.name'),
@@ -44,6 +46,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'armRaise',
     category: 'rehabilitation',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
     name: t('presets.shoulderRotation.name'),
@@ -51,6 +54,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'shoulderRotation',
     category: 'rehabilitation',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
     name: t('presets.ankleExercise.name'),
@@ -58,6 +62,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'ankleExercise',
     category: 'rehabilitation',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
     name: t('presets.kneeFlexion.name'),
@@ -65,6 +70,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'kneeFlexion',
     category: 'rehabilitation',
+    suggestedTimes: ['09:00', '14:00', '19:00'],
   },
   {
     name: t('presets.marchingInPlace.name'),
@@ -72,6 +78,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'marchingInPlace',
     category: 'rehabilitation',
+    suggestedTimes: ['10:00', '16:00'],
   },
   {
     name: t('presets.neckRotation.name'),
@@ -79,6 +86,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'neckRotation',
     category: 'rehabilitation',
+    suggestedTimes: ['09:00', '15:00', '21:00'],
   },
   {
     name: t('presets.deepBreathing.name'),
@@ -86,6 +94,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'deepBreathing',
     category: 'rehabilitation',
+    suggestedTimes: ['08:00', '14:00', '20:00'],
   },
   {
     name: t('presets.balanceTraining.name'),
@@ -93,6 +102,7 @@ export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, '
     isPreset: true,
     presetId: 'balanceTraining',
     category: 'rehabilitation',
+    suggestedTimes: ['10:00', '16:00'],
   },
 
   // Medication reminders

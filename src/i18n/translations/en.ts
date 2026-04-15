@@ -65,44 +65,44 @@ export const en: Translations = {
   },
   presets: {
     fistExercise: {
-      name: 'Fist Exercise',
-      description: 'Slowly make a fist and release, repeat 10-15 times',
+      name: 'Hand Grip Training',
+      description: 'Affected hand slowly grip and release, 10 reps, unaffected hand may assist in early stage',
     },
     fingerStretch: {
-      name: 'Finger Stretch',
-      description: 'Stretch fingers, hold for 5 seconds, repeat 10 times',
+      name: 'Finger Abduction Training',
+      description: 'Spread and close fingers forcefully, hold 5 sec, 10 reps, improves fine motor skills',
     },
     armRaise: {
-      name: 'Arm Raise',
-      description: 'Slowly raise both arms up, hold for 3 seconds and lower',
+      name: 'Upper Limb Elevation',
+      description: 'Raise affected arm forward or sideways, assist with unaffected hand early on, gradually increase range',
     },
     shoulderRotation: {
-      name: 'Shoulder Rotation',
-      description: 'Rotate shoulders in circles, 5 times clockwise and counterclockwise',
+      name: 'Shoulder Mobility Training',
+      description: 'Rotate shoulder forward, backward, inward, outward, 5 reps each, prevents shoulder adhesion',
     },
     ankleExercise: {
-      name: 'Ankle Exercise',
-      description: 'Move ankles up and down, 10 times each side',
+      name: 'Ankle Dorsiflexion Training',
+      description: 'Flex toes up and down, 10 reps each side, can be done in bed during early stage',
     },
     kneeFlexion: {
-      name: 'Knee Flexion',
-      description: 'Bend and extend knees while seated, repeat 10-15 times',
+      name: 'Lower Limb Flexion Training',
+      description: 'Bend and extend knee in sitting or lying position, 10-15 reps, strengthens leg muscles',
     },
     marchingInPlace: {
-      name: 'Marching in Place',
-      description: 'March in place lifting legs, 1-2 minutes each time',
+      name: 'Gait Training',
+      description: 'March in place with support, 1-2 min, for mid to late recovery stage',
     },
     neckRotation: {
-      name: 'Neck Rotation',
-      description: 'Slowly rotate head, 5 times each direction',
+      name: 'Neck Mobility Training',
+      description: 'Slowly turn head left-right, nod up-down, 5 reps each, relieves neck stiffness',
     },
     deepBreathing: {
-      name: 'Deep Breathing',
-      description: 'Breathe in deeply for 3 seconds, exhale slowly',
+      name: 'Breathing Function Training',
+      description: 'Diaphragmatic breathing, inhale 3 sec exhale 5 sec, promotes lung function recovery',
     },
     balanceTraining: {
-      name: 'Balance Training',
-      description: 'Stand on one leg maintaining balance, 30 seconds each side',
+      name: 'Balance Coordination Training',
+      description: 'Stand on one leg with support or eyes closed, 30 sec each side, for late recovery stage',
     },
     antiplateletMed: {
       name: 'Antiplatelet Medicine',

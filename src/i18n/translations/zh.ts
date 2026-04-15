@@ -65,44 +65,44 @@ export const zh: Translations = {
   },
   presets: {
     fistExercise: {
-      name: '握拳练习',
-      description: '缓慢握拳再放松，重复10-15次',
+      name: '手部握拳训练',
+      description: '患侧手缓慢握拳再张开，每组10次，早期可健手辅助',
     },
     fingerStretch: {
-      name: '手指伸展',
-      description: '伸展手指，保持5秒，重复10次',
+      name: '手指分合训练',
+      description: '手指用力分开并拢，保持5秒，每组10次，促进手部精细动作',
     },
     armRaise: {
-      name: '抬臂运动',
-      description: '双臂缓慢向上抬起，保持3秒后放下',
+      name: '上肢抬举训练',
+      description: '患侧手臂向前或侧向抬起，早期可健手辅助，逐步增加角度',
     },
     shoulderRotation: {
-      name: '肩关节旋转',
-      description: '肩部画圈转动，顺时针和逆时针各5次',
+      name: '肩关节活动训练',
+      description: '肩部前后、内外旋转，各方向5次，预防肩关节粘连',
     },
     ankleExercise: {
-      name: '踝关节运动',
-      description: '脚踝上下活动，左右各10次',
+      name: '踝关节屈伸训练',
+      description: '脚尖上勾、下压，左右各10次，早期床上即可进行',
     },
     kneeFlexion: {
-      name: '膝关节屈伸',
-      description: '坐姿屈伸膝盖，重复10-15次',
+      name: '下肢屈伸训练',
+      description: '坐位或卧位屈伸膝盖，10-15次，增强下肢肌力',
     },
     marchingInPlace: {
-      name: '原地踏步',
-      description: '原地抬腿踏步，每次持续1-2分钟',
+      name: '步行能力训练',
+      description: '扶物站立原地踏步，1-2分钟，恢复中后期进行',
     },
     neckRotation: {
-      name: '颈部转动',
-      description: '缓慢转动头部，左右各5次',
+      name: '颈部功能训练',
+      description: '缓慢左右转头、点头，各5次，改善颈部僵硬',
     },
     deepBreathing: {
-      name: '深呼吸练习',
-      description: '深吸气保持3秒，缓慢呼气',
+      name: '呼吸功能训练',
+      description: '腹式深呼吸，吸气3秒呼气5秒，促进肺功能恢复',
     },
     balanceTraining: {
-      name: '平衡训练',
-      description: '单腿站立保持平衡，每侧30秒',
+      name: '平衡协调训练',
+      description: '扶物单腿站立或闭眼站立，每侧30秒，恢复后期进行',
     },
     antiplateletMed: {
       name: '抗血小板药',
