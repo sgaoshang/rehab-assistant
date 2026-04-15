@@ -30,6 +30,24 @@ const getTranslatedProject = (
 };
 
 /**
+ * Web Speech API helper
+ */
+const speakWeb = (text: string, languageCode: string): void => {
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = languageCode;
+    utterance.pitch = 1.0;
+    utterance.rate = 0.8;
+    utterance.volume = 1.0;
+
+    window.speechSynthesis.speak(utterance);
+  }
+};
+
+/**
  * 播报单个项目
  */
 export const speakProject = async (
@@ -37,15 +55,7 @@ export const speakProject = async (
   t: TranslationFunction,
   locale: Locale
 ): Promise<void> => {
-  // Speech is not supported on web
-  if (Platform.OS === 'web') {
-    return;
-  }
-
   try {
-    // 停止当前播报
-    await Speech.stop();
-
     const { name, description } = getTranslatedProject(project, t);
     const languageCode = getLanguageCode(locale);
 
@@ -64,12 +74,17 @@ export const speakProject = async (
     }
 
     // 播报
-    await Speech.speak(text, {
-      language: languageCode,
-      pitch: 1.0,
-      rate: 0.8, // 稍慢一点，更容易听清
-      volume: 1.0,
-    });
+    if (Platform.OS === 'web') {
+      speakWeb(text, languageCode);
+    } else {
+      await Speech.stop();
+      await Speech.speak(text, {
+        language: languageCode,
+        pitch: 1.0,
+        rate: 0.8, // 稍慢一点，更容易听清
+        volume: 1.0,
+      });
+    }
   } catch (error) {
     console.error('Failed to speak project:', error);
   }
@@ -83,11 +98,6 @@ export const speakTodayProjects = async (
   t: TranslationFunction,
   locale: Locale
 ): Promise<void> => {
-  // Speech is not supported on web
-  if (Platform.OS === 'web') {
-    return;
-  }
-
   try {
     const languageCode = getLanguageCode(locale);
 
@@ -95,17 +105,19 @@ export const speakTodayProjects = async (
       const text = locale === 'zh'
         ? '今天的项目都完成了，太棒了！'
         : 'All projects for today are complete. Great job!';
-      await Speech.speak(text, {
-        language: languageCode,
-        pitch: 1.0,
-        rate: 0.8,
-        volume: 1.0,
-      });
+
+      if (Platform.OS === 'web') {
+        speakWeb(text, languageCode);
+      } else {
+        await Speech.speak(text, {
+          language: languageCode,
+          pitch: 1.0,
+          rate: 0.8,
+          volume: 1.0,
+        });
+      }
       return;
     }
-
-    // 停止当前播报
-    await Speech.stop();
 
     // 构建播报文本
     let text = '';
@@ -148,12 +160,17 @@ export const speakTodayProjects = async (
     }
 
     // 播报
-    await Speech.speak(text, {
-      language: languageCode,
-      pitch: 1.0,
-      rate: 0.8,
-      volume: 1.0,
-    });
+    if (Platform.OS === 'web') {
+      speakWeb(text, languageCode);
+    } else {
+      await Speech.stop();
+      await Speech.speak(text, {
+        language: languageCode,
+        pitch: 1.0,
+        rate: 0.8,
+        volume: 1.0,
+      });
+    }
   } catch (error) {
     console.error('Failed to speak today projects:', error);
   }
@@ -166,20 +183,20 @@ export const speakEncouragement = async (
   message: string,
   locale: Locale
 ): Promise<void> => {
-  // Speech is not supported on web
-  if (Platform.OS === 'web') {
-    return;
-  }
-
   try {
-    await Speech.stop();
     const languageCode = getLanguageCode(locale);
-    await Speech.speak(message, {
-      language: languageCode,
-      pitch: 1.0,
-      rate: 0.8,
-      volume: 1.0,
-    });
+
+    if (Platform.OS === 'web') {
+      speakWeb(message, languageCode);
+    } else {
+      await Speech.stop();
+      await Speech.speak(message, {
+        language: languageCode,
+        pitch: 1.0,
+        rate: 0.8,
+        volume: 1.0,
+      });
+    }
   } catch (error) {
     console.error('Failed to speak encouragement:', error);
   }
@@ -189,13 +206,14 @@ export const speakEncouragement = async (
  * 停止播报
  */
 export const stopSpeaking = async (): Promise<void> => {
-  // Speech is not supported on web
-  if (Platform.OS === 'web') {
-    return;
-  }
-
   try {
-    await Speech.stop();
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    } else {
+      await Speech.stop();
+    }
   } catch (error) {
     console.error('Failed to stop speaking:', error);
   }
@@ -205,12 +223,14 @@ export const stopSpeaking = async (): Promise<void> => {
  * 检查语音是否正在播放
  */
 export const isSpeaking = async (): Promise<boolean> => {
-  // Speech is not supported on web
-  if (Platform.OS === 'web') {
-    return false;
-  }
-
   try {
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        return window.speechSynthesis.speaking;
+      }
+      return false;
+    }
+
     return await Speech.isSpeakingAsync();
   } catch (error) {
     console.error('Failed to check if speaking:', error);
@@ -226,15 +246,7 @@ export const speakProjectNotification = async (
   description: string | undefined,
   locale: Locale
 ): Promise<void> => {
-  // Speech is not supported on web
-  if (Platform.OS === 'web') {
-    return;
-  }
-
   try {
-    // 停止当前播报
-    await Speech.stop();
-
     const languageCode = getLanguageCode(locale);
 
     // 构建播报文本
@@ -252,12 +264,17 @@ export const speakProjectNotification = async (
     }
 
     // 播报
-    await Speech.speak(text, {
-      language: languageCode,
-      pitch: 1.0,
-      rate: 0.8,
-      volume: 1.0,
-    });
+    if (Platform.OS === 'web') {
+      speakWeb(text, languageCode);
+    } else {
+      await Speech.stop();
+      await Speech.speak(text, {
+        language: languageCode,
+        pitch: 1.0,
+        rate: 0.8,
+        volume: 1.0,
+      });
+    }
   } catch (error) {
     console.error('Failed to speak notification:', error);
   }

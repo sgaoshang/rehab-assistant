@@ -29,14 +29,9 @@ export const HomeScreen: React.FC = () => {
   const totalProjects = enabledProjects.length;
   const completedCount = enabledProjects.filter((proj) => isCompletedToday(proj.completionHistory)).length;
 
-  // 自动播报项目（仅在原生平台）
+  // 自动播报项目
   useFocusEffect(
     React.useCallback(() => {
-      // Speech is not supported on web
-      if (Platform.OS === 'web') {
-        return;
-      }
-
       const today = new Date().toDateString();
 
       // 如果今天还没播报过，且数据已加载完成
