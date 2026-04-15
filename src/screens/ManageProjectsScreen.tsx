@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Swipeable } from 'react-native-gesture-handler';
@@ -41,9 +41,18 @@ export const ManageProjectsScreen: React.FC = () => {
     );
   };
 
-  const renderRightActions = (projectId: string, projectName: string) => {
+  const renderRightActions = (projectId: string, projectName: string) => (
+    progress: Animated.AnimatedInterpolation<number>,
+    dragX: Animated.AnimatedInterpolation<number>
+  ) => {
+    const trans = dragX.interpolate({
+      inputRange: [-150, 0],
+      outputRange: [0, 150],
+      extrapolate: 'clamp',
+    });
+
     return (
-      <View style={styles.swipeActions}>
+      <Animated.View style={[styles.swipeActions, { transform: [{ translateX: trans }] }]}>
         <TouchableOpacity
           style={styles.swipeEditButton}
           onPress={() => navigation.navigate('AddProject', { projectId })}
@@ -56,7 +65,7 @@ export const ManageProjectsScreen: React.FC = () => {
         >
           <Text style={styles.swipeDeleteText}>{t('common.delete')}</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     );
   };
 
@@ -69,8 +78,10 @@ export const ManageProjectsScreen: React.FC = () => {
           state.projects.map((project) => (
             <Swipeable
               key={project.id}
-              renderRightActions={() => renderRightActions(project.id, project.name)}
+              renderRightActions={renderRightActions(project.id, project.name)}
               overshootRight={false}
+              friction={2}
+              rightThreshold={40}
             >
               <View style={styles.projectItem}>
                 <View style={styles.projectInfo}>
