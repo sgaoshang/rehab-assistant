@@ -437,6 +437,47 @@ export const AddProjectScreen: React.FC = () => {
           />
         )}
 
+        {/* Template Selector Modal */}
+        <Modal
+          visible={showTemplateModal}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowTemplateModal(false)}
+        >
+          <TouchableOpacity
+            style={styles.templateModalOverlay}
+            activeOpacity={1}
+            onPress={() => setShowTemplateModal(false)}
+          >
+            <View style={styles.templateModalContent}>
+              <View style={styles.templateModalHeader}>
+                <Text style={styles.templateModalTitle}>选择常用模板</Text>
+              </View>
+
+              <ScrollView>
+                {templates.map((template) => (
+                  <TouchableOpacity
+                    key={template.value}
+                    style={[
+                      styles.templateOptionCard,
+                      selectedTemplate === template.value && styles.templateOptionCardSelected
+                    ]}
+                    onPress={() => {
+                      handleTemplateChange(template.value);
+                      setShowTemplateModal(false);
+                    }}
+                  >
+                    <Text style={styles.templateOptionTitle}>{template.label}</Text>
+                    <Text style={styles.templateOptionTimes}>
+                      {template.times.join(' · ')}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+
         {/* iOS 时间选择器 Modal */}
         {showTimeModal && Platform.OS === 'ios' && (
           <Modal
