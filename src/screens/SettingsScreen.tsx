@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert, Modal, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LargeButton } from '../components/LargeButton';
 import { Colors } from '../constants/colors';
@@ -156,10 +156,16 @@ export const SettingsScreen: React.FC = () => {
             </View>
 
             <View style={styles.qrCodeContainer}>
-              <Text style={styles.qrCodePlaceholder}>
-                {selectedPayMethod === 'wechat' ? '微信' : '支付宝'}收款码
-              </Text>
-              <Text style={styles.qrCodeHint}>请添加收款二维码图片</Text>
+              <Image
+                source={
+                  selectedPayMethod === 'wechat'
+                    ? require('../../assets/images/wechat-qr.png')
+                    : require('../../assets/images/alipay-qr.png')
+                }
+                style={styles.qrCodeImage}
+                resizeMode="contain"
+              />
+              <Text style={styles.scanToPayText}>{t('settings.scanToPay')}</Text>
             </View>
 
             <TouchableOpacity
@@ -343,21 +349,20 @@ const styles = StyleSheet.create({
   qrCodeContainer: {
     backgroundColor: Colors.background,
     borderRadius: 8,
-    padding: 40,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
-    minHeight: 200,
   },
-  qrCodePlaceholder: {
-    fontSize: 16,
-    fontWeight: '600',
+  qrCodeImage: {
+    width: 240,
+    height: 240,
+    marginBottom: 12,
+  },
+  scanToPayText: {
+    fontSize: 14,
     color: Colors.textSecondary,
-    marginBottom: 8,
-  },
-  qrCodeHint: {
-    fontSize: 13,
-    color: Colors.textDisabled,
+    fontWeight: '500',
   },
   closeButton: {
     backgroundColor: Colors.background,
