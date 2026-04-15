@@ -146,6 +146,7 @@ export const en: Translations = {
     quickTimes: 'Quick Times',
     templates: 'Common Templates',
     customTime: '+ Custom Time',
+    selectTime: 'Select Time',
     saveProject: 'Save Project',
     success: 'Success',
     projectAdded: 'Project added',

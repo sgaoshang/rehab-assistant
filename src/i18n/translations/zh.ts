@@ -146,6 +146,7 @@ export const zh: Translations = {
     quickTimes: '快捷时间',
     templates: '常用模板',
     customTime: '+ 自定义时间',
+    selectTime: '选择时间',
     saveProject: '保存项目',
     success: '成功',
     projectAdded: '项目已添加',
