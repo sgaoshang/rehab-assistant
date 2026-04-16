@@ -1,11 +1,36 @@
-# 康复助手 (Rehab Assistant)
+# 提醒助手 (Rehab Assistant)
 
 专为脑卒中康复设计的智能提醒管理应用，提供系统化的康复训练、用药提醒和健康测量功能。
+
+[![GitHub Release](https://img.shields.io/github/v/release/sgaoshang/rehab-assistant)](https://github.com/sgaoshang/rehab-assistant/releases)
+[![License](https://img.shields.io/badge/license-Private-blue)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Android-green)](https://github.com/sgaoshang/rehab-assistant/releases)
+
+## 📥 下载应用
+
+### Android 版本
+
+**最新版本：v1.0.0**
+
+**下载地址：** [GitHub Releases](https://github.com/sgaoshang/rehab-assistant/releases/tag/v1.0.0)
+
+**可用版本：**
+- **标准版** (3.5 MB) - 适用于大部分 Android 设备
+- **兼容版** (3.2 MB) - 专为 MIUI 10 等老设备优化
+
+**系统要求：** Android 5.0 及以上
+
+### iOS 版本
+
+iOS 版本正在准备中，敬请期待。
+
+---
 
 ## ✨ 核心功能
 
 ### 🎯 智能项目管理
-- **快速添加**：一键添加37个专业预设项目，无需繁琐配置
+- **快速添加**：一键添加 40+ 个专业预设项目，无需繁琐配置
+- **分类展示**：按康复阶段（早期/中期/后期）和类型（康复/用药/测量）智能分组
 - **灵活编辑**：支持自定义项目名称、描述和提醒时间
 - **批量管理**：左滑编辑/删除，开关控制启用状态
 - **统计一览**：首页和管理页实时显示项目完成情况
@@ -18,7 +43,7 @@
 
 ### 🔔 定时提醒
 - **本地通知**：精准的本地推送通知
-- **多时间段**：每个项目支持最多8个提醒时间
+- **多时间段**：每个项目支持最多 8 个提醒时间
 - **语音播报**：每天首次打开应用自动播报待办事项
 
 ### 📊 康复进度追踪
@@ -26,270 +51,169 @@
 - **统计分析**：本周/总计完成次数
 - **进度可视化**：已完成/未完成状态一目了然
 
-## 🏥 专业预设项目（37个）
+---
 
-### 早期康复（软瘫期/床上训练）- 14项
-**床上护理与体位管理：**
-- 定时翻身（每2-3小时）
-- 良肢位摆放
-- 皮肤护理
+## 🏥 专业预设项目（40+）
 
-**被动关节活动：**
+### 早期康复（软瘫期/床上训练）
+- 床上护理与体位管理（定时翻身、良肢位摆放、皮肤护理）
 - 被动关节活动训练
-- 患肢按摩
-- 躯干旋转训练（被动）
-
-**主动关节活动：**
-- 踝关节屈伸训练
-- 下肢屈伸训练
-- 颈部功能训练
-- 肩关节活动训练
-- 呼吸功能训练
-
-**床上肌力训练：**
-- 桥式运动（腰桥）
-
-**床上移动能力：**
-- 床上移动训练
-- 床边坐起训练
-
-**吞咽与ADL准备：**
+- 主动关节活动（踝关节、颈部、肩关节等）
+- 床上肌力训练（桥式运动）
+- 床上移动能力训练
 - 吞咽功能训练
 
-### 中期康复（坐立训练）- 13项
-**平衡与姿势控制：**
-- 坐位平衡训练
-- 躯干控制训练
-- 站立平衡训练
-- 重心转移训练
-
-**上肢功能训练：**
-- 上肢抬举训练
-- 伸手取物训练
+### 中期康复（坐立训练）
+- 平衡与姿势控制（坐位、站立、重心转移）
 - 上肢功能训练
+- 手部精细功能（握拳、手眼协调等）
+- 下肢功能训练
 
-**手部精细功能：**
-- 手部握拳训练
-- 手指分合训练
-- 手眼协调训练
-- 精细动作训练
-
-**下肢功能训练：**
-- 坐站转移训练
-- 站立耐力训练
-
-### 后期康复（步行平衡）- 12项
-**高级平衡训练：**
-- 平衡协调训练
-
-**步态训练：**
-- 原地踏步训练
-- 步态训练
-- 侧方行走训练
-- 后退行走训练
-- 转身训练
-- 跨越障碍训练
-- 一字步行走
-- 上下楼梯训练
-
-**下肢肌力强化：**
-- 下蹲训练（蹲起）
-
-**日常生活活动：**
+### 后期康复（步行平衡）
+- 高级平衡训练
+- 步态训练（原地踏步、侧方行走、后退、转身等）
+- 下肢肌力强化
 - 日常生活活动训练
+- 认知与双任务训练
 
-**认知与双任务：**
-- 双任务训练
+### 用药提醒
+- 抗血小板药、降压药、降脂药、降糖药
 
-### 用药提醒 - 4项
-- 抗血小板药（早上空腹）
-- 降压药（早上）
-- 降脂药（晚上）
-- 降糖药（餐前/餐后）
+### 健康测量
+- 测量血压、测量血糖、喝水提醒
 
-### 健康测量 - 3项
-- 测量血压（早起、睡前）
-- 测量血糖（空腹、餐后）
-- 喝水提醒
+---
 
-## 技术栈
+## 🚀 技术栈
 
-- **框架**: React Native + Expo SDK 51
+- **框架**: React Native + Expo SDK 54
 - **语言**: TypeScript
-- **导航**: React Navigation (Stack & Bottom Tabs)
-- **存储**: AsyncStorage 本地数据持久化
+- **导航**: React Navigation 6
+- **存储**: AsyncStorage
 - **通知**: Expo Notifications
 - **语音**: Expo Speech
+- **国际化**: 多语言支持（中文/英文）
+- **更新**: EAS Update (OTA)
 
-## 环境要求
+---
 
-- Node.js (v18 或更高)
+## 💻 开发指南
+
+### 环境要求
+
+- Node.js 18+
 - npm 或 yarn
-- Expo Go app (用于真机测试)
-- iOS Simulator 或 Android Emulator (可选)
+- Expo CLI
+- Android Studio / Xcode（可选）
 
-## 安装步骤
+### 快速开始
 
-1. 克隆仓库:
 ```bash
-git clone <repository-url>
+# 克隆仓库
+git clone https://github.com/sgaoshang/rehab-assistant.git
 cd rehab-assistant
-```
 
-2. 安装依赖:
-```bash
+# 安装依赖
 npm install
-```
 
-3. 启动开发服务器:
-```bash
+# 启动开发服务器
 npm start
+
+# 在 Android 设备上运行
+npm run android
+
+# 在 iOS 设备上运行
+npm run ios
 ```
 
-## 可用脚本
+### 可用脚本
 
-- `npm start` - 启动 Expo 开发服务器
-- `npm run android` - 在 Android 设备/模拟器运行
-- `npm run ios` - 在 iOS 设备/模拟器运行
-- `npx tsc --noEmit` - TypeScript 类型检查
-
-## 项目结构
-
-```
-src/
-├── components/       # 可复用 UI 组件
-│   ├── ProjectCard.tsx
-│   └── LargeButton.tsx
-├── constants/        # 常量配置
-│   ├── colors.ts
-│   ├── styles.ts
-│   ├── theme.ts
-│   └── presetProjects.ts
-├── context/          # React Context 状态管理
-│   └── AppContext.tsx
-├── navigation/       # 导航配置
-│   └── AppNavigator.tsx
-├── screens/          # 页面组件
-│   ├── HomeScreen.tsx
-│   ├── SettingsScreen.tsx
-│   ├── AddProjectScreen.tsx
-│   └── ManageProjectsScreen.tsx
-├── services/         # 业务逻辑服务
-│   ├── notificationService.ts
-│   └── speechService.ts
-├── storage/          # 数据持久化层
-│   ├── projectStorage.ts
-│   └── settingsStorage.ts
-├── types/            # TypeScript 类型定义
-│   └── index.ts
-└── utils/            # 工具函数
-    └── dateHelper.ts
-```
-
-## 使用指南
-
-### 添加提醒项目
-
-1. 进入"设置"页面
-2. 点击"+ 添加项目"
-3. 选择预设项目或自定义项目
-4. 输入项目名称和说明
-5. 设置提醒时间
-6. 保存项目
-
-### 管理项目
-
-1. 进入"设置"页面
-2. 点击"管理我的项目"
-3. 开关控制启用/禁用项目
-4. 点击"删除"移除项目
-
-### 查看项目详情
-
-1. 在首页点击任意项目卡片展开
-2. 查看完整的项目说明和提醒时间
-3. 再次点击收起
-
-### 通知设置
-
-应用使用 Expo Notifications 实现定时提醒：
-- **iOS**: 首次使用时请求权限
-- **Android**: 首次使用时请求权限
-
-## 数据存储
-
-所有数据使用 AsyncStorage 本地存储：
-- 提醒项目列表
-- 项目启用状态
-- 提醒时间设置
-- 通知权限状态
-
-## 生产构建
-
-### 使用 EAS Build
-
-1. 安装 EAS CLI:
 ```bash
-npm install -g eas-cli
+npm start          # 启动 Expo 开发服务器
+npm run android    # Android 设备/模拟器运行
+npm run ios        # iOS 设备/模拟器运行
+npx tsc --noEmit   # TypeScript 类型检查
 ```
 
-2. 配置项目 (参见 `eas.json`)
+### 构建发布版本
 
-3. iOS 构建:
 ```bash
-eas build --platform ios
+# 构建 Android APK
+eas build --platform android --profile production
+
+# 构建 Android 兼容版
+eas build --platform android --profile compatible
+
+# 发布 OTA 更新
+eas update --branch production --message "更新说明"
 ```
 
-4. Android 构建:
-```bash
-eas build --platform android
+---
+
+## 📁 项目结构
+
+```
+rehab-assistant/
+├── src/
+│   ├── components/       # 可复用 UI 组件
+│   ├── constants/        # 常量配置（颜色、主题、预设项目）
+│   ├── context/          # React Context 状态管理
+│   ├── i18n/            # 国际化配置
+│   ├── navigation/       # 导航配置
+│   ├── screens/          # 页面组件
+│   ├── services/         # 业务逻辑服务
+│   ├── storage/          # 数据持久化层
+│   ├── types/            # TypeScript 类型定义
+│   └── utils/            # 工具函数
+├── assets/              # 静态资源
+├── docs/                # 项目文档
+├── app.json             # Expo 配置
+├── eas.json             # EAS Build 配置
+├── package.json         # 依赖配置
+└── tsconfig.json        # TypeScript 配置
 ```
 
-## 开发
+---
 
-### 类型检查
+## 📖 文档
 
-运行 TypeScript 编译器检查类型错误:
-```bash
-npx tsc --noEmit
-```
+- [安装指南](docs/INSTALLATION.md) - 用户安装说明
+- [开发指南](docs/DEVELOPMENT.md) - 开发者指南
+- [更新日志](docs/CHANGELOG.md) - 版本历史
+- [部署指南](docs/DEPLOYMENT.md) - 构建和发布流程
 
-### 代码规范
+---
 
-- 所有组件使用 TypeScript
-- React Context API 状态管理
-- 模块化架构，清晰的关注点分离
-- Service 层处理业务逻辑
-- Storage 层处理数据持久化
+## 🤝 贡献
 
-## 故障排除
+欢迎提交 Issue 和 Pull Request！
 
-### 常见问题
+查看 [贡献指南](docs/CONTRIBUTING.md) 了解详情。
 
-**应用无法启动:**
-- 清理 Metro bundler 缓存: `npx expo start -c`
-- 删除 node_modules 重新安装: `rm -rf node_modules && npm install`
+---
 
-**通知不工作:**
-- 确保已授予通知权限
-- 检查设备通知设置
-- 验证 Expo Notifications 配置正确
+## 📝 许可
 
-**数据未保存:**
-- 检查 AsyncStorage 实现
-- 确保 storage 方法使用 await
-- 检查存储配额问题
+Copyright © 2024 sgao. All rights reserved.
 
-## 开发者
+---
+
+## 👨‍💻 开发者
 
 **sgao**
-- 电话: 13552276232
-- 邮箱: sgaoshang@outlook.com
+- 📞 电话: 13552276232
+- 📧 邮箱: sgaoshang@outlook.com
+- 🐙 GitHub: [@sgaoshang](https://github.com/sgaoshang)
 
-## 版本
+---
 
-v1.0.0
+## 💡 反馈与支持
 
-## 许可
+如果您在使用过程中遇到问题或有任何建议，欢迎：
+- 提交 [Issue](https://github.com/sgaoshang/rehab-assistant/issues)
+- 发送邮件至 sgaoshang@outlook.com
 
-Private - All rights reserved
+---
+
+**版本：** v1.0.0  
+**最后更新：** 2024-04-16
