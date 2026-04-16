@@ -1,6 +1,6 @@
 {
   "name": "rehab-assistant",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.11.0",
     "date-fns": "^3.0.0",
     "expo": "~54.0.0",
+    "expo-av": "^16.0.8",
     "expo-file-system": "~19.0.21",
     "expo-localization": "~17.0.8",
     "expo-media-library": "~18.2.1",

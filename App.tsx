@@ -40,21 +40,29 @@ function NotificationHandler() {
       }
     });
 
-    // 监听通知点击（用户点击通知打开app）
+    // 监听通知点击（用户点击通知或通知操作按钮）
     const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
       const projectName = response.notification.request.content.data?.projectName as string;
       const description = response.notification.request.content.data?.projectDescription as string;
       const presetId = response.notification.request.content.data?.presetId as string | undefined;
+      const actionIdentifier = response.actionIdentifier;
+
+      console.log('[Notification] Action received:', actionIdentifier);
 
       if (projectName) {
         // Get translated name if it's a preset
         const translatedName = presetId ? t(`presets.${presetId}.name`) : projectName;
         const translatedDescription = presetId ? t(`presets.${presetId}.description`) : description;
 
-        // 延迟1秒播报，等app完全打开
-        setTimeout(() => {
-          speakProjectNotification(translatedName, translatedDescription, locale);
-        }, 1000);
+        // 处理不同的操作
+        if (actionIdentifier === 'speak' || actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER) {
+          // 播报操作或点击通知
+          const delay = actionIdentifier === 'speak' ? 500 : 1000;
+          setTimeout(() => {
+            speakProjectNotification(translatedName, translatedDescription, locale);
+          }, delay);
+        }
+        // 'done' 操作不需要特殊处理，只是关闭通知
       }
     });
 

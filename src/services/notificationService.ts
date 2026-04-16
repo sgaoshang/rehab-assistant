@@ -36,11 +36,35 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
     }
 
     if (Platform.OS === 'android') {
+      // 设置通知类别（包含交互操作）
+      await Notifications.setNotificationCategoryAsync('reminder', [
+        {
+          identifier: 'speak',
+          buttonTitle: '🔊 播报',
+          options: {
+            opensAppToForeground: true,
+          },
+        },
+        {
+          identifier: 'done',
+          buttonTitle: '✓ 完成',
+          options: {
+            opensAppToForeground: false,
+          },
+        },
+      ]);
+
       await Notifications.setNotificationChannelAsync('default', {
         name: '训练提醒',
-        importance: Notifications.AndroidImportance.HIGH,
+        importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: '#4A90E2',
+        sound: true,
+        enableLights: true,
+        enableVibrate: true,
+        showBadge: true,
+        lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+        bypassDnd: true,
       });
     }
 
@@ -123,18 +147,24 @@ export const scheduleProjectNotifications = async (
           title: notificationTitle,
           body: notificationBody,
           sound: true,
-          priority: Notifications.AndroidNotificationPriority.HIGH,
+          priority: Notifications.AndroidNotificationPriority.MAX,
+          vibrate: [0, 250, 250, 250],
+          sticky: true,
+          autoDismiss: false,
+          categoryIdentifier: 'reminder',
           data: {
             projectId: project.id,
-            projectName: project.name,
-            projectDescription: project.description,
+            projectName: name,
+            projectDescription: description,
             presetId: project.presetId,
+            shouldSpeak: true,
           },
         },
         trigger: {
           type: SchedulableTriggerInputTypes.DAILY,
           hour: hours,
           minute: minutes,
+          channelId: 'default',
         },
         identifier: `${project.id}_${hours}${minutes}`,
       });
