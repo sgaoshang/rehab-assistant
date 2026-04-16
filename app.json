@@ -18,7 +18,8 @@
           "remote-notification"
         ],
         "NSPhotoLibraryUsageDescription": "需要访问相册以保存收款二维码",
-        "NSPhotoLibraryAddUsageDescription": "需要保存收款二维码到相册"
+        "NSPhotoLibraryAddUsageDescription": "需要保存收款二维码到相册",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
