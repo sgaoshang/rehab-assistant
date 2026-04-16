@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity, Alert, Animated, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -8,13 +8,25 @@ import { Colors } from '../constants/colors';
 import { CommonStyles } from '../constants/styles';
 import { useTranslation } from '../i18n';
 import { RootStackParamList } from '../navigation/AppNavigator';
+import { getPresetProjects } from '../constants/presetProjects';
+import { Project } from '../types';
 
 type ManageProjectsScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ManageProjects'>;
+
+type ProjectCategory = 'custom' | 'medication' | 'healthCheck' | 'rehabilitation';
+
+interface ProjectGroup {
+  category: ProjectCategory;
+  title: string;
+  projects: Project[];
+}
 
 export const ManageProjectsScreen: React.FC = () => {
   const navigation = useNavigation<ManageProjectsScreenNavigationProp>();
   const { state, toggleProjectEnabled, deleteProject } = useApp();
   const { t } = useTranslation();
+
+  const presetProjectsList = useMemo(() => getPresetProjects(t), [t]);
 
   const handleDelete = async (id: string, name: string) => {
     // On web, use window.confirm
@@ -65,6 +77,57 @@ export const ManageProjectsScreen: React.FC = () => {
       : project.name;
   };
 
+  const groupAndSortProjects = (projects: Project[]): ProjectGroup[] => {
+    // Group by category
+    const custom = projects.filter(p => !p.isPreset);
+    const medication = projects.filter(p => {
+      if (!p.isPreset || !p.presetId) return false;
+      const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
+      return preset?.category === 'medication';
+    });
+    const healthCheck = projects.filter(p => {
+      if (!p.isPreset || !p.presetId) return false;
+      const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
+      return preset?.category === 'healthCheck';
+    });
+    const rehabilitation = projects.filter(p => {
+      if (!p.isPreset || !p.presetId) return false;
+      const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
+      return preset?.category === 'rehabilitation';
+    });
+
+    // Sort by earliest reminder time
+    const sortByEarliestTime = (a: Project, b: Project) => {
+      const aTime = a.reminderTimes.length > 0 ? a.reminderTimes[0] : '99:99';
+      const bTime = b.reminderTimes.length > 0 ? b.reminderTimes[0] : '99:99';
+      return aTime.localeCompare(bTime);
+    };
+
+    // Return groups with projects, in display order
+    return [
+      {
+        category: 'custom' as ProjectCategory,
+        title: t('projects.categoryCustom'),
+        projects: custom.sort(sortByEarliestTime)
+      },
+      {
+        category: 'medication' as ProjectCategory,
+        title: t('projects.categoryMedication'),
+        projects: medication.sort(sortByEarliestTime)
+      },
+      {
+        category: 'healthCheck' as ProjectCategory,
+        title: t('projects.categoryHealthCheck'),
+        projects: healthCheck.sort(sortByEarliestTime)
+      },
+      {
+        category: 'rehabilitation' as ProjectCategory,
+        title: t('projects.categoryRehabilitation'),
+        projects: rehabilitation.sort(sortByEarliestTime)
+      },
+    ].filter(group => group.projects.length > 0);
+  };
+
   const renderRightActions = (projectId: string, projectName: string) => (
     progress: Animated.AnimatedInterpolation<number>,
     dragX: Animated.AnimatedInterpolation<number>
@@ -96,6 +159,8 @@ export const ManageProjectsScreen: React.FC = () => {
   const totalProjects = state.projects.length;
   const enabledCount = state.projects.filter(p => p.isEnabled).length;
 
+  const groupedProjects = groupAndSortProjects(state.projects);
+
   return (
     <View style={CommonStyles.container}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
@@ -116,79 +181,92 @@ export const ManageProjectsScreen: React.FC = () => {
             </Text>
           </View>
         ) : (
-          state.projects.map((project) => {
-            const projectContent = (
-              <View style={[
-                styles.projectItem,
-                {
-                  borderLeftWidth: 4,
-                  borderLeftColor: project.isEnabled ? Colors.success : Colors.border,
-                }
-              ]}>
-                <View style={styles.projectContent}>
-                  <View style={styles.projectInfo}>
-                    <Text style={styles.projectName}>
-                      {project.presetId
-                        ? t(`presets.${project.presetId}.name`)
-                        : project.name}
-                    </Text>
-                    <Text style={styles.projectDescription} numberOfLines={2}>
-                      {project.presetId
-                        ? t(`presets.${project.presetId}.description`)
-                        : project.description}
-                    </Text>
-                    {project.reminderTimes.length > 0 && (
-                      <Text style={styles.reminderText}>
-                        {project.reminderTimes.join(' · ')}
-                      </Text>
-                    )}
-                  </View>
-                  <View style={styles.projectControls}>
-                    <Switch
-                      value={project.isEnabled}
-                      onValueChange={() => toggleProjectEnabled(project.id)}
-                      trackColor={{ false: Colors.border, true: Colors.primary }}
-                      thumbColor={Colors.cardBackground}
-                    />
-                    {Platform.OS === 'web' && (
-                      <View style={styles.webButtons}>
-                        <TouchableOpacity
-                          style={styles.webEditButton}
-                          onPress={() => navigation.navigate('AddProject', { projectId: project.id })}
-                        >
-                          <Text style={styles.webButtonText}>{t('manageProjects.edit')}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          style={styles.webDeleteButton}
-                          onPress={() => handleDelete(project.id, getDisplayName(project))}
-                        >
-                          <Text style={styles.webButtonText}>{t('common.delete')}</Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                  </View>
+          <>
+            {groupedProjects.map((group) => (
+              <View key={group.category}>
+                {/* Category header */}
+                <View style={styles.categoryHeader}>
+                  <Text style={styles.categoryTitle}>{group.title}</Text>
+                  <Text style={styles.categoryCount}>({group.projects.length})</Text>
                 </View>
+
+                {/* Project list */}
+                {group.projects.map((project) => {
+                  const projectContent = (
+                    <View style={[
+                      styles.projectItem,
+                      {
+                        borderLeftWidth: 4,
+                        borderLeftColor: project.isEnabled ? Colors.success : Colors.border,
+                      }
+                    ]}>
+                      <View style={styles.projectContent}>
+                        <View style={styles.projectInfo}>
+                          <Text style={styles.projectName}>
+                            {project.presetId
+                              ? t(`presets.${project.presetId}.name`)
+                              : project.name}
+                          </Text>
+                          <Text style={styles.projectDescription} numberOfLines={2}>
+                            {project.presetId
+                              ? t(`presets.${project.presetId}.description`)
+                              : project.description}
+                          </Text>
+                          {project.reminderTimes.length > 0 && (
+                            <Text style={styles.reminderText}>
+                              {project.reminderTimes.join(' · ')}
+                            </Text>
+                          )}
+                        </View>
+                        <View style={styles.projectControls}>
+                          <Switch
+                            value={project.isEnabled}
+                            onValueChange={() => toggleProjectEnabled(project.id)}
+                            trackColor={{ false: Colors.border, true: Colors.primary }}
+                            thumbColor={Colors.cardBackground}
+                          />
+                          {Platform.OS === 'web' && (
+                            <View style={styles.webButtons}>
+                              <TouchableOpacity
+                                style={styles.webEditButton}
+                                onPress={() => navigation.navigate('AddProject', { projectId: project.id })}
+                              >
+                                <Text style={styles.webButtonText}>{t('manageProjects.edit')}</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                style={styles.webDeleteButton}
+                                onPress={() => handleDelete(project.id, getDisplayName(project))}
+                              >
+                                <Text style={styles.webButtonText}>{t('common.delete')}</Text>
+                              </TouchableOpacity>
+                            </View>
+                          )}
+                        </View>
+                      </View>
+                    </View>
+                  );
+
+                  // On web, render without Swipeable
+                  if (Platform.OS === 'web') {
+                    return <View key={project.id}>{projectContent}</View>;
+                  }
+
+                  // On native, use Swipeable
+                  return (
+                    <Swipeable
+                      key={project.id}
+                      renderRightActions={renderRightActions(project.id, getDisplayName(project))}
+                      overshootRight={false}
+                      friction={2}
+                      rightThreshold={40}
+                    >
+                      {projectContent}
+                    </Swipeable>
+                  );
+                })}
               </View>
-            );
-
-            // On web, render without Swipeable
-            if (Platform.OS === 'web') {
-              return <View key={project.id}>{projectContent}</View>;
-            }
-
-            // On native, use Swipeable
-            return (
-              <Swipeable
-                key={project.id}
-                renderRightActions={renderRightActions(project.id, getDisplayName(project))}
-                overshootRight={false}
-                friction={2}
-                rightThreshold={40}
-              >
-                {projectContent}
-              </Swipeable>
-            );
-          })
+            ))}
+          </>
         )}
       </ScrollView>
     </View>
@@ -312,6 +390,27 @@ const styles = StyleSheet.create({
   webButtonText: {
     color: Colors.textWhite,
     fontSize: 13,
+    fontWeight: '500',
+  },
+  categoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+    paddingVertical: 12,
+    marginTop: 16,
+    marginBottom: 4,
+  },
+  categoryTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.textPrimary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  categoryCount: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    marginLeft: 6,
     fontWeight: '500',
   },
 });
