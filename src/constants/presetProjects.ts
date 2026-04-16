@@ -73,7 +73,7 @@ export type FunctionalDomain =
   | 'adl'               // 日常生活活动
   | 'cognitive';        // 认知与双任务
 
-export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes'> & {
+export const getPresetProjects = (t: TranslationFunction): Array<Omit<Project, 'id' | 'createdAt' | 'isEnabled' | 'reminderTimes' | 'completionHistory'> & {
   presetId: PresetProjectId;
   category: PresetCategory;
   suggestedTimes?: string[];
