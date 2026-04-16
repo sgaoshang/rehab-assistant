@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch, Platform } from 'react-native';
+import React, { useRef, useState, useMemo } from 'react';
+import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch, Platform, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../context/AppContext';
 import { ProjectCard } from '../components/ProjectCard';
@@ -8,6 +8,16 @@ import { CommonStyles } from '../constants/styles';
 import { formatDate, isCompletedToday } from '../utils/dateHelper';
 import { speakTodayProjects } from '../services/speechService';
 import { useTranslation } from '../i18n';
+import { getPresetProjects } from '../constants/presetProjects';
+import { Project } from '../types';
+
+type ProjectCategory = 'custom' | 'medication' | 'healthCheck' | 'rehabilitation';
+
+interface ProjectGroup {
+  category: ProjectCategory;
+  title: string;
+  projects: Project[];
+}
 
 export const HomeScreen: React.FC = () => {
   const { state, loading, refreshProjects } = useApp();
@@ -22,10 +32,64 @@ export const HomeScreen: React.FC = () => {
     setRefreshing(false);
   };
 
+  const groupAndSortProjects = (projects: Project[]): ProjectGroup[] => {
+    const presetProjects = useMemo(() => getPresetProjects(t), [t]);
+
+    // Group by category
+    const custom = projects.filter(p => !p.isPreset);
+    const medication = projects.filter(p => {
+      if (!p.isPreset || !p.presetId) return false;
+      const preset = presetProjects.find(preset => preset.presetId === p.presetId);
+      return preset?.category === 'medication';
+    });
+    const healthCheck = projects.filter(p => {
+      if (!p.isPreset || !p.presetId) return false;
+      const preset = presetProjects.find(preset => preset.presetId === p.presetId);
+      return preset?.category === 'healthCheck';
+    });
+    const rehabilitation = projects.filter(p => {
+      if (!p.isPreset || !p.presetId) return false;
+      const preset = presetProjects.find(preset => preset.presetId === p.presetId);
+      return preset?.category === 'rehabilitation';
+    });
+
+    // Sort by earliest reminder time
+    const sortByEarliestTime = (a: Project, b: Project) => {
+      const aTime = a.reminderTimes.length > 0 ? a.reminderTimes[0] : '99:99';
+      const bTime = b.reminderTimes.length > 0 ? b.reminderTimes[0] : '99:99';
+      return aTime.localeCompare(bTime);
+    };
+
+    // Return groups with projects, in display order
+    return [
+      {
+        category: 'custom',
+        title: t('projects.categoryCustom'),
+        projects: custom.sort(sortByEarliestTime)
+      },
+      {
+        category: 'medication',
+        title: t('projects.categoryMedication'),
+        projects: medication.sort(sortByEarliestTime)
+      },
+      {
+        category: 'healthCheck',
+        title: t('projects.categoryHealthCheck'),
+        projects: healthCheck.sort(sortByEarliestTime)
+      },
+      {
+        category: 'rehabilitation',
+        title: t('projects.categoryRehabilitation'),
+        projects: rehabilitation.sort(sortByEarliestTime)
+      },
+    ].filter(group => group.projects.length > 0);
+  };
+
   const enabledProjects = state.projects.filter((proj) => proj.isEnabled);
   const visibleProjects = hideCompleted
     ? enabledProjects.filter((proj) => !isCompletedToday(proj.completionHistory))
     : enabledProjects;
+  const groupedProjects = groupAndSortProjects(visibleProjects);
   const totalProjects = enabledProjects.length;
   const completedCount = enabledProjects.filter((proj) => isCompletedToday(proj.completionHistory)).length;
 
@@ -105,12 +169,25 @@ export const HomeScreen: React.FC = () => {
             </Text>
           </View>
         ) : (
-          visibleProjects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-            />
-          ))
+          <>
+            {groupedProjects.map((group) => (
+              <View key={group.category}>
+                {/* Category header */}
+                <View style={styles.categoryHeader}>
+                  <Text style={styles.categoryTitle}>{group.title}</Text>
+                  <Text style={styles.categoryCount}>({group.projects.length})</Text>
+                </View>
+
+                {/* Project list */}
+                {group.projects.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                  />
+                ))}
+              </View>
+            ))}
+          </>
         )}
       </ScrollView>
     </View>
@@ -169,5 +246,26 @@ const styles = StyleSheet.create({
   emptyHint: {
     textAlign: 'center',
     color: Colors.textDisabled,
+  },
+  categoryHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+    paddingVertical: 12,
+    marginTop: 16,
+    marginBottom: 4,
+  },
+  categoryTitle: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: Colors.textPrimary,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  categoryCount: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    marginLeft: 6,
+    fontWeight: '500',
   },
 });
