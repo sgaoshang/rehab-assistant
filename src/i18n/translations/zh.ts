@@ -51,6 +51,7 @@ export const zh: Translations = {
     recognizeError: '识别失败，请重试',
   },
   projects: {
+    categoryCustom: '自定义项目',
     reminderTimes: '提醒时间',
     enabled: '已启用',
     disabled: '已禁用',

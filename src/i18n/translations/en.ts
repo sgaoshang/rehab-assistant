@@ -51,6 +51,7 @@ export const en: Translations = {
     recognizeError: 'Recognition failed, please try again',
   },
   projects: {
+    categoryCustom: 'Custom Projects',
     reminderTimes: 'Reminder Times',
     enabled: 'Enabled',
     disabled: 'Disabled',
