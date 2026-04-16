@@ -14,6 +14,7 @@
       "bundleIdentifier": "com.rehab.assistant",
       "infoPlist": {
         "UIBackgroundModes": [
+          "remote-notification",
           "remote-notification"
         ],
         "NSPhotoLibraryUsageDescription": "需要访问相册以保存收款二维码",
@@ -28,6 +29,9 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "SCHEDULE_EXACT_ALARM",
         "RECEIVE_BOOT_COMPLETED",
         "VIBRATE",
         "SCHEDULE_EXACT_ALARM"
@@ -46,6 +50,12 @@
       "eas": {
         "projectId": "01869539-dcee-4a6d-9a15-b4e1e3c2a968"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/01869539-dcee-4a6d-9a15-b4e1e3c2a968"
     }
   }
 }
