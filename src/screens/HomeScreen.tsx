@@ -64,22 +64,22 @@ export const HomeScreen: React.FC = () => {
     // Return groups with projects, in display order
     return [
       {
-        category: 'custom',
+        category: 'custom' as ProjectCategory,
         title: t('projects.categoryCustom'),
         projects: custom.sort(sortByEarliestTime)
       },
       {
-        category: 'medication',
+        category: 'medication' as ProjectCategory,
         title: t('projects.categoryMedication'),
         projects: medication.sort(sortByEarliestTime)
       },
       {
-        category: 'healthCheck',
+        category: 'healthCheck' as ProjectCategory,
         title: t('projects.categoryHealthCheck'),
         projects: healthCheck.sort(sortByEarliestTime)
       },
       {
-        category: 'rehabilitation',
+        category: 'rehabilitation' as ProjectCategory,
         title: t('projects.categoryRehabilitation'),
         projects: rehabilitation.sort(sortByEarliestTime)
       },
