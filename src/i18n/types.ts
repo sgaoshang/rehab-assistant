@@ -21,6 +21,7 @@ export interface Translations {
     showAll: string;
     hideCompleted: string;
     allCompletedToday: string;
+    stats: string;
   };
   settings: {
     title: string;
@@ -28,8 +29,26 @@ export interface Translations {
     manageProjects: string;
     languageSettings: string;
     language: string;
+    chinese: string;
+    english: string;
     developerInfo: string;
+    supportDeveloper: string;
     version: string;
+    developer: string;
+    contact: string;
+    donateTitle: string;
+    donateDesc: string;
+    wechatPay: string;
+    alipay: string;
+    scanToPay: string;
+    recognizeQRCode: string;
+    saveToAlbum: string;
+    saveSuccess: string;
+    saveSuccessHint: string;
+    saveError: string;
+    permissionDenied: string;
+    shareNotSupported: string;
+    recognizeError: string;
   };
   projects: {
     categoryCustom: string;
@@ -65,78 +84,53 @@ export interface Translations {
     domainCognitive: string;
   };
   presets: {
-    fistExercise: {
-      name: string;
-      description: string;
-    };
-    fingerStretch: {
-      name: string;
-      description: string;
-    };
-    armRaise: {
-      name: string;
-      description: string;
-    };
-    shoulderRotation: {
-      name: string;
-      description: string;
-    };
-    ankleExercise: {
-      name: string;
-      description: string;
-    };
-    kneeFlexion: {
-      name: string;
-      description: string;
-    };
-    marchingInPlace: {
-      name: string;
-      description: string;
-    };
-    neckRotation: {
-      name: string;
-      description: string;
-    };
-    deepBreathing: {
-      name: string;
-      description: string;
-    };
-    balanceTraining: {
-      name: string;
-      description: string;
-    };
-    bloodPressureMed: {
-      name: string;
-      description: string;
-    };
-    diabetesMed: {
-      name: string;
-      description: string;
-    };
-    vitaminSupplement: {
-      name: string;
-      description: string;
-    };
-    calciumSupplement: {
-      name: string;
-      description: string;
-    };
-    checkBloodPressure: {
-      name: string;
-      description: string;
-    };
-    checkBloodSugar: {
-      name: string;
-      description: string;
-    };
-    drinkWater: {
-      name: string;
-      description: string;
-    };
-    afternoonNap: {
-      name: string;
-      description: string;
-    };
+    positionChange: { name: string; description: string };
+    properPositioning: { name: string; description: string };
+    passiveROM: { name: string; description: string };
+    limbMassage: { name: string; description: string };
+    skinCare: { name: string; description: string };
+    swallowingTraining: { name: string; description: string };
+    fistExercise: { name: string; description: string };
+    fingerStretch: { name: string; description: string };
+    armRaise: { name: string; description: string };
+    shoulderRotation: { name: string; description: string };
+    bridgeExercise: { name: string; description: string };
+    bedMobility: { name: string; description: string };
+    bedToSit: { name: string; description: string };
+    passiveTrunkRotation: { name: string; description: string };
+    ankleExercise: { name: string; description: string };
+    kneeFlexion: { name: string; description: string };
+    marchingInPlace: { name: string; description: string };
+    neckRotation: { name: string; description: string };
+    deepBreathing: { name: string; description: string };
+    balanceTraining: { name: string; description: string };
+    sittingBalance: { name: string; description: string };
+    trunkControl: { name: string; description: string };
+    standingBalance: { name: string; description: string };
+    weightShift: { name: string; description: string };
+    reachingTraining: { name: string; description: string };
+    handEyeCoordination: { name: string; description: string };
+    fineMotor: { name: string; description: string };
+    sitToStand: { name: string; description: string };
+    standingEndurance: { name: string; description: string };
+    upperLimbFunction: { name: string; description: string };
+    gaitTraining: { name: string; description: string };
+    stairClimbing: { name: string; description: string };
+    squatExercise: { name: string; description: string };
+    lateralWalking: { name: string; description: string };
+    backwardWalking: { name: string; description: string };
+    turningTraining: { name: string; description: string };
+    obstacleWalking: { name: string; description: string };
+    tandemWalking: { name: string; description: string };
+    adlTraining: { name: string; description: string };
+    dualTaskTraining: { name: string; description: string };
+    antiplateletMed: { name: string; description: string };
+    bloodPressureMed: { name: string; description: string };
+    lipidLoweringMed: { name: string; description: string };
+    diabetesMed: { name: string; description: string };
+    checkBloodPressure: { name: string; description: string };
+    checkBloodSugar: { name: string; description: string };
+    drinkWater: { name: string; description: string };
   };
   speech: {
     todayProjectsIntro: string;
@@ -146,7 +140,10 @@ export interface Translations {
   addProject: {
     title: string;
     selectPreset: string;
+    selectPresetDesc: string;
     customProject: string;
+    customProjectDesc: string;
+    customTimeShort: string;
     choosePreset: string;
     projectInfo: string;
     projectName: string;
@@ -163,6 +160,7 @@ export interface Translations {
     quickTimes: string;
     templates: string;
     customTime: string;
+    selectTime: string;
     saveProject: string;
     success: string;
     projectAdded: string;
@@ -174,6 +172,11 @@ export interface Translations {
     nameTooLong: string;
     descriptionTooLong: string;
     timeRequired: string;
+    alreadyAdded: string;
+    commonTemplates: string;
+    selectTemplateTitle: string;
+    selectTemplate: string;
+    templateChangeHint: string;
     morning: string;
     midMorning: string;
     noon: string;
@@ -190,7 +193,14 @@ export interface Translations {
     timelineInstruction: string;
     timeDuplicate: string;
     timeLimit: string;
+    timesCount: string;
+    timeRequiredError: string;
+    enterTime: string;
+    hour: string;
+    minute: string;
+    invalidTime: string;
     noTimeSelected: string;
+    noTimeSelectedHint: string;
   };
   manageProjects: {
     title: string;
@@ -201,6 +211,7 @@ export interface Translations {
     deleteSuccess: string;
     projectDeleted: string;
     deleteFailed: string;
+    stats: string;
   };
   notifications: {
     title: string;
