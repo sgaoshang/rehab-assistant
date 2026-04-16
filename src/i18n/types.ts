@@ -32,6 +32,10 @@ export interface Translations {
     version: string;
   };
   projects: {
+    categoryCustom: string;
+    categoryRehabilitation: string;
+    categoryMedication: string;
+    categoryHealthCheck: string;
     reminderTimes: string;
     enabled: string;
     disabled: string;
@@ -43,6 +47,22 @@ export interface Translations {
     markCompleted: string;
     markIncomplete: string;
     completionStats: string;
+    stageEarly: string;
+    stageMid: string;
+    stageLate: string;
+    stageAdvanced: string;
+    domainBedCare: string;
+    domainPassiveROM: string;
+    domainActiveROM: string;
+    domainStrengthening: string;
+    domainBalance: string;
+    domainMobility: string;
+    domainUpperLimb: string;
+    domainLowerLimb: string;
+    domainHandFunction: string;
+    domainGaitTraining: string;
+    domainAdl: string;
+    domainCognitive: string;
   };
   presets: {
     fistExercise: {

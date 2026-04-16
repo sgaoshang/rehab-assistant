@@ -451,7 +451,7 @@ export const AddProjectScreen: React.FC = () => {
                                     key={index}
                                     style={styles.presetCard}
                                     onPress={() => handleSelectPreset(preset)}
-                                    activeOpacity={0.7}
+                                    activeOpacity={0.6}
                                   >
                                     <View style={styles.presetCardContent}>
                                       <View style={styles.presetCardText}>
@@ -473,7 +473,7 @@ export const AddProjectScreen: React.FC = () => {
                             key={index}
                             style={styles.presetCard}
                             onPress={() => handleSelectPreset(preset)}
-                            activeOpacity={0.7}
+                            activeOpacity={0.6}
                           >
                             <View style={styles.presetCardContent}>
                               <View style={styles.presetCardText}>
@@ -547,7 +547,7 @@ export const AddProjectScreen: React.FC = () => {
                               key={index}
                               style={styles.presetCard}
                               onPress={() => handleSelectPreset(preset)}
-                              activeOpacity={0.7}
+                              activeOpacity={0.6}
                             >
                               <View style={styles.presetCardContent}>
                                 <View style={styles.presetCardText}>
@@ -569,7 +569,7 @@ export const AddProjectScreen: React.FC = () => {
                       key={index}
                       style={styles.presetCard}
                       onPress={() => handleSelectPreset(preset)}
-                      activeOpacity={0.7}
+                      activeOpacity={0.6}
                     >
                       <View style={styles.presetCardContent}>
                         <View style={styles.presetCardText}>
@@ -1040,6 +1040,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.textDisabled,
     fontWeight: '300',
+    opacity: 0.5,
   },
   backButton: {
     marginTop: 24,
