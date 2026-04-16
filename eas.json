@@ -17,7 +17,15 @@
         "resourceClass": "m-medium"
       },
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "compatible": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
       }
     },
     "production": {
