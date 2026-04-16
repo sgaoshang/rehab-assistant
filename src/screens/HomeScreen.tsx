@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, RefreshControl, Switch, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useApp } from '../context/AppContext';
 import { ProjectCard } from '../components/ProjectCard';
@@ -32,8 +32,9 @@ export const HomeScreen: React.FC = () => {
     setRefreshing(false);
   };
 
+  const presetProjects = useMemo(() => getPresetProjects(t), [t]);
+
   const groupAndSortProjects = (projects: Project[]): ProjectGroup[] => {
-    const presetProjects = useMemo(() => getPresetProjects(t), [t]);
 
     // Group by category
     const custom = projects.filter(p => !p.isPreset);
