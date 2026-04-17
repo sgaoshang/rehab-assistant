@@ -35,31 +35,32 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
       finalStatus = status;
     }
 
-    if (Platform.OS === 'android') {
-      // 设置通知类别（包含交互操作）
-      await Notifications.setNotificationCategoryAsync('reminder', [
-        {
-          identifier: 'speak',
-          buttonTitle: '🔊 播报',
-          options: {
-            opensAppToForeground: true,
-          },
+    // 设置通知类别（包含交互操作）- iOS和Android都支持
+    await Notifications.setNotificationCategoryAsync('reminder', [
+      {
+        identifier: 'speak',
+        buttonTitle: '🔊 播报',
+        options: {
+          opensAppToForeground: true,
         },
-        {
-          identifier: 'done',
-          buttonTitle: '✓ 完成',
-          options: {
-            opensAppToForeground: false,
-          },
+      },
+      {
+        identifier: 'done',
+        buttonTitle: '✓ 完成',
+        options: {
+          opensAppToForeground: false,
         },
-      ]);
+      },
+    ]);
 
+    if (Platform.OS === 'android') {
+      // Android特定的通知渠道配置
       await Notifications.setNotificationChannelAsync('default', {
         name: '训练提醒',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
         lightColor: '#4A90E2',
-        sound: true,
+        sound: 'default',
         enableLights: true,
         enableVibrate: true,
         showBadge: true,

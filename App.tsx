@@ -7,7 +7,7 @@ import { registerRootComponent } from 'expo';
 import * as Notifications from 'expo-notifications';
 
 import AppNavigator from './src/navigation/AppNavigator';
-import { AppProvider } from './src/context/AppContext';
+import { AppProvider, useApp } from './src/context/AppContext';
 import { LocaleProvider, useTranslation } from './src/i18n';
 import { requestNotificationPermission } from './src/services/notificationService';
 import { speakProjectNotification } from './src/services/speechService';
@@ -15,6 +15,7 @@ import { speakProjectNotification } from './src/services/speechService';
 // Component that handles notifications with access to locale
 function NotificationHandler() {
   const { locale, t } = useTranslation();
+  const { toggleProjectCompletion } = useApp();
 
   useEffect(() => {
     // Notifications are not supported on web
@@ -41,13 +42,16 @@ function NotificationHandler() {
     });
 
     // 监听通知点击（用户点击通知或通知操作按钮）
-    const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
+    const responseListener = Notifications.addNotificationResponseReceivedListener(async (response) => {
+      const projectId = response.notification.request.content.data?.projectId as string;
       const projectName = response.notification.request.content.data?.projectName as string;
       const description = response.notification.request.content.data?.projectDescription as string;
       const presetId = response.notification.request.content.data?.presetId as string | undefined;
       const actionIdentifier = response.actionIdentifier;
 
-      console.log('[Notification] Action received:', actionIdentifier);
+      if (__DEV__) {
+        console.log('[Notification] Action received:', actionIdentifier, 'for project:', projectId);
+      }
 
       if (projectName) {
         // Get translated name if it's a preset
@@ -61,8 +65,34 @@ function NotificationHandler() {
           setTimeout(() => {
             speakProjectNotification(translatedName, translatedDescription, locale);
           }, delay);
+        } else if (actionIdentifier === 'done') {
+          // 完成操作：标记项目为已完成
+          if (!projectId) {
+            console.warn('[Notification] Done action received but projectId is missing');
+            return;
+          }
+
+          if (__DEV__) {
+            console.log('[Notification] Marking project as done:', projectId);
+          }
+
+          try {
+            await toggleProjectCompletion(projectId);
+            if (__DEV__) {
+              console.log('[Notification] Project marked as done successfully');
+            }
+          } catch (error) {
+            console.error('[Notification] Failed to mark project as done:', error);
+            // Show error notification to user
+            await Notifications.scheduleNotificationAsync({
+              content: {
+                title: '❌ 操作失败',
+                body: '无法标记项目完成，请打开应用重试',
+              },
+              trigger: null, // Show immediately
+            });
+          }
         }
-        // 'done' 操作不需要特殊处理，只是关闭通知
       }
     });
 
@@ -70,7 +100,7 @@ function NotificationHandler() {
       notificationListener.remove();
       responseListener.remove();
     };
-  }, [locale, t]);
+  }, [locale, t, toggleProjectCompletion]);
 
   return null;
 }
