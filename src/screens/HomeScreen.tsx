@@ -87,9 +87,8 @@ export const HomeScreen: React.FC = () => {
   };
 
   const enabledProjects = state.projects.filter((proj) => proj.isEnabled);
-  const visibleProjects = hideCompleted
-    ? enabledProjects.filter((proj) => !isCompletedToday(proj.completionHistory))
-    : enabledProjects;
+  const incompleteProjects = enabledProjects.filter((proj) => !isCompletedToday(proj.completionHistory));
+  const visibleProjects = hideCompleted ? incompleteProjects : enabledProjects;
   const groupedProjects = groupAndSortProjects(visibleProjects);
   const totalProjects = enabledProjects.length;
   const completedCount = enabledProjects.filter((proj) => isCompletedToday(proj.completionHistory)).length;
@@ -101,7 +100,7 @@ export const HomeScreen: React.FC = () => {
       const today = new Date().toDateString();
       console.log('[HomeScreen] Today:', today, 'Last spoken:', hasSpokenToday.current);
       console.log('[HomeScreen] Loading:', loading, 'Initialized:', state.initialized);
-      console.log('[HomeScreen] Enabled projects count:', enabledProjects.length);
+      console.log('[HomeScreen] Incomplete projects count:', incompleteProjects.length);
 
       // 如果今天还没播报过，且数据已加载完成
       if (!loading && state.initialized && hasSpokenToday.current !== today) {
@@ -111,14 +110,14 @@ export const HomeScreen: React.FC = () => {
         // 延迟1秒播报，等页面加载完成
         const timer = setTimeout(() => {
           console.log('[HomeScreen] Calling speakTodayProjects now');
-          speakTodayProjects(enabledProjects, t, locale);
+          speakTodayProjects(incompleteProjects, t, locale);
         }, 1000);
 
         return () => clearTimeout(timer);
       } else {
         console.log('[HomeScreen] Conditions NOT met, skipping speech');
       }
-    }, [loading, state.initialized, enabledProjects, t, locale])
+    }, [loading, state.initialized, incompleteProjects, t, locale])
   );
 
   return (

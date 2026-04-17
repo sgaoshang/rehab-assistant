@@ -25,9 +25,6 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 type Mode = 'select' | 'preset' | 'custom';
 type AddProjectScreenRouteProp = RouteProp<RootStackParamList, 'AddProject'>;
 
-// Brief delay to ensure navigation animation completes before showing alert
-const NAVIGATION_ALERT_DELAY_MS = 100;
-
 export const AddProjectScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute<AddProjectScreenRouteProp>();
@@ -323,18 +320,6 @@ export const AddProjectScreen: React.FC = () => {
 
         // Navigate back immediately after successful update
         navigation.goBack();
-
-        // Show success message after navigation
-        if (Platform.OS === 'web') {
-          setTimeout(() => {
-            window.alert(`${t('addProject.success')}\n\n${t('addProject.projectUpdated')}`);
-          }, NAVIGATION_ALERT_DELAY_MS);
-        } else {
-          // Use a brief timeout to ensure navigation completes first
-          setTimeout(() => {
-            Alert.alert(t('addProject.success'), t('addProject.projectUpdated'));
-          }, NAVIGATION_ALERT_DELAY_MS);
-        }
       } else {
         // Add new project
         await addProject({
