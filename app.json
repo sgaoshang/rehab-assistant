@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.rehab.assistant",
-      "versionCode": 2,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
@@ -52,9 +52,7 @@
         "projectId": "01869539-dcee-4a6d-9a15-b4e1e3c2a968"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.1",
     "updates": {
       "url": "https://u.expo.dev/01869539-dcee-4a6d-9a15-b4e1e3c2a968"
     }
