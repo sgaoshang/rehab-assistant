@@ -56,7 +56,7 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
     if (Platform.OS === 'android') {
       // Android特定的通知渠道配置
       // 注意：修改渠道ID以创建新渠道（旧渠道配置被系统缓存）
-      await Notifications.setNotificationChannelAsync('reminder-v3', {
+      await Notifications.setNotificationChannelAsync('reminder-v4', {
         name: '训练提醒',
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 500, 200, 500, 200, 500, 200, 500],
@@ -154,6 +154,9 @@ export const scheduleProjectNotifications = async (
           sticky: false,
           autoDismiss: true,
           categoryIdentifier: 'reminder',
+          // Android特定配置以支持锁屏通知按钮
+          badge: 1,
+          color: '#4A90E2',
           data: {
             projectId: project.id,
             projectName: name,
@@ -166,7 +169,7 @@ export const scheduleProjectNotifications = async (
           type: SchedulableTriggerInputTypes.DAILY,
           hour: hours,
           minute: minutes,
-          channelId: 'reminder-v3',
+          channelId: 'reminder-v4',
         },
         identifier: `${project.id}_${hours}${minutes}`,
       });
