@@ -78,8 +78,10 @@ function NotificationHandler() {
 
           try {
             await toggleProjectCompletion(projectId);
+            // 删除通知
+            await Notifications.dismissNotificationAsync(response.notification.request.identifier);
             if (__DEV__) {
-              console.log('[Notification] Project marked as done successfully');
+              console.log('[Notification] Project marked as done and notification dismissed');
             }
           } catch (error) {
             console.error('[Notification] Failed to mark project as done:', error);

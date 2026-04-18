@@ -65,20 +65,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
           {/* Content area - middle */}
           <View style={styles.content}>
-            <Text style={styles.projectName}>{displayName}</Text>
-            <View style={styles.infoRow}>
-              <Text style={styles.timeText}>
-                {project.reminderTimes.join(' · ')}
-              </Text>
+            <View style={styles.nameRow}>
+              <Text style={styles.projectName}>{displayName}</Text>
               {stats.total > 0 && (
-                <>
-                  <Text style={styles.separator}>•</Text>
-                  <Text style={styles.statsText}>
-                    本周{stats.thisWeek} 总计{stats.total}
-                  </Text>
-                </>
+                <Text style={styles.statsText}>
+                  本周{stats.thisWeek} 总计{stats.total}
+                </Text>
               )}
             </View>
+            <Text style={styles.timeText}>
+              {project.reminderTimes.join(' · ')}
+            </Text>
           </View>
 
           {/* Expand icon - right side */}
@@ -105,30 +102,29 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     minWidth: 0,
+    gap: 4,
+  },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
   },
   projectName: {
     fontSize: 17,
     fontWeight: '600',
     color: Colors.textPrimary,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    marginTop: 4,
+    flex: 1,
   },
   timeText: {
     fontSize: 13,
     color: Colors.primary,
   },
-  separator: {
-    fontSize: 13,
-    color: Colors.textDisabled,
-  },
   statsText: {
     fontSize: 13,
     color: Colors.success,
     fontWeight: '500',
+    flexShrink: 0,
   },
   completionButton: {
     width: 32,
