@@ -78,23 +78,46 @@ export const ManageProjectsScreen: React.FC = () => {
   };
 
   const groupAndSortProjects = (projects: Project[]): ProjectGroup[] => {
+    console.log('[ManageProjects] groupAndSortProjects - total projects:', projects.length);
+    projects.forEach(p => {
+      console.log('[ManageProjects] Project:', p.id, 'name:', p.name, 'isPreset:', p.isPreset, 'presetId:', p.presetId);
+    });
+
     // Group by category
-    const custom = projects.filter(p => !p.isPreset);
+    // For custom projects, include both non-preset projects AND preset projects without valid preset definition
+    const custom = projects.filter(p => {
+      if (!p.isPreset) return true;
+      // If marked as preset but has no presetId or preset not found, treat as custom
+      if (!p.presetId) return true;
+      const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
+      if (!preset) {
+        console.log('[ManageProjects] WARNING: Preset not found for presetId:', p.presetId, 'project:', p.name, '- treating as custom');
+        return true;
+      }
+      return false;
+    });
+    console.log('[ManageProjects] Custom projects:', custom.length);
+
     const medication = projects.filter(p => {
       if (!p.isPreset || !p.presetId) return false;
       const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
       return preset?.category === 'medication';
     });
+    console.log('[ManageProjects] Medication projects:', medication.length);
+
     const healthCheck = projects.filter(p => {
       if (!p.isPreset || !p.presetId) return false;
       const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
       return preset?.category === 'healthCheck';
     });
+    console.log('[ManageProjects] HealthCheck projects:', healthCheck.length);
+
     const rehabilitation = projects.filter(p => {
       if (!p.isPreset || !p.presetId) return false;
       const preset = presetProjectsList.find(preset => preset.presetId === p.presetId);
       return preset?.category === 'rehabilitation';
     });
+    console.log('[ManageProjects] Rehabilitation projects:', rehabilitation.length);
 
     // Sort by earliest reminder time
     const sortByEarliestTime = (a: Project, b: Project) => {
