@@ -47,14 +47,12 @@
       ],
       "expo-localization"
     ],
+    "runtimeVersion": "1.0.2",
     "extra": {
       "eas": {
-        "projectId": "01869539-dcee-4a6d-9a15-b4e1e3c2a968"
+        "projectId": "41d67f45-a0c8-463e-9f19-76ad9dbb3afe"
       }
     },
-    "runtimeVersion": "1.0.2",
-    "updates": {
-      "url": "https://u.expo.dev/01869539-dcee-4a6d-9a15-b4e1e3c2a968"
-    }
+    "owner": "sshanggao"
   }
 }
